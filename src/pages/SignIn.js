@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { signIn } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
    width:100%;
@@ -44,28 +46,36 @@ const ErrorBox = styled.div`
    background-color:red;   
 `
 
-const SignIn = ({signIn, error, isFetching}) => {
+const SignIn = ({ signIn, error, isFetching}) => {
    const [ userEmail, setUserEmail] = useState(false);
    const [ userPassword, setUserPassword] = useState(false);
-
+   const toastId = 1
    const handlePassword = (event) => {
       setUserPassword(event.target.value)
    }
    const handleEmail = (event) => {
       setUserEmail(event.target.value) 
    }
-
-   if(isFetching){
-      return(
-         <Wrapper>
-            <LoadingIcon/>
-         </Wrapper>
-      )
+   const handleSignIn = (event) => {
+      event.preventDefault();
+      signIn({userEmail, userPassword});
    }
-   else {
+
+
+   // If wrong email/password
+   if (error === 'incorrect') {
+      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
+      setTimeout(function(){
+         toast.error('Incorrect email or password.',{
+            toastId: toastId
+         });
+      },100); 
+   } 
+   if(!isFetching){
       return(
          <Wrapper>
-            <form className="signInForm">
+            <ToastContainer/>
+            <form onSubmit={handleSignIn} className="signInForm">
                <fieldset className="signInFieldset">
                   <legend>Sign In</legend>
                   <input
@@ -76,6 +86,7 @@ const SignIn = ({signIn, error, isFetching}) => {
                   />
                   <input 
                      placeholder="Password"
+                     minLength= "6"
                      className="signinInput"
                      onChange={handlePassword} 
                      type="password" name="password"  id="password" 
@@ -84,14 +95,13 @@ const SignIn = ({signIn, error, isFetching}) => {
                      <input 
                         type="submit" 
                         value="Sign in" 
-                        onClick={()=> signIn({userEmail, userPassword})}
                         className="signinInput" 
                      />
                   </div>
                   
                   <Link className="buttonContainer" to="/register">
                      <input                           
-                        type="submit" 
+                        type="button" 
                         value="Register"
                         className="signinInput" 
                      />
@@ -100,6 +110,13 @@ const SignIn = ({signIn, error, isFetching}) => {
             </form>
          </Wrapper>
       )   
+   }
+   else {
+      return(
+         <Wrapper>
+            <LoadingIcon/>
+         </Wrapper>
+      )
    }
 }
 
