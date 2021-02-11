@@ -1,4 +1,4 @@
-import { SIGN_IN } from "../actions/action-types";
+import { SIGN_IN, SIGN_IN_ERROR } from "../actions/action-types";
 
 const initialState = {
    isFetching: false,
@@ -11,6 +11,13 @@ const initialState = {
 function authenticateReducer(state = initialState, action) {
    if (action.type === SIGN_IN) {
       return action.payload
+   }
+   if(action.type === SIGN_IN_ERROR) {
+      return {
+         ...state,
+         error: action.payload.error,
+         isFetching: action.payload.isFetching,
+      }
    }
    return state;
 };
