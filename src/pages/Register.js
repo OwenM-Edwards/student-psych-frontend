@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { registerUser } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
    width:100%;
@@ -37,38 +39,38 @@ const Wrapper = styled.div`
    }
 `
 
-const ErrorBox = styled.div`
-   width:100px;
-   height:100px;
-   background-color:red;   
-`
-
 const Register = ({registerUser, error, isFetching}) => {
-   const [ userEmail, setUserEmail] = useState(false);
-   const [ userPassword, setUserPassword] = useState(false);
-   const [ userName, setUserName] = useState(false);
-
+   const [ userEmail, setUserEmail] = useState('');
+   const [ userPassword, setUserPassword] = useState('');
+   const toastId = 1
    const handlePassword = (event) => {
       setUserPassword(event.target.value)
    }
    const handleEmail = (event) => {
       setUserEmail(event.target.value)
    }
-   const handleUserName = (event) => {
-      setUserName(event.target.value)
+   const handleRegister = (event) => {
+      event.preventDefault();
+      registerUser({userEmail, userPassword})
    }
-   if(isFetching === false){
-      return(
+
+
+   // If user name already taken. 
+   if (error === 'duplicate') {
+      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
+      setTimeout(function(){
+         toast.error('Email already registered.',{
+            toastId: toastId
+         });
+      },100); 
+   } 
+   if(!isFetching){
+      return( 
          <Wrapper>
-            <form className="registerForm">
+            <ToastContainer/>
+            <form onSubmit={handleRegister} className="registerForm">
                <fieldset className="registerFieldset">
                   <legend>Register</legend>
-                  <input
-                     placeholder="User Name"
-                     className="registerInput"
-                     onChange={handleUserName} 
-                     type="text" name="user-name"  id="user-name" 
-                  />
                   <input
                      placeholder="Email"
                      className="registerInput"
@@ -77,6 +79,7 @@ const Register = ({registerUser, error, isFetching}) => {
                   />
                   <input 
                      placeholder="Password"
+                     minLength= "6"
                      className="registerInput"
                      onChange={handlePassword} 
                      type="password" name="password"  id="password" 
@@ -86,13 +89,12 @@ const Register = ({registerUser, error, isFetching}) => {
                         className="registerInput" 
                         type="submit" 
                         value="Register" 
-                        onClick={()=> registerUser({userEmail, userPassword, userName})}
                      />
                   </div>
 
                   <Link className="buttonContainer" to="/signIn"> 
                      <input
-                        type="submit" 
+                        type="button" 
                         value="Sign In"
                         className="registerInput" 
                      />
@@ -100,7 +102,7 @@ const Register = ({registerUser, error, isFetching}) => {
                </fieldset>
             </form>
          </Wrapper>
-      )   
+      ) 
    }
    else {
       return(
@@ -112,6 +114,6 @@ const Register = ({registerUser, error, isFetching}) => {
 }
 
 
-const mapStateToProps = (state) => ({ error: state.register.error, authenticated: state.authenticate.authenticated, isFetching: state.register.isFetching });
+const mapStateToProps = (state) => ({ error: state.registerUser.error, authenticated: state.authenticate.authenticated, isFetching: state.registerUser.isFetching });
 
 export default connect(mapStateToProps, { registerUser })(Register);
