@@ -1,4 +1,4 @@
-import { SIGN_IN, REGISTER_USER, ADD_ENTRY, GET_ENTRIES } from './action-types';
+import { REGISTER_USER_ERROR, SIGN_IN_ERROR, SIGN_IN, REGISTER_USER, ADD_ENTRY, GET_ENTRIES } from './action-types';
 
 import axios from 'axios';
 
@@ -64,80 +64,99 @@ export const addEntry = () =>  async (dispatch) => {
 }
 
 
-export const signIn = ({userEmail, userPassword}) => async (dispatch) => {
+export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
    dispatch({
       type: SIGN_IN,
       payload:{
          isFetching: true,
       },
    })
-   const json = JSON.stringify({
-      "email": userEmail,
-      "password": userPassword
+   const authenticated = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/signin',
+      headers: {},
+      data: {
+         "useremail": userEmail,
+         "password": userPassword,
+      }
    })
-   const authenticated = await axios.post('http://localhost:3000/signin', json, {
-      headers: { 'Content-Type': 'application/json' }
-   })
-   .then(data => {
-      dispatch({
-         type: SIGN_IN,
-         payload:{
-            isFetching: false,
-            authenticated: true,
-            error:false,
-            userEmail:userEmail,
-            userID:data.data.id,
-         },
-      })
+   .then(res => {
+      console.log(res);
+      // email already used.
+      if(res.status === 200){
+         dispatch({
+            type: SIGN_IN,
+            payload:{
+               isFetching: false,
+               authenticated: true,
+               error:false,
+               userEmail:res.data.userEmail,
+               userID:res.data.id,
+            },
+         })
+      }
    })
    .catch(error => {
       dispatch({
-         type: SIGN_IN,
+         type: SIGN_IN_ERROR,
          payload:{
+            error:'incorrect',
             isFetching: false,
-            error:true,
-            authenticated: false,
          },
       })
    });
 }
 
-export const registerUser = ({userEmail, userPassword, userName}) => async (dispatch) => {
+
+export const registerUser = ({userEmail, userPassword}) => async (dispatch) => {
    dispatch({
       type: REGISTER_USER,
       payload:{
          isFetching: true,
       },
    })
-   const json = JSON.stringify({
-      "name" : userName,
-      "password": userPassword,
-      "email": userEmail,
+   const authenticated = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/register',
+      headers: {},
+      data: {
+         "password": userPassword,
+         "useremail": userEmail,
+      }
    })
-   const authenticated = await axios.post('http://localhost:3000/register', json, {
-      headers: { 'Content-Type': 'application/json' }
-   })
-   .then(data => {
-      dispatch({
-         type: REGISTER_USER,
-         payload:{
-            isFetching: false,
-            error:false,
-         },
-      })
-      dispatch({
-         type: SIGN_IN,
-         payload:{
-            authenticated: true,
-         },
-      })
+   .then(res => {
+      if(res.status === 200){
+         dispatch({
+            type: REGISTER_USER,
+            payload:{
+               isFetching: false,
+               error:false,
+            },
+         })
+         dispatch({
+            type: SIGN_IN,
+            payload:{
+               authenticated: true,
+            },
+         })
+      }
+      else {
+         console.log('this one master')
+         dispatch({
+            type: REGISTER_USER,
+            payload:{
+               isFetching: false,
+               error:true,
+            },
+         })
+      }
    })
    .catch(error => {
       dispatch({
-         type: REGISTER_USER,
+         type: REGISTER_USER_ERROR,
          payload:{
+            error:'duplicate',
             isFetching: false,
-            error:true,
          },
       })
    });
