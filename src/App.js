@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router, 
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 import styled from "styled-components";
 import { Calender, SignIn, Register } from './pages/index';
@@ -40,34 +41,32 @@ function App({authenticated}) {
           <Header/>
         </div>
 
-        <Route path="/">
-          {(authenticated)
-          ? <div className="main"> <Calender/> </div>
-          : <SignIn/>
-          }
-        </Route>
-
         <Route path="/signin">
           {(authenticated)
-          ? <div className="main"> <Calender/> </div>
+          ? <Redirect to="/"/>
           : <SignIn/>
           }
         </Route>
 
         <Route path="/register">
           {(authenticated)
-          ? <div className="main"> <Calender/> </div>
+          ? <Redirect to="/"/>
           : <Register/>
+          }
+        </Route>
+
+        <Route path="/">
+          {(authenticated)
+          ? <div className="main"> <Calender/> </div>
+          : <Redirect to="/signin"/>
           }
         </Route>
 
       </Wrapper>
     </Router>
-
   );
 }
 
 
 const mapStateToProps = (state) => ({ authenticated:state.authenticate.authenticated });
-
 export default connect(mapStateToProps)(App);
