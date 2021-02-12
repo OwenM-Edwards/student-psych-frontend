@@ -5,6 +5,7 @@ import authenticate from './authenticate';
 import registerUser from './registerUser';
 import selectedDate from './selectedDate';
 import deleteEntry from './deleteEntry';
+import editEntry from './editEntry';
 
 export default combineReducers({
    entries,
@@ -13,4 +14,5 @@ export default combineReducers({
    registerUser,
    selectedDate,
    deleteEntry,
+   editEntry,
 });
