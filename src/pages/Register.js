@@ -54,7 +54,15 @@ const Register = ({registerUser, error, isFetching}) => {
       registerUser({userEmail, userPassword})
    }
 
-
+   // If incorrect email type.
+   if (error === 'incorrect email type') {
+      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
+      setTimeout(function(){
+         toast.error('Only ac.uk and nhs.uk emails are currently allowed.',{
+            toastId: toastId
+         });
+      },100); 
+   } 
    // If user name already taken. 
    if (error === 'duplicate') {
       // Set timeout needed to push to bottom of call stack, wont appear otherwise.
