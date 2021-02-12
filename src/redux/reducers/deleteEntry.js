@@ -1,4 +1,4 @@
-import { ADD_ENTRY, ADD_ENTRY_ERROR } from "../actions/action-types";
+import { DELETE_ENTRY,DELETE_ENTRY_ERROR } from "../actions/action-types";
 
 const initialState = {
    isFetching: false,
@@ -6,15 +6,15 @@ const initialState = {
    success:false,
 };
 
-function addEntryReducer(state = initialState, action) {
-   if ( action.type === ADD_ENTRY ) {
+function deleteEntryReducer(state = initialState, action) {
+   if ( action.type === DELETE_ENTRY ) {
       return {
          ...state,
          isFetching: action.payload.isFetching,
          success: action.payload.succes,
       }
    }
-   if ( action.type === ADD_ENTRY_ERROR ) {
+   if ( action.type === DELETE_ENTRY_ERROR ) {
       return {
          ...state,
          isFetching: action.payload.isFetching,
@@ -24,4 +24,4 @@ function addEntryReducer(state = initialState, action) {
    return state;
 };
 
-export default addEntryReducer;
+export default deleteEntryReducer;

@@ -1,4 +1,17 @@
-import { REGISTER_USER_ERROR, SIGN_IN_ERROR, SIGN_IN, REGISTER_USER, ADD_ENTRY, GET_ENTRIES } from './action-types';
+import { 
+   SIGN_OUT,
+   DELETE_ENTRY,
+   DELETE_ENTRY_ERROR,
+   ADD_ENTRY_ERROR, 
+   REGISTER_USER_ERROR, 
+   SIGN_IN_ERROR, SIGN_IN, 
+   REGISTER_USER, 
+   ADD_ENTRY, 
+   GET_ENTRIES,
+   SELECT_DATE,
+   EDIT_ENTRY,
+   EDIT_ENTRY_ERROR,
+} from './action-types';
 
 import axios from 'axios';
 
@@ -10,7 +23,7 @@ export const getEntries = (month, year) =>  async (dispatch) => {
          isFetching: true,
       },
    })
-   const entries = await axios.get('http://localhost:3000/getentries', { params: {
+   const getEntry = await axios.get('http://localhost:3000/getentries', { params: {
       month : month,
       year : year
    }})
@@ -19,7 +32,7 @@ export const getEntries = (month, year) =>  async (dispatch) => {
          type: GET_ENTRIES,
          payload: {
             isFetching: false,
-            entries: data,
+            entries: data.data,
          },
       })
    })
@@ -35,26 +48,56 @@ export const getEntries = (month, year) =>  async (dispatch) => {
 }
 
 // Add new event to calender.
-export const addEntry = () =>  async (dispatch) => {
+export const addEntry = ({
+      title,
+      description,
+      day,
+      month,
+      year,
+      image,
+      type,
+      userid,
+      startTime,
+      endTime,
+   }) =>  async (dispatch) => {
    dispatch({
       type: ADD_ENTRY,
       payload: {
          isFetching: true,
       },
    })
-   const entries = await axios.post('http://localhost:3000/addentry')
-   .then(data=> {
-      dispatch({
-         type: ADD_ENTRY,
-         payload: {
-            isFetching: false,
-            entries: data,
-         },
-      })
+   const addEntry = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/addentry',
+      headers: {},
+      data: {
+         "title": title,
+         "description": description,
+         "day": day,
+         "month": month,
+         "year": year,
+         "image": image,
+         "type": type,
+         "userid": userid,
+         "starttime": startTime,
+         "endtime": endTime,
+      }
+   })
+   .then(res=> {
+      if(res.status === 201){
+         dispatch({
+            type: ADD_ENTRY,
+            payload: {
+               isFetching: false,
+               success: true,
+            },
+         })
+      }
+
    })
    .catch(err => {
       dispatch({
-         type: ADD_ENTRY,
+         type: ADD_ENTRY_ERROR,
          payload:{
             isFetching: false,
             error:true,
@@ -64,6 +107,111 @@ export const addEntry = () =>  async (dispatch) => {
 }
 
 
+// Delete event.
+export const deleteEntry = (entryid) =>  async (dispatch) => {
+   dispatch({
+      type: DELETE_ENTRY,
+      payload: {
+         isFetching: true,
+      },
+   })
+   const deleteEntry = await axios.delete('http://localhost:3000/deleteentry', { params: {
+      entryid : entryid
+   }})
+   .then(res=> {
+      if(res.status === 200){
+         dispatch({
+            type: DELETE_ENTRY,
+            payload: {
+               isFetching: false,
+               success: true,
+            },
+         })
+      }
+
+   })
+   .catch(err => {
+      dispatch({
+         type: DELETE_ENTRY_ERROR,
+         payload:{
+            isFetching: false,
+            error:true,
+         },
+      })
+   })
+}
+
+// Edit event.
+export const editEntry = ({
+      title,
+      description,
+      day,
+      month,
+      year,
+      image,
+      type,
+      userid,
+      startTime,
+      endTime,
+      entryid,
+   }) =>  async (dispatch) => {
+      console.log(entryid)
+   dispatch({
+      type: EDIT_ENTRY,
+      payload: {
+         isFetching: true,
+      },
+   })
+   const editEntry = await axios({
+      method: 'put',
+      url: 'http://localhost:3000/editentry',
+      headers: {},
+      data: {
+         "entryid": entryid,
+         "title": title,
+         "description": description,
+         "day": day,
+         "month": month,
+         "year": year,
+         "image": image,
+         "type": type,
+         "userid": userid,
+         "starttime": startTime,
+         "endtime": endTime,
+
+      }
+   })
+   .then(res=> {
+      if(res.status === 200){
+         dispatch({
+            type: EDIT_ENTRY,
+            payload: {
+               isFetching: false,
+               success: true,
+            },
+         })
+      }
+
+   })
+   .catch(err => {
+      dispatch({
+         type: EDIT_ENTRY_ERROR,
+         payload:{
+            isFetching: false,
+            error:true,
+         },
+      })
+   })
+}
+
+
+export const signOut = () => async (dispatch) => {
+   localStorage.removeItem("user");
+   dispatch({
+      type: SIGN_OUT
+   })
+}
+
 export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
    dispatch({
       type: SIGN_IN,
@@ -71,7 +219,7 @@ export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
          isFetching: true,
       },
    })
-   const authenticated = await axios({
+   const signIn = await axios({
       method: 'post',
       url: 'http://localhost:3000/signin',
       headers: {},
@@ -81,18 +229,14 @@ export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
       }
    })
    .then(res => {
-      console.log(res);
-      // email already used.
       if(res.status === 200){
+         localStorage.setItem("user", JSON.stringify(res.data[0]))
          dispatch({
             type: SIGN_IN,
             payload:{
-               isFetching: false,
-               authenticated: true,
-               error:false,
-               userEmail:res.data.userEmail,
-               userID:res.data.id,
-            },
+               email:JSON.parse(localStorage.getItem("user")).email,
+               id:JSON.parse(localStorage.getItem("user")).id,
+            }
          })
       }
    })
@@ -101,7 +245,6 @@ export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
          type: SIGN_IN_ERROR,
          payload:{
             error:'incorrect',
-            isFetching: false,
          },
       })
    });
@@ -160,4 +303,37 @@ export const registerUser = ({userEmail, userPassword}) => async (dispatch) => {
          },
       })
    });
+}
+
+export const getInitialDate = () => async (dispatch) => {
+   let date = new Date();
+   let day = date.getDate();
+   let month = date.getMonth() + 1;
+   let year = date.getFullYear();
+   let totalDaysInMonth = new Date(year, month, 0).getDate();
+   dispatch({
+      type: SELECT_DATE,
+      payload:{
+         selectedDate: {
+            day:day,
+            month:month,
+            year:year,
+            totalDaysInMonth:totalDaysInMonth,
+         },
+      }
+   })
+}
+
+export const selectDate = ({day, month, year, totalDaysInMonth}) => async (dispatch) => {
+   dispatch({
+      type: SELECT_DATE,
+      payload:{
+         selectedDate: {
+            day:day,
+            month:month,
+            year:year,
+            totalDaysInMonth:totalDaysInMonth,
+         },
+      }
+   })
 }

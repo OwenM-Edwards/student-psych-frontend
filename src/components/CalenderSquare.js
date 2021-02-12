@@ -1,109 +1,121 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
-
+import {EventTag} from './index';
 
 const Wrapper = styled.div`
    width:100%;
    height:100%;
-`
-const StyledWeekDay = styled.div`
-   width:100%;
-   height:100%;
-   background-color:orange;
-      
    text-align:center;
+   &:hover {
+      border: 1px solid #2b2b2b;
+   }
 `
-const StyledCurrentDay = styled.div`
-   width:100%;
-   height:100%;
-   background-color:violet;
-      
-   text-align:center;
-`
-const StyledWeekendDay = styled.div`
-   width:100%;
-   height:100%;
-   background-color:purple;
-      
-   text-align:center;
+const StyledDayHeader = styled.h1`
+   font-size:1rem;
 `
 
-const StyledOverflowDay = styled.div`
-   width:100%;
-   height:100%;
-   background-color:pink;
-      
-   text-align:center;
-`
-
-const CalenderSquare = ({ entries, totalDaysInMonth, currentDay, currentMonth, currentYear, boxDay  }) => {
+const CalenderSquare = ({ 
+      setModalToggle,
+      setModModalToggle,
+      setModalInfo, 
+      entries, 
+      calSquareDay,
+      selectedDate,
+   }) => {
+   const [isFetching, setIsFetching] = useState(false);
    let dayHeader = "";
-   let eventInfo = "";
+   let eventInfo = false;
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-   const currentDate = new Date();
-   currentDate.setDate(boxDay);
-   let eventEntries = entries.entries.data;
+   let calenderSquareProps = {
+      backgroundColor:'',
+   }
+   // Checks if calenderSquare day is a weekend.
+   let weekendCheck = new Date();
+   weekendCheck.setDate(calSquareDay);
 
+
+   // Gets current entries in state, finds ones that match current date of calender square.
    const sortEntries = () => {
-      eventEntries.forEach(el => {
-         if(el.day === boxDay){
-            eventInfo = el.description;
-         }
-      })
+      if(entries){
+         entries.forEach(entry => {
+            if(entry.day === calSquareDay){
+               eventInfo = entry;
+            }
+         })
+      }
    }
    sortEntries();
+   
+   const handleTagClick = (e) => {
+      e.stopPropagation();
+      if(eventInfo){
+         setModalInfo({
+            eventInfo,
+         }) 
+      }
+      else {
+         console.log('test')
+      }
+      setModModalToggle(false);
+      setModalToggle(true);
+
+   }
+   const handleBoxClick = (e) => {
+      e.stopPropagation();
+      setModalInfo({
+         eventInfo:{
+            day:calSquareDay,
+            month:selectedDate.month,
+            year:selectedDate.year,
+         }
+      })  
+      setModalToggle(false);
+      setModModalToggle(true);
+   }
+
+
    // If one of the first 7 days, add day string header.
-   if(boxDay < 8){
-      dayHeader = dayStrings[boxDay];
+   if(calSquareDay < 8){
+      dayHeader = dayStrings[calSquareDay];
    }
    // If box = outside total days in month
-   if( boxDay > totalDaysInMonth){
-      return(
-         <StyledOverflowDay>
-            {boxDay}
-            {eventInfo}
-         </StyledOverflowDay>
-      )
+   if( calSquareDay > selectedDate.totalDaysInMonth){
+      calenderSquareProps.backgroundColor = 'violet';
    }
    // If box = current day
-   if(boxDay == currentDay){
-      return(
-         <StyledCurrentDay>
-            <h1>
-               {dayHeader}
-            </h1>
-            {boxDay}
-            {eventInfo}
-         </StyledCurrentDay>
-      )
+   else if(calSquareDay == selectedDate.day){
+      calenderSquareProps.backgroundColor = 'pink';
    }
    // If box = A weekend
-   if(currentDate.getDay() === 6 || currentDate.getDay() === 0 ){
-      return(
-         <StyledWeekendDay>
-            <h1>
-               {dayHeader}
-            </h1>
-            {boxDay}
-            {eventInfo}
-         </StyledWeekendDay>
-      )
+   else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0 ){
+      calenderSquareProps.backgroundColor = 'purple';
    }
    else {
-      return(
-         <StyledWeekDay>
-            <h1>
-               {dayHeader}
-            </h1>
-            {boxDay}
-            {eventInfo}
-         </StyledWeekDay>
-      )
+      calenderSquareProps.backgroundColor = 'orange';
    }
+
+
+   return(
+      <Wrapper onClick={handleBoxClick} style={{backgroundColor: calenderSquareProps.backgroundColor}}>
+         <StyledDayHeader>
+            {dayHeader}
+         </StyledDayHeader>
+
+         {calSquareDay}
+
+         {(eventInfo)
+            ? <EventTag handleTagClick={handleTagClick} eventInfo={eventInfo}/>
+            : <div></div>
+         }
+      </Wrapper>
+   )
+
+
+
+   
 }
 
 
-const mapStateToProps = (state) => ({ entries:state.entries });
-
+const mapStateToProps = (state) => ({ selectedDate:state.selectedDate.selectedDate, entries:state.entries.entries });
 export default connect(mapStateToProps)(CalenderSquare);

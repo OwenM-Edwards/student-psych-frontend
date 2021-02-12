@@ -1,18 +1,22 @@
-import { SIGN_IN, SIGN_IN_ERROR } from "../actions/action-types";
+import { SIGN_OUT, SIGN_IN, SIGN_IN_ERROR } from "../actions/action-types";
 
-const initialState = {
-   isFetching: false,
-   authenticated: false,
-   error:false,
-   userEmail:false,
-   userID:false,
+const localSt = JSON.parse(localStorage.getItem("user"));
+const initialState = localSt ? localSt : {
+   email:false,
+   id:false,
 };
 
 function authenticateReducer(state = initialState, action) {
    if (action.type === SIGN_IN) {
-      return action.payload
+      return {
+         email:action.payload.email,
+         id:action.payload.id,
+      }
    }
-   if(action.type === SIGN_IN_ERROR) {
+   else if (action.type === SIGN_OUT) {
+      return {}
+   }
+   else if(action.type === SIGN_IN_ERROR) {
       return {
          ...state,
          error: action.payload.error,

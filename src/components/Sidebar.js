@@ -7,10 +7,10 @@ const Wrapper = styled.div`
 
 `
 
-const Sidebar = ({genBoxes}) => {
+const Sidebar = () => {
    return(
       <Wrapper>
-         <button onClick={()=>genBoxes()}></button>
+
       </Wrapper>
    )
 }
