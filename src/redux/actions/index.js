@@ -155,7 +155,6 @@ export const editEntry = ({
       endTime,
       entryid,
    }) =>  async (dispatch) => {
-      console.log(entryid)
    dispatch({
       type: EDIT_ENTRY,
       payload: {
@@ -244,7 +243,7 @@ export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
       dispatch({
          type: SIGN_IN_ERROR,
          payload:{
-            error:'incorrect',
+            error:error.response.data,
          },
       })
    });
@@ -298,7 +297,7 @@ export const registerUser = ({userEmail, userPassword}) => async (dispatch) => {
       dispatch({
          type: REGISTER_USER_ERROR,
          payload:{
-            error:'duplicate',
+            error:error.response.data,
             isFetching: false,
          },
       })
