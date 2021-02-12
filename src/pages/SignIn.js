@@ -40,11 +40,6 @@ const Wrapper = styled.div`
    }
 `
 
-const ErrorBox = styled.div`
-   width:100px;
-   height:100px;
-   background-color:red;   
-`
 
 const SignIn = ({ signIn, error, isFetching}) => {
    const [ userEmail, setUserEmail] = useState(false);
@@ -121,6 +116,6 @@ const SignIn = ({ signIn, error, isFetching}) => {
 }
 
 
-const mapStateToProps = (state) => ({ error: state.authenticate.error, authenticated: state.authenticate.authenticated, isFetching: state.authenticate.isFetching });
+const mapStateToProps = (state) => ({ error: state.authenticate.error, isFetching: state.authenticate.isFetching });
 
 export default connect(mapStateToProps, { signIn })(SignIn);

@@ -114,6 +114,6 @@ const Register = ({registerUser, error, isFetching}) => {
 }
 
 
-const mapStateToProps = (state) => ({ error: state.registerUser.error, authenticated: state.authenticate.authenticated, isFetching: state.registerUser.isFetching });
+const mapStateToProps = (state) => ({ error: state.registerUser.error, isFetching: state.registerUser.isFetching });
 
 export default connect(mapStateToProps, { registerUser })(Register);

@@ -33,7 +33,9 @@ const Wrapper = styled.div`
 `
 
 
-function App({authenticated}) {
+const App = ({user}) => {
+  const loggedIn = user.token;
+  console.log(user)
   return (
     <Router>
       <Wrapper>
@@ -42,21 +44,21 @@ function App({authenticated}) {
         </div>
 
         <Route path="/signin">
-          {(authenticated)
+          {(user.id)
           ? <Redirect to="/"/>
           : <SignIn/>
           }
         </Route>
 
         <Route path="/register">
-          {(authenticated)
+          {(user.id)
           ? <Redirect to="/"/>
           : <Register/>
           }
         </Route>
 
         <Route path="/">
-          {(authenticated)
+          {(user.id)
           ? <div className="main"> <Calender/> </div>
           : <Redirect to="/signin"/>
           }
@@ -68,5 +70,5 @@ function App({authenticated}) {
 }
 
 
-const mapStateToProps = (state) => ({ authenticated:state.authenticate.authenticated });
+const mapStateToProps = (state) => ({ user:state.authenticate });
 export default connect(mapStateToProps)(App);
