@@ -10,6 +10,7 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    padding:10px;
+   z-index:2;
 `
 const StyledCloseButton = styled.div`
    position:absolute;
@@ -24,15 +25,14 @@ const StyledEditingContainer = styled.div`
 
 
 `
-// Make the element draggable.
 
-const EventModal = ({ setEditModalToggle, setModalToggle, modalInfo, setModalInfo, userinfo, deleteEntry }) => {
+// Make the element draggable.
+const EventModal = ({ createToast, setEditModalToggle, setModalToggle, modalInfo, setModalInfo, userinfo, deleteEntry }) => {
    let adminControls = false;
    // If current user is creater of event, allow edit/delete controls.
    if(modalInfo.userid === userinfo.id){
       adminControls = true
    }
-   console.log(modalInfo)
 
    const handleDelete = () => {
       deleteEntry(modalInfo.id)
@@ -41,31 +41,47 @@ const EventModal = ({ setEditModalToggle, setModalToggle, modalInfo, setModalInf
       setModalToggle(false);
       setEditModalToggle(true);
    }
-   return(
-      <Wrapper>
-         <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
-         <h1>Name:{modalInfo.title}</h1>
-         <p>Description:{modalInfo.description}</p>
-         <span>ID:{modalInfo.id}</span>
-         <span>Day:{modalInfo.day}</span>
-         <span>Month:{modalInfo.month}</span>
-         <span>Year:{modalInfo.year}</span>
-         <span>Type:{modalInfo.type}</span>
-         <span>Image:{modalInfo.image}</span>
-         <span>UserID:{modalInfo.userid}</span>
-         <span>Start Time:{modalInfo.starttime}</span>
-         <span>End Time:{modalInfo.endtime}</span>
 
+   // If logged in, display event info
+   if(userinfo.id){
+      return(
+         <Wrapper>
+            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+            <h1>Name:{modalInfo.title}</h1>
+            <p>Description:{modalInfo.description}</p>
+            <span>ID:{modalInfo.id}</span>
+            <span>Day:{modalInfo.day}</span>
+            <span>Month:{modalInfo.month}</span>
+            <span>Year:{modalInfo.year}</span>
+            <span>Type:{modalInfo.type}</span>
+            <span>Image:{modalInfo.image}</span>
+            <span>UserID:{modalInfo.userid}</span>
+            <span>Start Time:{modalInfo.starttime}</span>
+            <span>End Time:{modalInfo.endtime}</span>
+   
+   
+            {(adminControls)
+               ? <StyledEditingContainer>
+                     <button onClick={handleDelete} type="button" value="delete">Delete Event.</button>
+                     <button onClick={handleEdit} type="button" value="edit">Edit Event.</button>
+                 </StyledEditingContainer>
+               : <React.Fragment/>
+            }
+         </Wrapper>
+      )
+   }
+   // Else, display only name.
+   else {
+      createToast('Please login view full event info.')
+      return(
+         <Wrapper>
+            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+            <h1>Name:{modalInfo.title}</h1>
+         </Wrapper>
+      )
+   }
 
-         {(adminControls)
-            ? <StyledEditingContainer>
-                  <button onClick={handleDelete} type="button" value="delete">Delete Event.</button>
-                  <button onClick={handleEdit} type="button" value="edit">Edit Event.</button>
-              </StyledEditingContainer>
-            : <React.Fragment/>
-         }
-      </Wrapper>
-   )
+   
 }
 
 const mapStateToProps = (state) => ({ userinfo:state.authenticate, entries:state.entries.entries.data });
