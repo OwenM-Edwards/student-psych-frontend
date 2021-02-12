@@ -57,6 +57,16 @@ const SignIn = ({ signIn, error, isFetching}) => {
    }
 
 
+   // If not confirmed email yet
+   if (error === 'not confirmed') {
+      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
+      setTimeout(function(){
+         toast.error('Please confirm email before logging in.',{
+            toastId: toastId
+         });
+      },100); 
+   } 
+
    // If wrong email/password
    if (error === 'incorrect') {
       // Set timeout needed to push to bottom of call stack, wont appear otherwise.
