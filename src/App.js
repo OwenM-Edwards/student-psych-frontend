@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 
 const Wrapper = styled.div`
   padding:5px;
-  background-color:grey;
+  background-color:#2b2b2b;
   min-width:100%;
   max-width: 100%;
   height:100vh;
@@ -35,7 +35,19 @@ const Wrapper = styled.div`
 
 const App = ({user}) => {
   const loggedIn = user.token;
-  console.log(user)
+
+  const regTest = () => {
+    let testString = "something@gmail.ac.uk";
+    let slicedTestString = testString.split('@');
+    let emailEnd = slicedTestString[1].toLowerCase();
+    console.log(`Test ${emailEnd}`);
+    let re = /ac\.uk/;
+    let reb = /^nhs\.uk$/;
+    console.log(re.test(emailEnd));
+  }
+  regTest();
+
+
   return (
     <Router>
       <Wrapper>
@@ -58,10 +70,7 @@ const App = ({user}) => {
         </Route>
 
         <Route path="/">
-          {(user.id)
-          ? <div className="main"> <Calender/> </div>
-          : <Redirect to="/signin"/>
-          }
+          <div className="main"> <Calender/> </div>
         </Route>
 
       </Wrapper>
