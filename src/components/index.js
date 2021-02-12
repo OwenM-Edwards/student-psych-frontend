@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import CalenderSquare from './CalenderSquare';
 import LoadingIcon from './LoadingIcon';
 import EventModal from './EventModal';
-import ModEventModal from './ModEventModal';
+import AddEventModal from './AddEventModal';
 import EventTag from './EventTag';
 import EditEventModal from './EditEventModal';
 
@@ -13,7 +13,7 @@ export {
    CalenderSquare,
    LoadingIcon,
    EventModal,
-   ModEventModal,
+   AddEventModal,
    EventTag,
    EditEventModal,
 }
