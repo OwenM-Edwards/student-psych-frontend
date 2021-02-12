@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { selectDate,signOut } from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const Wrapper = styled.div`
    width:100%;
@@ -16,6 +16,17 @@ const Wrapper = styled.div`
 const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
    const location = useLocation();
    // Increments or deincrements month by 1, creates new date in state.
+
+   const returnToCurrentMonth = () => {
+      let currentDate = new Date();
+      selectDate({
+         day: currentDate.getDate(),
+         month: currentDate.getMonth() + 1, 
+         year: currentDate.getFullYear(),
+         totalDaysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
+      })
+   }
+
    const changeMonth = (val) => {
       let changedDate;
       if(val === 'increase'){
@@ -41,8 +52,10 @@ const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
          Student Psychiatry Events
          {(userinfo.id)
             ? <button onClick={()=>handleSignOut()}>Sign Out</button>
-            : <React.Fragment/>
+            : <Link to="/signin"><button>Sign In</button></Link>
+            
          }
+         <button onClick={()=>returnToCurrentMonth()}>Today</button>
          
 
          {/* If at calender, render cal month navigation */}
