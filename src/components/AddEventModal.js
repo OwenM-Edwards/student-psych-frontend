@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { LoadingIcon } from './index';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addEntry } from '../redux/actions/index';
 const Wrapper = styled.div`
@@ -24,7 +23,7 @@ const StyledCloseButton = styled.div`
 `
 // Make the element draggable.
 
-const AddEventModal = ({ userinfo, addEntry, addentrystate, setaddModalToggle, modalInfo }) => {
+const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, modalInfo }) => {
    const [ inputTitle, setInputTitle ] = useState('');
    const [ inputStartTime, setInputStartTime ] = useState('');
    const [ inputEndTime, setInputEndTime ] = useState('');
@@ -38,8 +37,7 @@ const AddEventModal = ({ userinfo, addEntry, addentrystate, setaddModalToggle, m
       { value: 'type 2', label: 'Event Type Two'},
       { value: 'type 3', label: 'Event Type Three'},
    ];
-   const toastId = 1
-
+   console.log(userinfo)
 
    const handleTitle = (e) => {
       setInputTitle(e.target.value);
@@ -79,36 +77,24 @@ const AddEventModal = ({ userinfo, addEntry, addentrystate, setaddModalToggle, m
          year:modalInfo.year,
          image:'image',
          type:inputType,
-         userid:userinfo.id,
-         startTime:inputStartTime,
-         endTime:inputEndTime,
+         userid:userinfo.user.id,
+         starttime:inputStartTime,
+         endtime:inputEndTime,
       });
    }
 
 
-   // If error submitting
-   if (addentrystate.error === true) {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Error adding event, please try again later.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-
-   if(!addentrystate.isFetching){
+   if(!addEntryState.isFetching){
       return(
          <Wrapper>
-            <ToastContainer/>
             MOD EVENT MODAL
-            <StyledCloseButton onClick={()=>setaddModalToggle(false)}></StyledCloseButton>
+            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
             <form onSubmit={handleSubmit}>
                <fieldset>
                   <legend>Add Event.</legend>
                   <input
                      type="checkbox" 
                      name="event-title"
-                     required="required"
                      onChange={handleTitle}
                      id="private"
                      value="private"
@@ -140,14 +126,13 @@ const AddEventModal = ({ userinfo, addEntry, addentrystate, setaddModalToggle, m
                      placeholder="Link"
                      type="text" 
                      name="event-link"
-                     required="required"
                      onChange={handleLink}
                   />
                   <input
                      placeholder="Social Media Link"
                      type="text" 
                      name="event-sociallink"
-                     required="required"
+          
                      onChange={handleSocialLink}
                   />
    
@@ -201,6 +186,6 @@ const AddEventModal = ({ userinfo, addEntry, addentrystate, setaddModalToggle, m
    
 }
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, addentrystate: state.addEntry });
+const mapStateToProps = (state) => ({ userinfo:state.authenticate, addEntryState: state.addEntry });
 
 export default connect(mapStateToProps, {addEntry})(AddEventModal);
