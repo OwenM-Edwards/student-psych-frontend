@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { LoadingIcon } from './index';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 import { editEntry } from '../redux/actions/index';
+
 const Wrapper = styled.div`
    position:absolute;
    width:400px;
@@ -21,9 +22,14 @@ const StyledCloseButton = styled.div`
    background-color:red;
    cursor: pointer;
 `
-// Make the element draggable.
 
-const EditEventModal = ({ userinfo, editEntry, addentrystate, setEditModalToggle, modalInfo }) => {
+const EditEventModal = ({ 
+      auth, 
+      addEntryState, 
+      setModalToggle, 
+      modalInfo,
+      handleEditEvent, 
+   }) => {
    const [ inputTitle, setInputTitle ] = useState(modalInfo.title);
    const [ inputStartTime, setInputStartTime ] = useState(modalInfo.starttime);
    const [ inputEndTime, setInputEndTime ] = useState(modalInfo.endtime);
@@ -34,11 +40,9 @@ const EditEventModal = ({ userinfo, editEntry, addentrystate, setEditModalToggle
       { value: 'type 2', label: 'Event Type Two'},
       { value: 'type 3', label: 'Event Type Three'},
    ];
-   const toastId = 1
-
+   console.log(modalInfo)
 
    const handleTitle = (e) => {
-
       setInputTitle(e.target.value);
    }
    const handleStartTime = (e) => {
@@ -53,40 +57,32 @@ const EditEventModal = ({ userinfo, editEntry, addentrystate, setEditModalToggle
    const handleDescription = (e) => {
       setInputDescription(e.target.value);
    }
+
    const handleEdit = (e) => {
       e.preventDefault();
-      editEntry({
+      console.log(inputStartTime)
+      handleEditEvent({
          title:inputTitle,
          description:inputDescription,
          day:modalInfo.day,
+         id: modalInfo.id,
          month:modalInfo.month,
          year:modalInfo.year,
          image:'image',
          type:inputType,
-         userid:userinfo.id,
-         startTime:inputStartTime,
-         endTime:inputEndTime,
+         userid:auth.user.id,
+         starttime:inputStartTime,
+         endtime:inputEndTime,
          entryid:modalInfo.id,
-      });
+      })
    }
 
 
-   // If error submitting
-   if (addentrystate.error === true) {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Error adding event, please try again later.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-
-   if(!addentrystate.isFetching){
+   if(!addEntryState.isFetching){
       return(
          <Wrapper>
-            <ToastContainer/>
             EDIT EVENT MODAL
-            <StyledCloseButton onClick={()=>setEditModalToggle(false)}></StyledCloseButton>
+            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
             <form onSubmit={handleEdit}>
                <fieldset>
                   <legend>Add Event.</legend>
@@ -134,18 +130,6 @@ const EditEventModal = ({ userinfo, editEntry, addentrystate, setEditModalToggle
                   <button type="submit">Submit</button>
                </fieldset>
             </form>
-   
-            {/* Name:{modalInfo.name}
-            Description:{modalInfo.description}
-            ID:{modalInfo.id}
-            Day:{modalInfo.day}
-            Month:{modalInfo.month} */}
-            {/* 
-               Close button.
-               Description.
-               Attachments.
-               Restrictions. 
-            */}
          </Wrapper>
       )
    }
@@ -159,6 +143,6 @@ const EditEventModal = ({ userinfo, editEntry, addentrystate, setEditModalToggle
    
 }
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, addentrystate: state.addEntry });
+const mapStateToProps = (state) => ({ auth:state.authenticate, addEntryState: state.addEntry });
 
-export default connect(mapStateToProps, {editEntry})(EditEventModal);
+export default connect(mapStateToProps)(EditEventModal);

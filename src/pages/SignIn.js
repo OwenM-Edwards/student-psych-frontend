@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { signIn } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
    width:100%;
@@ -41,7 +39,7 @@ const Wrapper = styled.div`
 `
 
 
-const SignIn = ({ signIn, error, isFetching}) => {
+const SignIn = ({ signIn, auth}) => {
    const [ userEmail, setUserEmail] = useState(false);
    const [ userPassword, setUserPassword] = useState(false);
    const toastId = 1
@@ -55,31 +53,9 @@ const SignIn = ({ signIn, error, isFetching}) => {
       event.preventDefault();
       signIn({userEmail, userPassword});
    }
-
-
-   // If not confirmed email yet
-   if (error === 'not confirmed') {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Please confirm email before logging in.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-
-   // If wrong email/password
-   if (error === 'incorrect') {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Incorrect email or password.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-   if(!isFetching){
+   if(!auth.isFetching){
       return(
          <Wrapper>
-            <ToastContainer/>
             <form onSubmit={handleSignIn} className="signInForm">
                <fieldset className="signInFieldset">
                   <legend>Sign In</legend>
@@ -126,6 +102,6 @@ const SignIn = ({ signIn, error, isFetching}) => {
 }
 
 
-const mapStateToProps = (state) => ({ error: state.authenticate.error, isFetching: state.authenticate.isFetching });
+const mapStateToProps = (state) => ({ auth:state.authenticate });
 
 export default connect(mapStateToProps, { signIn })(SignIn);

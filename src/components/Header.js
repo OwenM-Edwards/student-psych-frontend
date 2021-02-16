@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import { selectDate,signOut } from '../redux/actions/index';
+import { selectDate,signOut,clearEntries } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom'
 
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
    background-color:pink;
 `
 
-const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
+const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
    const location = useLocation();
    // Increments or deincrements month by 1, creates new date in state.
 
@@ -28,6 +28,7 @@ const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
    }
 
    const changeMonth = (val) => {
+      clearEntries();
       let changedDate;
       if(val === 'increase'){
          changedDate = new Date(selectedDate.year, selectedDate.month, selectedDate.day)
@@ -50,7 +51,7 @@ const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
    return(
       <Wrapper>
          Student Psychiatry Events
-         {(userinfo.id)
+         {(auth.user.id)
             ? <button onClick={()=>handleSignOut()}>Sign Out</button>
             : <Link to="/signin"><button>Sign In</button></Link>
             
@@ -59,7 +60,7 @@ const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
          
 
          {/* If at calender, render cal month navigation */}
-         {(location.pathname === '/')
+         {(location.pathname === '/calender')
             ? <div>
                <button onClick={()=>changeMonth('decrease')}>back</button>
                Day:{selectedDate.day}
@@ -73,5 +74,5 @@ const Header = ({userinfo, selectDate, selectedDate, signOut}) => {
    )
 }
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, selectedDate:state.selectedDate.selectedDate });
-export default connect(mapStateToProps, { selectDate,signOut })(Header);
+const mapStateToProps = (state) => ({ auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
+export default connect(mapStateToProps, { clearEntries,selectDate,signOut })(Header);

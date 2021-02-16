@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import { registerUser } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
    width:100%;
@@ -38,11 +36,16 @@ const Wrapper = styled.div`
       margin: 0 auto;
    }
 `
+const RegisterAcceptedModal = styled.div`
+   width:200px;
+   height:400px;
+   position:absolute;
+   background-color:red;
+`
 
-const Register = ({registerUser, error, isFetching}) => {
+const Register = ({registerUser, registerState}) => {
    const [ userEmail, setUserEmail] = useState('');
    const [ userPassword, setUserPassword] = useState('');
-   const toastId = 1
    const handlePassword = (event) => {
       setUserPassword(event.target.value)
    }
@@ -54,28 +57,18 @@ const Register = ({registerUser, error, isFetching}) => {
       registerUser({userEmail, userPassword})
    }
 
-   // If incorrect email type.
-   if (error === 'incorrect email type') {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Only ac.uk and nhs.uk emails are currently allowed.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-   // If user name already taken. 
-   if (error === 'duplicate') {
-      // Set timeout needed to push to bottom of call stack, wont appear otherwise.
-      setTimeout(function(){
-         toast.error('Email already registered.',{
-            toastId: toastId
-         });
-      },100); 
-   } 
-   if(!isFetching){
+   if(!registerState.isFetching){
       return( 
          <Wrapper>
-            <ToastContainer/>
+            {(registerState.success)
+               ? 
+               <RegisterAcceptedModal>
+                  Please confirm email before signing in.
+                  <Link to="/signIn"> <button>Sign In.</button> </Link>
+                  <button>Resend Email.</button>
+               </RegisterAcceptedModal>
+               : <div></div>
+            }
             <form onSubmit={handleRegister} className="registerForm">
                <fieldset className="registerFieldset">
                   <legend>Register</legend>
@@ -122,6 +115,6 @@ const Register = ({registerUser, error, isFetching}) => {
 }
 
 
-const mapStateToProps = (state) => ({ error: state.registerUser.error, isFetching: state.registerUser.isFetching });
+const mapStateToProps = (state) => ({ registerState: state.register });
 
 export default connect(mapStateToProps, { registerUser })(Register);

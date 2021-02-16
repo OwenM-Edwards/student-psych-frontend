@@ -1,27 +1,22 @@
-import { DELETE_ENTRY,DELETE_ENTRY_ERROR } from "../actions/action-types";
+import { REQUEST_DELETE_ENTRY,RECEIVE_DELETE_ENTRY } from "../actions/action-types";
 
 const initialState = {
    isFetching: false,
-   error:false,
-   success:false,
 };
 
-function deleteEntryReducer(state = initialState, action) {
-   if ( action.type === DELETE_ENTRY ) {
-      return {
-         ...state,
-         isFetching: action.payload.isFetching,
-         success: action.payload.succes,
-      }
+function deleteEntry(state = initialState, action) {
+   switch(action.type){
+      case REQUEST_DELETE_ENTRY:
+         return {
+            isFetching:true,
+         }
+      case RECEIVE_DELETE_ENTRY:
+         return {
+            isFetching:false,
+         }
+      default: 
+      return state;
    }
-   if ( action.type === DELETE_ENTRY_ERROR ) {
-      return {
-         ...state,
-         isFetching: action.payload.isFetching,
-         error: action.payload.error,
-      }
-   }
-   return state;
 };
 
-export default deleteEntryReducer;
+export default deleteEntry;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import {deleteEntry} from '../redux/actions/index';
+
 const Wrapper = styled.div`
    position:absolute;
    width:400px;
@@ -22,68 +22,68 @@ const StyledCloseButton = styled.div`
    cursor: pointer;
 `
 const StyledEditingContainer = styled.div`
-
-
+`
+const SecureInfoWrapper = styled.div`
+   display:flex;
+   flex-direction:column;
+   width:100%;
+   height:auto;
+`
+const InfoWrapper = styled.div`
+   display:flex;
+   flex-direction:column;
+   width:100%;
+   height:auto;
 `
 
-// Make the element draggable.
-const EventModal = ({ createToast, setEditModalToggle, setModalToggle, modalInfo, setModalInfo, userinfo, deleteEntry }) => {
-   let adminControls = false;
-   // If current user is creater of event, allow edit/delete controls.
-   if(modalInfo.userid === userinfo.id){
-      adminControls = true
+const EventModal = ({ secureInfo, handleDeleteEvent, setModalToggle, modalInfo, auth }) => {
+   const handleDelete = () => {
+      handleDeleteEvent(secureInfo.id)
+   }
+   
+   // Open the edit modal.
+   const handleEdit = () => {
+      setModalToggle('edit');
    }
 
-   const handleDelete = () => {
-      deleteEntry(modalInfo.id)
-   }
-   const handleEdit = () => {
-      setModalToggle(false);
-      setEditModalToggle(true);
-   }
 
    // If logged in, display event info
-   if(userinfo.id){
-      return(
-         <Wrapper>
-            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+   return(
+      <Wrapper>
+         <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+         PUBLIC INFO
+         <InfoWrapper>
             <h1>Name:{modalInfo.title}</h1>
-            <p>Description:{modalInfo.description}</p>
-            <span>ID:{modalInfo.id}</span>
-            <span>Day:{modalInfo.day}</span>
-            <span>Month:{modalInfo.month}</span>
-            <span>Year:{modalInfo.year}</span>
-            <span>Type:{modalInfo.type}</span>
-            <span>Image:{modalInfo.image}</span>
-            <span>UserID:{modalInfo.userid}</span>
-            <span>Start Time:{modalInfo.starttime}</span>
-            <span>End Time:{modalInfo.endtime}</span>
-   
-   
-            {(adminControls)
-               ? <StyledEditingContainer>
-                     <button onClick={handleDelete} type="button" value="delete">Delete Event.</button>
-                     <button onClick={handleEdit} type="button" value="edit">Edit Event.</button>
-                 </StyledEditingContainer>
-               : <React.Fragment/>
-            }
-         </Wrapper>
-      )
-   }
-   // Else, display only name.
-   else {
-      createToast('Please login view full event info.')
-      return(
-         <Wrapper>
-            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
-            <h1>Name:{modalInfo.title}</h1>
-         </Wrapper>
-      )
-   }
+            <span>Description:{modalInfo.description}</span>
+         </InfoWrapper>
 
-   
+
+         {(secureInfo)
+            ? <SecureInfoWrapper>
+               SECURE INFO
+               <span>ID:{secureInfo.id}</span>
+               <span>Day:{secureInfo.day}</span>
+               <span>Month:{secureInfo.month}</span>
+               <span>Year:{secureInfo.year}</span>
+               <span>Type:{secureInfo.type}</span>
+               <span>Image:{secureInfo.image}</span>
+               <span>Start Time:{secureInfo.starttime}</span>
+               <span>End Time:{secureInfo.endtime}</span>
+            </SecureInfoWrapper>
+            : <React.Fragment/>
+         }
+
+         {/* If user created event, show admin contols. */}
+         {(modalInfo.userid === auth.user.id)
+            ? <StyledEditingContainer>
+                  <button onClick={handleDelete} type="button" value="delete">Delete Event.</button>
+                  <button onClick={handleEdit} type="button" value="edit">Edit Event.</button>
+               </StyledEditingContainer>
+            : <React.Fragment/>
+         }
+      </Wrapper>
+   ) 
 }
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, entries:state.entries.entries.data });
-
-export default connect(mapStateToProps, {deleteEntry})(EventModal);
+const mapStateToProps = (state) => ({ secureInfo:state.secureEntry.secureInfo, auth:state.authenticate });
+export default connect(mapStateToProps)(EventModal);

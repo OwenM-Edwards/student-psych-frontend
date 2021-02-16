@@ -1,27 +1,23 @@
-import { ADD_ENTRY, ADD_ENTRY_ERROR } from "../actions/action-types";
+import { REQUEST_ADD_ENTRY, RECEIVE_ADD_ENTRY } from "../actions/action-types";
 
 const initialState = {
    isFetching: false,
-   error:false,
-   success:false,
 };
 
-function addEntryReducer(state = initialState, action) {
-   if ( action.type === ADD_ENTRY ) {
-      return {
-         ...state,
-         isFetching: action.payload.isFetching,
-         success: action.payload.succes,
-      }
+function addEntry(state = initialState, action) {
+   switch(action.type){
+      case REQUEST_ADD_ENTRY:
+         return {
+            isFetching:true,
+         }
+      case RECEIVE_ADD_ENTRY:
+         return {
+            isFetching:false,
+         }
+      default:
+         return state;
    }
-   if ( action.type === ADD_ENTRY_ERROR ) {
-      return {
-         ...state,
-         isFetching: action.payload.isFetching,
-         error: action.payload.error,
-      }
-   }
-   return state;
+
 };
 
-export default addEntryReducer;
+export default addEntry;

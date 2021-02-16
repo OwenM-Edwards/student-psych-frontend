@@ -1,108 +1,109 @@
 import { 
+   REQUEST_GET_ENTRIES,
+   RECEIVE_GET_ENTRIES,
    SIGN_OUT,
-   DELETE_ENTRY,
-   DELETE_ENTRY_ERROR,
-   ADD_ENTRY_ERROR, 
-   REGISTER_USER_ERROR, 
-   SIGN_IN_ERROR, SIGN_IN, 
-   REGISTER_USER, 
-   ADD_ENTRY, 
-   GET_ENTRIES,
+   REQUEST_DELETE_ENTRY,
+   RECEIVE_DELETE_ENTRY,
+   RECEIVE_ADD_ENTRY, 
+   REQUEST_ADD_ENTRY,
+   REQUEST_REGISTER_USER,
+   RECEIVE_REGISTER_USER,
+   REQUEST_SIGN_IN,
+   RECEIVE_SIGN_IN,
    SELECT_DATE,
-   EDIT_ENTRY,
-   EDIT_ENTRY_ERROR,
+   RECEIVE_EDIT_ENTRY,
+   REQUEST_EDIT_ENTRY,
+   REQUEST_CLEAR_ENTRIES,
+   REQUEST_SECURE_ENTRY,
+   RECEIVE_SECURE_ENTRY,
 } from './action-types';
 
-import axios from 'axios';
+import { authenticate, register } from '../../util/index';
 
-// Get events for selected month/year
-export const getEntries = (month, year) =>  async (dispatch) => {
+import axios from 'axios';
+import { toast } from "react-toastify";
+
+
+
+export const getSecureEventInfo = ({eventInfo, userid}) => async (dispatch) => {
+   const { day, month, year } = eventInfo;
+   console.log(eventInfo)
    dispatch({
-      type: GET_ENTRIES,
-      payload: {
-         isFetching: true,
-      },
+      type: REQUEST_SECURE_ENTRY,
    })
-   const getEntry = await axios.get('http://localhost:3000/getentries', { params: {
+   const getSecureEntry = await axios.get('http://localhost:3000/entry/getsecureentry', { params: {
+      day: day,
       month : month,
-      year : year
+      year : year,
+      userid: userid,
    }})
-   .then(data=> {
+   .then(res => {
       dispatch({
-         type: GET_ENTRIES,
-         payload: {
-            isFetching: false,
-            entries: data.data,
-         },
+         type: RECEIVE_SECURE_ENTRY,
+         payload:  res.data,
       })
    })
    .catch(err => {
       dispatch({
-         type: GET_ENTRIES,
-         payload:{
-            isFetching: false,
-            error:true,
-         },
+         type: RECEIVE_SECURE_ENTRY,
       })
    })
 }
 
-// Add new event to calender.
-export const addEntry = ({
-      title,
-      description,
-      day,
-      month,
-      year,
-      image,
-      type,
-      userid,
-      startTime,
-      endTime,
-   }) =>  async (dispatch) => {
+
+// Get events for selected month/year
+export const getEntries = (month, year) =>  async (dispatch) => {
    dispatch({
-      type: ADD_ENTRY,
-      payload: {
-         isFetching: true,
-      },
+      type: REQUEST_GET_ENTRIES,
    })
-   const addEntry = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/addentry',
-      headers: {},
-      data: {
-         "title": title,
-         "description": description,
-         "day": day,
-         "month": month,
-         "year": year,
-         "image": image,
-         "type": type,
-         "userid": userid,
-         "starttime": startTime,
-         "endtime": endTime,
-      }
-   })
-   .then(res=> {
-      if(res.status === 201){
+   const getEntry = await axios.get('http://localhost:3000/entry/getentries', { params: {
+      month : month,
+      year : year
+   }})
+   .then(res => {
+      if(res.data === 'no entries'){
          dispatch({
-            type: ADD_ENTRY,
-            payload: {
-               isFetching: false,
-               success: true,
-            },
+            type: RECEIVE_GET_ENTRIES,
+         })
+      }
+      else {
+         dispatch({
+            type: RECEIVE_GET_ENTRIES,
+            payload: res.data,
          })
       }
 
    })
-   .catch(err => {
+   .catch(err=> {
       dispatch({
-         type: ADD_ENTRY_ERROR,
-         payload:{
-            isFetching: false,
-            error:true,
-         },
+         type: RECEIVE_GET_ENTRIES,
       })
+   })
+}
+
+export const clearEntries = () => (dispatch) => {
+   dispatch({
+      type: REQUEST_CLEAR_ENTRIES,
+   })
+}
+
+// Add new event to calender.
+export const addEntry = (eventInfo) =>  async (dispatch) => {
+   dispatch({
+      type: REQUEST_ADD_ENTRY
+   })
+   const addEntry = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/entry/addentry',
+      headers: {},
+      data: eventInfo
+   })
+   .catch(err => {
+      toast.dismiss();
+      toast.error(err.response.data);
+   })
+   dispatch({
+      type: RECEIVE_ADD_ENTRY
    })
 }
 
@@ -110,97 +111,40 @@ export const addEntry = ({
 // Delete event.
 export const deleteEntry = (entryid) =>  async (dispatch) => {
    dispatch({
-      type: DELETE_ENTRY,
-      payload: {
-         isFetching: true,
-      },
+      type: REQUEST_DELETE_ENTRY,
    })
-   const deleteEntry = await axios.delete('http://localhost:3000/deleteentry', { params: {
+   const deleteEntry = await axios.delete('http://localhost:3000/entry/deleteentry', { params: {
       entryid : entryid
    }})
-   .then(res=> {
-      if(res.status === 200){
-         dispatch({
-            type: DELETE_ENTRY,
-            payload: {
-               isFetching: false,
-               success: true,
-            },
-         })
-      }
-
-   })
    .catch(err => {
-      dispatch({
-         type: DELETE_ENTRY_ERROR,
-         payload:{
-            isFetching: false,
-            error:true,
-         },
-      })
+      toast.dismiss();
+      toast.error(err.response.data);
    })
+   dispatch({
+      type: RECEIVE_DELETE_ENTRY,
+   })
+   window.location = "/calender"
 }
 
 // Edit event.
-export const editEntry = ({
-      title,
-      description,
-      day,
-      month,
-      year,
-      image,
-      type,
-      userid,
-      startTime,
-      endTime,
-      entryid,
-   }) =>  async (dispatch) => {
+export const editEntry = (info) =>  async (dispatch) => {
    dispatch({
-      type: EDIT_ENTRY,
-      payload: {
-         isFetching: true,
-      },
+      type: REQUEST_EDIT_ENTRY,
    })
    const editEntry = await axios({
       method: 'put',
-      url: 'http://localhost:3000/editentry',
+      url: 'http://localhost:3000/entry/editentry',
       headers: {},
-      data: {
-         "entryid": entryid,
-         "title": title,
-         "description": description,
-         "day": day,
-         "month": month,
-         "year": year,
-         "image": image,
-         "type": type,
-         "userid": userid,
-         "starttime": startTime,
-         "endtime": endTime,
-
-      }
+      data: info
    })
-   .then(res=> {
-      if(res.status === 200){
-         dispatch({
-            type: EDIT_ENTRY,
-            payload: {
-               isFetching: false,
-               success: true,
-            },
-         })
-      }
-
+   if(!editEntry.data){
+      toast.dismiss();
+      toast.error('error');
+   }
+   dispatch({
+      type: RECEIVE_EDIT_ENTRY,
    })
-   .catch(err => {
-      dispatch({
-         type: EDIT_ENTRY_ERROR,
-         payload:{
-            isFetching: false,
-            error:true,
-         },
-      })
-   })
+   window.location = "/calender"
 }
 
 
@@ -209,99 +153,32 @@ export const signOut = () => async (dispatch) => {
    dispatch({
       type: SIGN_OUT
    })
+   window.location = "/calender"
 }
 
-export const signIn = ({ userEmail, userPassword }) => async (dispatch) => {
+export const signIn = (info) => async (dispatch) => {
    dispatch({
-      type: SIGN_IN,
-      payload:{
-         isFetching: true,
-      },
+      type: REQUEST_SIGN_IN
    })
-   const signIn = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/signin',
-      headers: {},
-      data: {
-         "useremail": userEmail,
-         "password": userPassword,
-      }
+   const userRequest = await authenticate(info.userEmail, info.userPassword);
+   if(userRequest){
+      localStorage.setItem("user", JSON.stringify(userRequest))
+   }
+   dispatch({
+      type: RECEIVE_SIGN_IN,
+      payload:userRequest
    })
-   .then(res => {
-      if(res.status === 200){
-         localStorage.setItem("user", JSON.stringify(res.data[0]))
-         dispatch({
-            type: SIGN_IN,
-            payload:{
-               email:JSON.parse(localStorage.getItem("user")).email,
-               id:JSON.parse(localStorage.getItem("user")).id,
-            }
-         })
-      }
-   })
-   .catch(error => {
-      dispatch({
-         type: SIGN_IN_ERROR,
-         payload:{
-            error:error.response.data,
-         },
-      })
-   });
 }
 
 
-export const registerUser = ({userEmail, userPassword}) => async (dispatch) => {
+export const registerUser = (info) => async (dispatch) => {
    dispatch({
-      type: REGISTER_USER,
-      payload:{
-         isFetching: true,
-      },
+      type: REQUEST_REGISTER_USER,
    })
-   const authenticated = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/register',
-      headers: {},
-      data: {
-         "password": userPassword,
-         "useremail": userEmail,
-      }
+   const registerRequest = await register(info.userEmail, info.userPassword)
+   dispatch({
+      type: RECEIVE_REGISTER_USER,
    })
-   .then(res => {
-      if(res.status === 200){
-         dispatch({
-            type: REGISTER_USER,
-            payload:{
-               isFetching: false,
-               error:false,
-            },
-         })
-         dispatch({
-            type: SIGN_IN,
-            payload:{
-               authenticated: true,
-            },
-         })
-      }
-      else {
-         console.log('this one master')
-         dispatch({
-            type: REGISTER_USER,
-            payload:{
-               isFetching: false,
-               error:true,
-            },
-         })
-      }
-   })
-   .catch(error => {
-      dispatch({
-         type: REGISTER_USER_ERROR,
-         payload:{
-            error:error.response.data,
-            isFetching: false,
-         },
-      })
-   });
 }
 
 export const getInitialDate = () => async (dispatch) => {
@@ -323,16 +200,11 @@ export const getInitialDate = () => async (dispatch) => {
    })
 }
 
-export const selectDate = ({day, month, year, totalDaysInMonth}) => async (dispatch) => {
+export const selectDate = (info) => async (dispatch) => {
    dispatch({
       type: SELECT_DATE,
       payload:{
-         selectedDate: {
-            day:day,
-            month:month,
-            year:year,
-            totalDaysInMonth:totalDaysInMonth,
-         },
+         selectedDate: info
       }
    })
 }
