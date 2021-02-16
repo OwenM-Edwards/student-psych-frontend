@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import {EventTag} from './index';
@@ -16,19 +16,13 @@ const Wrapper = styled.div`
 
 
 const CalenderSquare = ({ 
-      setModalToggle,
-      setaddModalToggle,
-      setModalInfo, 
       entries, 
       calSquareDay,
       selectedDate,
-      userinfo,
-      createToast,
+      handleCreateEvent,
+      handleViewEvent,
    }) => {
-   const [isFetching, setIsFetching] = useState(false);
-   const [tagInfo, setTagInfo] = useState(false);
-   let dayHeader = "";
-   let eventInfo = false;
+
    let calenderSquareProps = {
       backgroundColor:'',
       opacity:1,
@@ -38,34 +32,6 @@ const CalenderSquare = ({
    let currentDate = new Date();
    let eventTag = [];
 
-   const handleTagClick = (eventInfo) => {
-      if(eventInfo){
-         setModalInfo({
-            eventInfo,
-         }) 
-      }
-      else {
-         console.log('test')
-      }
-      setaddModalToggle(false);
-      setModalToggle(true);
-
-   }
-   const handleBoxClick = (e) => {
-      e.stopPropagation();
-      if(userinfo.id){
-         setModalInfo({
-            eventInfo:{
-               day:calSquareDay,
-               month:selectedDate.month,
-               year:selectedDate.year,
-            }
-         })  
-         setModalToggle(false);
-         setaddModalToggle(true);
-      }
-   }
-   
    // Gets current entries in state, finds ones that match current date of calender square.
    const sortEntries = () => {
       let count = 1;
@@ -73,7 +39,7 @@ const CalenderSquare = ({
          entries.forEach(entry => {
             if(entry.day === calSquareDay){
                eventTag.push(
-                  <EventTag key={count} handleTagClick={handleTagClick} eventInfo={entry}/>
+                  <EventTag key={count} handleViewEvent={handleViewEvent} eventInfo={entry}/>
                )
                count++;
             }
@@ -102,20 +68,13 @@ const CalenderSquare = ({
 
 
    return(
-      <Wrapper onClick={handleBoxClick} style={{backgroundColor: calenderSquareProps.backgroundColor, opacity:calenderSquareProps.opacity}}>
-
+      <Wrapper id={calSquareDay} onClick={handleCreateEvent} style={{backgroundColor: calenderSquareProps.backgroundColor, opacity:calenderSquareProps.opacity}}>
          {calSquareDay}
-
          {eventTag}
-  
       </Wrapper>
    )
-
-
-
-   
 }
 
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, selectedDate:state.selectedDate.selectedDate, entries:state.entries.entries });
+const mapStateToProps = (state) => ({ selectedDate:state.selectedDate.selectedDate, entries:state.entries.entries });
 export default connect(mapStateToProps)(CalenderSquare);
