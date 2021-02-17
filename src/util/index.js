@@ -1,44 +1,154 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
+const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
+console.log(token.id)
+const api = axios.create({
+   baseURL: 'http://localhost:3000/',
+   headers: {
+     token: `${token.id}`,
+   },
+}); 
 
-export const authenticate = async ( userEmail, userPassword ) => {
-   const user = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/auth/signin',
-      headers: {},
-      data: {
-         "useremail": userEmail,
-         "password": userPassword,
-      }
-   })
-   if(!user.data){
-      toast.dismiss();
-      toast.error('error');
-      return false;
+// Get events for given month & year.
+export const getEntriesAPI = async (month, year) => {
+   try {
+      const getEntry = await api.get('entry/getentries', { params: {
+         month : month,
+         year : year
+      }})
+      return getEntry.data;
    }
-   else {
-      return user.data;
+   catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
    }
 }
 
-
-export const register = async ( userEmail, userPassword ) => {
-   const register = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/auth/register',
-      headers: {},
-      data: {
-         "userpassword": userPassword,
-         "useremail": userEmail,
-      }
-   })
-   if(!register){
+// Add event.
+export const addEntryAPI = async (eventInfo) => {
+   console.log(eventInfo)
+   try {
+      const addEntry = await api.post('entry/addentry', { data: {
+         eventInfo
+      }})
+      console.log(token.id)
+      return true;
+      
+   }
+   catch (err) {
       toast.dismiss();
-      toast.error('Error');
+      toast.error(err.response.data);
       return false;
    }
-   else {
+}
+
+// Delete event.
+export const deleteEntryAPI = async (entryid) => {
+   console.log(entryid)
+   try {
+      const deleteEntry = await api.delete('entry/deleteentry', { params: {
+         entryid : entryid
+      }})
       return true;
+   }
+   catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
+// Edit event.
+export const editEntryAPI = async (eventInfo) => {
+   try {
+      const editEntry = await api.put('entry/editentry', { data: {
+         eventInfo
+      }})
+      return true;
+   }
+   catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
+// Get secured event info if logged in.
+export const secureEventInfoAPI = async ( day, month, year, userid ) => {
+   try {
+      const getSecureEntry = await api.get('entry/getsecureentry', { params: {
+         day: day,
+         month : month,
+         year : year,
+         userid: userid,
+      }})
+      return getSecureEntry.data;
+   }
+   catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
+// Verify register email.
+export const verifyAPI = async ( token ) => {
+   try {
+      const validate = await axios({
+         method: 'post',
+         url: 'http://localhost:3000/auth/validate',
+         headers: {},
+         data: {
+            "token": token,
+         }
+      })
+      return true;
+   } catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
+// Sign user in.
+export const authenticateAPI = async ( userEmail, userPassword ) => {
+   try {
+      const user = await axios({
+         method: 'post',
+         url: 'http://localhost:3000/auth/signin',
+         headers: {},
+         data: {
+            "useremail": userEmail,
+            "password": userPassword,
+         }
+      })
+      localStorage.setItem("user", JSON.stringify(user.data))
+      return user.data;
+   } catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
+// Register new user.
+export const registerAPI = async ( userEmail, userPassword ) => {
+   try {
+      const register = await axios({
+         method: 'post',
+         url: 'http://localhost:3000/auth/register',
+         headers: {},
+         data: {
+            "userpassword": userPassword,
+            "useremail": userEmail,
+         }
+      })
+      return register;
+   } catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
    }
 }
 
