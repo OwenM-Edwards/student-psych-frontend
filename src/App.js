@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import styled from "styled-components";
-import { Calender, SignIn, Register } from './pages/index';
+import { Calender, SignIn, Register, Verify } from './pages/index';
 import { Header,LoadingIcon } from './components/index';
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
@@ -75,6 +75,10 @@ const App = ({addEntryState, getInitialDate, getEntries, auth, entries, selected
           }
         </Route>
 
+        <Route path="/verify">
+          <Verify/>
+        </Route>
+
         <Route path="/calender">
           {(entries.isFetching)
             ? <LoadingIcon/>
@@ -87,7 +91,6 @@ const App = ({addEntryState, getInitialDate, getEntries, auth, entries, selected
         <Route path="/">
           <Redirect to="/calender"/>
         </Route>
-
       </Wrapper>
     </Router>
   );
