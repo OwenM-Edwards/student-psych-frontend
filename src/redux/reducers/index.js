@@ -7,6 +7,7 @@ import selectedDate from './selectedDate';
 import deleteEntry from './deleteEntry';
 import editEntry from './editEntry';
 import secureEntry from './secureEntry';
+import token from './token';
 
 export default combineReducers({
    entries,
@@ -17,4 +18,5 @@ export default combineReducers({
    deleteEntry,
    editEntry,
    secureEntry,
+   token,
 });
