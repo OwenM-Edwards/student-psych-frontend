@@ -38,14 +38,14 @@ const InfoWrapper = styled.div`
 
 const EventModal = ({ secureInfo, handleDeleteEvent, setModalToggle, modalInfo, auth }) => {
    const handleDelete = () => {
-      handleDeleteEvent(secureInfo.id)
+      handleDeleteEvent(secureInfo.eventinfo.id)
    }
    
    // Open the edit modal.
    const handleEdit = () => {
       setModalToggle('edit');
    }
-
+   console.log(secureInfo)
 
    // If logged in, display event info
    return(
@@ -61,20 +61,20 @@ const EventModal = ({ secureInfo, handleDeleteEvent, setModalToggle, modalInfo, 
          {(secureInfo)
             ? <SecureInfoWrapper>
                SECURE INFO
-               <span>ID:{secureInfo.id}</span>
-               <span>Day:{secureInfo.day}</span>
-               <span>Month:{secureInfo.month}</span>
-               <span>Year:{secureInfo.year}</span>
-               <span>Type:{secureInfo.type}</span>
-               <span>Image:{secureInfo.image}</span>
-               <span>Start Time:{secureInfo.starttime}</span>
-               <span>End Time:{secureInfo.endtime}</span>
+               <span>ID:{secureInfo.eventinfo.id}</span>
+               <span>Day:{secureInfo.eventinfo.day}</span>
+               <span>Month:{secureInfo.eventinfo.month}</span>
+               <span>Year:{secureInfo.eventinfo.year}</span>
+               <span>Type:{secureInfo.eventinfo.type}</span>
+               <span>Image:{secureInfo.eventinfo.image}</span>
+               <span>Start Time:{secureInfo.eventinfo.starttime}</span>
+               <span>End Time:{secureInfo.eventinfo.endtime}</span>
             </SecureInfoWrapper>
             : <React.Fragment/>
          }
 
          {/* If user created event, show admin contols. */}
-         {(modalInfo.userid === auth.user.id)
+         {(secureInfo && secureInfo.owner)
             ? <StyledEditingContainer>
                   <button onClick={handleDelete} type="button" value="delete">Delete Event.</button>
                   <button onClick={handleEdit} type="button" value="edit">Edit Event.</button>
