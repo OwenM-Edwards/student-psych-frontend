@@ -16,37 +16,48 @@ import {
    REQUEST_CLEAR_ENTRIES,
    REQUEST_SECURE_ENTRY,
    RECEIVE_SECURE_ENTRY,
+   REQUEST_VERIFY_TOKEN,
+   RECEIVE_VERIFY_TOKEN,
 } from './action-types';
 
-import { authenticate, register } from '../../util/index';
+import { 
+   authenticateAPI, 
+   registerAPI,
+   verifyAPI, 
+   secureEventInfoAPI,
+   getEntriesAPI,
+   addEntryAPI,
+   deleteEntryAPI,
+   editEntryAPI,
+} from '../../util/index';
 
 import axios from 'axios';
 import { toast } from "react-toastify";
 
+// Verify register email.
+export const verifyToken = (token) => async (dispatch) => {
+   dispatch({
+      type: REQUEST_VERIFY_TOKEN,
+   })
+   const APIData = await verifyAPI(token)
+   dispatch({
+      type: RECEIVE_VERIFY_TOKEN,
+      payload:{
+         success:APIData,
+      }
+   })
+}
 
-
+// Get full event info if user is logged in.
 export const getSecureEventInfo = ({eventInfo, userid}) => async (dispatch) => {
    const { day, month, year } = eventInfo;
-   console.log(eventInfo)
    dispatch({
       type: REQUEST_SECURE_ENTRY,
    })
-   const getSecureEntry = await axios.get('http://localhost:3000/entry/getsecureentry', { params: {
-      day: day,
-      month : month,
-      year : year,
-      userid: userid,
-   }})
-   .then(res => {
-      dispatch({
-         type: RECEIVE_SECURE_ENTRY,
-         payload:  res.data,
-      })
-   })
-   .catch(err => {
-      dispatch({
-         type: RECEIVE_SECURE_ENTRY,
-      })
+   const APIData = await secureEventInfoAPI(day, month, year, userid);
+   dispatch({
+      type: RECEIVE_SECURE_ENTRY,
+      payload:  APIData,
    })
 }
 
@@ -56,31 +67,14 @@ export const getEntries = (month, year) =>  async (dispatch) => {
    dispatch({
       type: REQUEST_GET_ENTRIES,
    })
-   const getEntry = await axios.get('http://localhost:3000/entry/getentries', { params: {
-      month : month,
-      year : year
-   }})
-   .then(res => {
-      if(res.data === 'no entries'){
-         dispatch({
-            type: RECEIVE_GET_ENTRIES,
-         })
-      }
-      else {
-         dispatch({
-            type: RECEIVE_GET_ENTRIES,
-            payload: res.data,
-         })
-      }
-
-   })
-   .catch(err=> {
-      dispatch({
-         type: RECEIVE_GET_ENTRIES,
-      })
+   const APIData = await getEntriesAPI(month, year);
+   dispatch({
+      type: RECEIVE_GET_ENTRIES,
+      payload: APIData,
    })
 }
 
+// Clear current events from state.
 export const clearEntries = () => (dispatch) => {
    dispatch({
       type: REQUEST_CLEAR_ENTRIES,
@@ -92,16 +86,7 @@ export const addEntry = (eventInfo) =>  async (dispatch) => {
    dispatch({
       type: REQUEST_ADD_ENTRY
    })
-   const addEntry = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/entry/addentry',
-      headers: {},
-      data: eventInfo
-   })
-   .catch(err => {
-      toast.dismiss();
-      toast.error(err.response.data);
-   })
+   const APIData = await addEntryAPI(eventInfo);
    dispatch({
       type: RECEIVE_ADD_ENTRY
    })
@@ -113,13 +98,7 @@ export const deleteEntry = (entryid) =>  async (dispatch) => {
    dispatch({
       type: REQUEST_DELETE_ENTRY,
    })
-   const deleteEntry = await axios.delete('http://localhost:3000/entry/deleteentry', { params: {
-      entryid : entryid
-   }})
-   .catch(err => {
-      toast.dismiss();
-      toast.error(err.response.data);
-   })
+   const APIData = await deleteEntryAPI(entryid);
    dispatch({
       type: RECEIVE_DELETE_ENTRY,
    })
@@ -131,23 +110,14 @@ export const editEntry = (info) =>  async (dispatch) => {
    dispatch({
       type: REQUEST_EDIT_ENTRY,
    })
-   const editEntry = await axios({
-      method: 'put',
-      url: 'http://localhost:3000/entry/editentry',
-      headers: {},
-      data: info
-   })
-   if(!editEntry.data){
-      toast.dismiss();
-      toast.error('error');
-   }
+   const APIData = await editEntryAPI(info);
    dispatch({
       type: RECEIVE_EDIT_ENTRY,
    })
    window.location = "/calender"
 }
 
-
+// Sign user out.
 export const signOut = () => async (dispatch) => {
    localStorage.removeItem("user");
    dispatch({
@@ -156,50 +126,47 @@ export const signOut = () => async (dispatch) => {
    window.location = "/calender"
 }
 
+// Sign user in.
 export const signIn = (info) => async (dispatch) => {
    dispatch({
       type: REQUEST_SIGN_IN
    })
-   const userRequest = await authenticate(info.userEmail, info.userPassword);
-   if(userRequest){
-      localStorage.setItem("user", JSON.stringify(userRequest))
-   }
+   const APIData = await authenticateAPI(info.userEmail, info.userPassword);
    dispatch({
       type: RECEIVE_SIGN_IN,
-      payload:userRequest
+      payload:APIData,
    })
 }
 
-
+// Register new user.
 export const registerUser = (info) => async (dispatch) => {
    dispatch({
       type: REQUEST_REGISTER_USER,
    })
-   const registerRequest = await register(info.userEmail, info.userPassword)
+   const APIData = await registerAPI(info.userEmail, info.userPassword)
    dispatch({
       type: RECEIVE_REGISTER_USER,
    })
 }
 
+// Get current date on page load.
 export const getInitialDate = () => async (dispatch) => {
    let date = new Date();
-   let day = date.getDate();
-   let month = date.getMonth() + 1;
-   let year = date.getFullYear();
-   let totalDaysInMonth = new Date(year, month, 0).getDate();
+   let totalDaysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
    dispatch({
       type: SELECT_DATE,
       payload:{
          selectedDate: {
-            day:day,
-            month:month,
-            year:year,
+            day:date.getDate(),
+            month:date.getMonth() + 1,
+            year:date.getFullYear(),
             totalDaysInMonth:totalDaysInMonth,
          },
       }
    })
 }
 
+// Change date to user selected date.
 export const selectDate = (info) => async (dispatch) => {
    dispatch({
       type: SELECT_DATE,
