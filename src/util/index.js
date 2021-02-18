@@ -1,13 +1,34 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
-console.log(token.id)
 const api = axios.create({
    baseURL: 'http://localhost:3000/',
    headers: {
      token: `${token.id}`,
    },
 }); 
+
+
+// Search events.
+export const searchEntriesAPI = async (searchfield, searchterm) => {
+   try {
+      const searchEntries = await api.get('entry/search', { params: {
+         searchfield : searchfield,
+         searchterm : searchterm
+      }})
+      if(searchEntries.data){
+         return searchEntries.data;
+      }
+      else {
+         return false;
+      }
+
+   } catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
 
 // Get events for given month & year.
 export const getEntriesAPI = async (month, year) => {
@@ -27,12 +48,10 @@ export const getEntriesAPI = async (month, year) => {
 
 // Add event.
 export const addEntryAPI = async (eventInfo) => {
-   console.log(eventInfo)
    try {
       const addEntry = await api.post('entry/addentry', { data: {
          eventInfo
       }})
-      console.log(token.id)
       return true;
       
    }
@@ -45,7 +64,6 @@ export const addEntryAPI = async (eventInfo) => {
 
 // Delete event.
 export const deleteEntryAPI = async (entryid) => {
-   console.log(entryid)
    try {
       const deleteEntry = await api.delete('entry/deleteentry', { params: {
          entryid : entryid
@@ -69,7 +87,7 @@ export const editEntryAPI = async (eventInfo) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error('test');
       return false;
    }
 }
