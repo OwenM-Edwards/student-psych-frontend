@@ -16,9 +16,7 @@ const Wrapper = styled.div`
 
 const Verify = ({verifyToken, tokenState}) => {
    const location = window.location.href;
-   console.log(location.href);
    const token = location.substring(location.lastIndexOf('/') + 1);
-   console.log(token)
 
    useEffect(()=>{
       if(tokenState.success){
