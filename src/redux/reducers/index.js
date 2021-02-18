@@ -8,6 +8,8 @@ import deleteEntry from './deleteEntry';
 import editEntry from './editEntry';
 import secureEntry from './secureEntry';
 import token from './token';
+import searchEntries from './searchEntries';
+import modal from './modal';
 
 export default combineReducers({
    entries,
@@ -19,4 +21,6 @@ export default combineReducers({
    editEntry,
    secureEntry,
    token,
+   searchEntries,
+   modal,
 });
