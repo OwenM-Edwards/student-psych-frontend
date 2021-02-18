@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { EditEventModal, CalenderSquare, Sidebar, EventModal, AddEventModal } from '../components/index';
-import { getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry } from '../redux/actions/index';
+import { modalHandler, getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 
@@ -10,20 +10,19 @@ const Calender = ({
       editEntryState, 
       deleteEntryState, 
       selectedDate, 
-      editEntry, 
-      deleteEntry,
       getSecureEventInfo,
+      modalHandler,
+      modalState, 
    }) => {
    const [ boxes, setBoxes ] = useState([]);
    const [ headers, setHeaders ] = useState([]);
-   const [ modalInfo, setModalInfo ] = useState(false);
-   const [ modalToggle, setModalToggle ] = useState(false);
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+   
    useEffect(() => {
       genDayHeaders();
       genBoxes();
-      setModalToggle(false);
-   }, [auth, editEntryState.isFetching, selectedDate.month, deleteEntryState.isFetching]);
+   }, [auth, selectedDate.month]);
    
 
    const genDayHeaders = () => {
@@ -38,26 +37,20 @@ const Calender = ({
       }
       setHeaders(tempHeaders);
    }
-   const handleCreateEvent = (e) => {
+
+   
+   // Add Event.
+   const openAddEventModal = (e) => {
       if(auth.user.id){
-         setModalInfo({
-            eventInfo:{
-               day:e.target.id,
-               month:selectedDate.month,
-               year:selectedDate.year,
-            }
-         })  
-         setModalToggle('add');
+         modalHandler({modalDisplay:'add', modalInfo:{ day:e.target.id, month:selectedDate.month, year:selectedDate.year }});
       }
       else {
          toast.dismiss();
          toast.error('Only approved users can create new events.');
       }
    }
-   const handleEditEvent = (eventInfo) => {
-      editEntry(eventInfo);
-   }
-   const handleViewEvent = (eventInfo) => {
+   // View Event
+   const openViewEventModal = (eventInfo) => {
       if(auth.user.id){
          getSecureEventInfo({
             eventInfo:eventInfo,
@@ -68,13 +61,7 @@ const Calender = ({
          toast.dismiss();
          toast.info('Please login to view full event.');
       }
-      setModalInfo({
-         eventInfo,
-      }) 
-      setModalToggle('event');
-   }
-   const handleDeleteEvent = (eventInfo) => {
-      deleteEntry(eventInfo);
+      modalHandler({modalDisplay:'view', modalInfo: eventInfo});
    }
 
    const genBoxes = () => {
@@ -104,11 +91,9 @@ const Calender = ({
             <CalenderSquareContainer key={i} >
                <CalenderSquare 
                   type={'main'}
-                  setModalToggle={setModalToggle} 
-                  setModalInfo={setModalInfo} 
                   calSquareDay={i}
-                  handleCreateEvent={handleCreateEvent} 
-                  handleViewEvent={handleViewEvent} 
+                  openAddEventModal={openAddEventModal} 
+                  openViewEventModal={openViewEventModal} 
                />
             </CalenderSquareContainer >
          )
@@ -119,16 +104,16 @@ const Calender = ({
    return (
          <Wrapper> 
             
-            {(modalToggle === 'event')
-               ? <EventModal handleDeleteEvent={handleDeleteEvent} setModalToggle={setModalToggle} setModalInfo={setModalInfo} modalInfo={modalInfo.eventInfo}/>
+            {(modalState.modalDisplay === 'view')
+               ? <EventModal />
                : <React.Fragment/>
             }  
-            {(modalToggle === 'add')
-               ? <AddEventModal setModalToggle={setModalToggle} setModalInfo={setModalInfo} modalInfo={modalInfo.eventInfo}/>
+            {(modalState.modalDisplay === 'add')
+               ? <AddEventModal />
                : <React.Fragment/>
             }  
-            {(modalToggle === 'edit')
-               ? <EditEventModal handleEditEvent={handleEditEvent} setModalToggle={setModalToggle} setModalInfo={setModalInfo} modalInfo={modalInfo.eventInfo}/>
+            {(modalState.modalDisplay === 'edit')
+               ? <EditEventModal />
                : <React.Fragment/>
             } 
 
@@ -203,5 +188,5 @@ const StyledSidebar = styled.div`
    background-color:#2b2b2b;
 `
 
-const mapStateToProps = (state) => ({ auth:state.authenticate, editEntryState:state.editEntry, deleteEntryState:state.deleteEntry, selectedDate:state.selectedDate.selectedDate});
-export default connect(mapStateToProps, { getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry })(Calender);
+const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, editEntryState:state.editEntry, deleteEntryState:state.deleteEntry, selectedDate:state.selectedDate.selectedDate});
+export default connect(mapStateToProps, { modalHandler, getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry })(Calender);

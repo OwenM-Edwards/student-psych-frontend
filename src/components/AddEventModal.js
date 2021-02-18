@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { LoadingIcon } from './index';
 import 'react-toastify/dist/ReactToastify.css';
-import { addEntry } from '../redux/actions/index';
+import { addEntry,modalHandler } from '../redux/actions/index';
 const Wrapper = styled.div`
    position:absolute;
    width:400px;
@@ -23,7 +23,8 @@ const StyledCloseButton = styled.div`
 `
 // Make the element draggable.
 
-const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, modalInfo }) => {
+const AddEventModal = ({ userinfo, addEntry, addEntryState, modalState, modalHandler }) => {
+   const modalInfo = modalState.modalInfo;
    const [ inputTitle, setInputTitle ] = useState('');
    const [ inputStartTime, setInputStartTime ] = useState('');
    const [ inputEndTime, setInputEndTime ] = useState('');
@@ -37,8 +38,6 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, moda
       { value: 'type 2', label: 'Event Type Two'},
       { value: 'type 3', label: 'Event Type Three'},
    ];
-   console.log(userinfo)
-
    const handleTitle = (e) => {
       setInputTitle(e.target.value);
    }
@@ -81,6 +80,7 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, moda
          starttime:inputStartTime,
          endtime:inputEndTime,
       });
+      modalHandler(false);
    }
 
 
@@ -88,7 +88,7 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, moda
       return(
          <Wrapper>
             MOD EVENT MODAL
-            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+            <StyledCloseButton onClick={()=>modalHandler(false)}></StyledCloseButton>
             <form onSubmit={handleSubmit}>
                <fieldset>
                   <legend>Add Event.</legend>
@@ -186,6 +186,6 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, setModalToggle, moda
    
 }
 
-const mapStateToProps = (state) => ({ userinfo:state.authenticate, addEntryState: state.addEntry });
+const mapStateToProps = (state) => ({ modalState:state.modal, userinfo:state.authenticate, addEntryState: state.addEntry });
 
-export default connect(mapStateToProps, {addEntry})(AddEventModal);
+export default connect(mapStateToProps, {modalHandler, addEntry})(AddEventModal);

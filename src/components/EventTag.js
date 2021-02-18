@@ -15,10 +15,10 @@ const Wrapper = styled.div`
 `
 
 
-const EventTag = ({ handleViewEvent, eventInfo }) => {
+const EventTag = ({ openViewEventModal, eventInfo }) => {
    const handleClick = (e) => {
       e.stopPropagation();
-      handleViewEvent(eventInfo);
+      openViewEventModal(eventInfo);
    }
    return(
       <Wrapper onClick={handleClick}>
@@ -28,4 +28,3 @@ const EventTag = ({ handleViewEvent, eventInfo }) => {
 }
 
 export default EventTag;
-

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { LoadingIcon } from './index';
 import { toast } from 'react-toastify';
+import {modalHandler, editEvent} from '../redux/actions/index';
 
 import { editEntry } from '../redux/actions/index';
 
@@ -27,9 +28,12 @@ const EditEventModal = ({
       auth, 
       addEntryState, 
       setModalToggle, 
-      modalInfo,
       handleEditEvent, 
+      modalState,
+      modalHandler,
+      editEntry,
    }) => {
+   const modalInfo = modalState.modalInfo;
    const [ inputTitle, setInputTitle ] = useState(modalInfo.title);
    const [ inputStartTime, setInputStartTime ] = useState(modalInfo.starttime);
    const [ inputEndTime, setInputEndTime ] = useState(modalInfo.endtime);
@@ -40,7 +44,6 @@ const EditEventModal = ({
       { value: 'type 2', label: 'Event Type Two'},
       { value: 'type 3', label: 'Event Type Three'},
    ];
-   console.log(modalInfo)
 
    const handleTitle = (e) => {
       setInputTitle(e.target.value);
@@ -60,8 +63,7 @@ const EditEventModal = ({
 
    const handleEdit = (e) => {
       e.preventDefault();
-      console.log(inputStartTime)
-      handleEditEvent({
+      editEntry({
          title:inputTitle,
          description:inputDescription,
          day:modalInfo.day,
@@ -75,6 +77,7 @@ const EditEventModal = ({
          endtime:inputEndTime,
          entryid:modalInfo.id,
       })
+      modalHandler(false);
    }
 
 
@@ -82,7 +85,7 @@ const EditEventModal = ({
       return(
          <Wrapper>
             EDIT EVENT MODAL
-            <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+            <StyledCloseButton onClick={()=>modalHandler(false)}></StyledCloseButton>
             <form onSubmit={handleEdit}>
                <fieldset>
                   <legend>Add Event.</legend>
@@ -143,6 +146,6 @@ const EditEventModal = ({
    
 }
 
-const mapStateToProps = (state) => ({ auth:state.authenticate, addEntryState: state.addEntry });
+const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, addEntryState: state.addEntry });
 
-export default connect(mapStateToProps)(EditEventModal);
+export default connect(mapStateToProps,{modalHandler, editEntry})(EditEventModal);

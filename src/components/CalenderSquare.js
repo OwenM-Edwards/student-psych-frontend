@@ -19,8 +19,8 @@ const CalenderSquare = ({
       entries, 
       calSquareDay,
       selectedDate,
-      handleCreateEvent,
-      handleViewEvent,
+      openAddEventModal,
+      openViewEventModal,
    }) => {
 
    let calenderSquareProps = {
@@ -39,7 +39,7 @@ const CalenderSquare = ({
          entries.forEach(entry => {
             if(entry.day === calSquareDay){
                eventTag.push(
-                  <EventTag key={count} handleViewEvent={handleViewEvent} eventInfo={entry}/>
+                  <EventTag key={count} openViewEventModal={openViewEventModal} eventInfo={entry}/>
                )
                count++;
             }
@@ -68,7 +68,7 @@ const CalenderSquare = ({
 
 
    return(
-      <Wrapper id={calSquareDay} onClick={handleCreateEvent} style={{backgroundColor: calenderSquareProps.backgroundColor, opacity:calenderSquareProps.opacity}}>
+      <Wrapper id={calSquareDay} onClick={openAddEventModal} style={{backgroundColor: calenderSquareProps.backgroundColor, opacity:calenderSquareProps.opacity}}>
          {calSquareDay}
          {eventTag}
       </Wrapper>

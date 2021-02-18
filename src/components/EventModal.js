@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
+import {modalHandler,deleteEntry} from '../redux/actions/index';
 
 const Wrapper = styled.div`
    position:absolute;
@@ -36,21 +37,24 @@ const InfoWrapper = styled.div`
    height:auto;
 `
 
-const EventModal = ({ secureInfo, handleDeleteEvent, setModalToggle, modalInfo, auth }) => {
+const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, setModalToggle, modalState, auth }) => {
+   const modalInfo = modalState.modalInfo;
+   
    const handleDelete = () => {
-      handleDeleteEvent(secureInfo.eventinfo.id)
+      deleteEntry(secureInfo.eventinfo.id);
+      modalHandler(false);
    }
    
    // Open the edit modal.
    const handleEdit = () => {
-      setModalToggle('edit');
+      modalHandler({modalDisplay:'edit', modalInfo: modalState.modalInfo});
    }
-   console.log(secureInfo)
+
 
    // If logged in, display event info
    return(
       <Wrapper>
-         <StyledCloseButton onClick={()=>setModalToggle(false)}></StyledCloseButton>
+         <StyledCloseButton onClick={()=>modalHandler(false)}></StyledCloseButton>
          PUBLIC INFO
          <InfoWrapper>
             <h1>Name:{modalInfo.title}</h1>
@@ -85,5 +89,5 @@ const EventModal = ({ secureInfo, handleDeleteEvent, setModalToggle, modalInfo, 
    ) 
 }
 
-const mapStateToProps = (state) => ({ secureInfo:state.secureEntry.secureInfo, auth:state.authenticate });
-export default connect(mapStateToProps)(EventModal);
+const mapStateToProps = (state) => ({ modalState:state.modal, secureInfo:state.secureEntry.secureInfo, auth:state.authenticate });
+export default connect(mapStateToProps,{deleteEntry,modalHandler})(EventModal);
