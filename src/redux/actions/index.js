@@ -18,6 +18,9 @@ import {
    RECEIVE_SECURE_ENTRY,
    REQUEST_VERIFY_TOKEN,
    RECEIVE_VERIFY_TOKEN,
+   REQUEST_SEARCH_TERM,
+   RECEIVE_SEARCH_TERM,
+   MODAL_HANDLE,
 } from './action-types';
 
 import { 
@@ -29,10 +32,34 @@ import {
    addEntryAPI,
    deleteEntryAPI,
    editEntryAPI,
+   searchEntriesAPI,
 } from '../../util/index';
 
-import axios from 'axios';
-import { toast } from "react-toastify";
+
+// Set modal info.
+export const modalHandler = ({modalDisplay, modalInfo}) => async (dispatch) => {
+   dispatch({
+      type: MODAL_HANDLE,
+      payload:{
+         modalDisplay: modalDisplay,
+         modalInfo: modalInfo,
+      }
+   })
+}
+
+
+// Search entries.
+export const searchEntries = (searchfield, searchterm) => async (dispatch) => {
+   dispatch({
+      type: REQUEST_SEARCH_TERM,
+   })
+   const APIData = await searchEntriesAPI(searchfield, searchterm)
+   dispatch({
+      type: RECEIVE_SEARCH_TERM,
+      payload:APIData,
+   })
+}
+
 
 // Verify register email.
 export const verifyToken = (token) => async (dispatch) => {
@@ -102,7 +129,6 @@ export const deleteEntry = (entryid) =>  async (dispatch) => {
    dispatch({
       type: RECEIVE_DELETE_ENTRY,
    })
-   window.location = "/calender"
 }
 
 // Edit event.
@@ -114,7 +140,6 @@ export const editEntry = (info) =>  async (dispatch) => {
    dispatch({
       type: RECEIVE_EDIT_ENTRY,
    })
-   window.location = "/calender"
 }
 
 // Sign user out.
@@ -136,6 +161,7 @@ export const signIn = (info) => async (dispatch) => {
       type: RECEIVE_SIGN_IN,
       payload:APIData,
    })
+   window.location = "/calender";
 }
 
 // Register new user.
