@@ -4,9 +4,10 @@ import {
   BrowserRouter as Router, 
   Route,
   Redirect,
+  Switch,
 } from "react-router-dom";
 import styled from "styled-components";
-import { Calender, SignIn, Register, Verify } from './pages/index';
+import { Calender, SignIn, Register, Verify, Search } from './pages/index';
 import { Header,LoadingIcon } from './components/index';
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
@@ -45,7 +46,7 @@ const App = ({addEntryState, getInitialDate, getEntries, auth, entries, selected
       }
     }
     start();
-  }, [selectedDate, addEntryState.isFetching,]);
+  }, [auth.user.id, selectedDate, addEntryState.isFetching,]);
 
 
   return (
@@ -56,41 +57,42 @@ const App = ({addEntryState, getInitialDate, getEntries, auth, entries, selected
           <Header/>
         </div>
 
-        <Route path="/maintenance">
-          <div>main</div>
-          
-        </Route>
+        <Switch>
+          <Route path="/maintenance">
+            <div>main</div>
+          </Route>
 
-        <Route path="/signin">
-          {(auth.user.id)
-            ? <Redirect to="/calender"/>
-            : <SignIn/>
-          }
-        </Route>
+          <Route path="/signin">
+            {(auth.user.id)
+              ? <Redirect to="/calender"/>
+              : <SignIn/>
+            }
+          </Route>
 
-        <Route path="/register">
-          {(auth.user.id)
-            ? <Redirect to="/calender"/>
-            : <Register/>
-          }
-        </Route>
+          <Route path="/register">
+            {(auth.user.id)
+              ? <Redirect to="/calender"/>
+              : <Register/>
+            }
+          </Route>
 
-        <Route path="/verify">
-          <Verify/>
-        </Route>
+          <Route path="/verify" component={Verify}/>
 
-        <Route path="/calender">
-          {(entries.isFetching)
-            ? <LoadingIcon/>
-            : (entries.entries)
-              ? <div className="main"> <Calender/> </div> 
-              : <div>maintenance</div>
-          }
-        </Route>
+          <Route path="/search/:searchfield/:searchterm" component={Search}/>
 
-        <Route path="/">
-          <Redirect to="/calender"/>
-        </Route>
+          <Route path="/calender">
+            {(entries.isFetching)
+              ? <LoadingIcon/>
+              : (entries.entries)
+                ? <div className="main"> <Calender/> </div> 
+                : <div>maintenance</div>
+            }
+          </Route>
+
+          <Route exact path="/">
+            <Redirect to="/calender"/>
+          </Route>
+        </Switch>
       </Wrapper>
     </Router>
   );
