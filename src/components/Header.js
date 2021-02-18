@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-import { selectDate,signOut,clearEntries } from '../redux/actions/index';
+import { selectDate,signOut,clearEntries,searchEntries } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom'
+import Select from 'react-select';
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
@@ -13,9 +15,16 @@ const Wrapper = styled.div`
    background-color:pink;
 `
 
-const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
+const Header = ({clearEntries,auth, selectDate, selectedDate, signOut,searchEntries}) => {
+   const [searchField, setSearchField] = useState('title');
+   const [searchTerm, setSearchTerm] = useState(false);
    const location = useLocation();
    // Increments or deincrements month by 1, creates new date in state.
+
+   const searchTypes = [
+      { value: 'title', label: 'Title'},
+      { value: 'organisation', label: 'Organisation'},
+   ];
 
    const returnToCurrentMonth = () => {
       let currentDate = new Date();
@@ -25,6 +34,12 @@ const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
          year: currentDate.getFullYear(),
          totalDaysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
       })
+   }
+   const handleSearchBar = (e) => {
+      setSearchTerm(e.target.value);
+   }
+   const handleType = (e) => {
+      setSearchField(e.value);
    }
 
    const changeMonth = (val) => {
@@ -43,10 +58,22 @@ const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
          totalDaysInMonth: new Date(changedDate.getFullYear(), changedDate.getMonth() + 1, 0).getDate(),
       })
    }
+
    const handleSignOut = () => {
       signOut();
    }
-
+   const handleSearch = () => {
+      if(!searchTerm){
+         toast.dismiss();
+         toast.info('Please enter a search term first.');
+      }
+      else {
+         window.location = `/search/${searchField}/${searchTerm}`;
+      }
+   }
+   const handleBack = () => {
+      window.location = `/calender`;
+   }
 
    return(
       <Wrapper>
@@ -57,6 +84,23 @@ const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
             
          }
          <button onClick={()=>returnToCurrentMonth()}>Today</button>
+         <button onClick={()=>handleSearch()}>Search</button>
+         <input
+            placeholder="SearchBar"
+            type="text" 
+            name="search-bar"
+            onChange={handleSearchBar}
+         />
+         <Select
+            defaultValue={searchTypes[0]}
+            options={searchTypes}
+            isSearchable={false}
+            onChange={handleType}
+         />
+         {(window.location.pathname.includes('search'))
+            ? <button onClick={()=>handleBack()}>Back</button>
+            : <div></div>
+         }
          
 
          {/* If at calender, render cal month navigation */}
@@ -75,4 +119,4 @@ const Header = ({clearEntries,auth, selectDate, selectedDate, signOut}) => {
 }
 
 const mapStateToProps = (state) => ({ auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
-export default connect(mapStateToProps, { clearEntries,selectDate,signOut })(Header);
+export default connect(mapStateToProps, { searchEntries, clearEntries,selectDate,signOut })(Header);
