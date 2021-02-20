@@ -114,7 +114,7 @@ export const secureEventInfoAPI = async ( day, month, year, userid ) => {
 // Verify register email.
 export const verifyAPI = async ( token ) => {
    try {
-      const validate = await api.post('auth/validate',{ data: {
+      const validate = await api.post('auth/verify',{ data: {
             "token": token,
          }
       })
@@ -145,6 +145,7 @@ export const authenticateAPI = async ( userEmail, userPassword ) => {
 
 // Register new user.
 export const registerAPI = async ( userEmail, userPassword ) => {
+   console.log(userEmail, userPassword)
    try {
       const register = await api.post('auth/register',{ data: {
             "userpassword": userPassword,
