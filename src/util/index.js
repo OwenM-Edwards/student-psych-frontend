@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
 const api = axios.create({
-   baseURL: 'http://localhost:3000/',
+   baseURL: 'https://student-psych-api.herokuapp.com/',
    headers: {
      token: `${token.id}`,
    },
