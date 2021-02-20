@@ -76,8 +76,20 @@ const Calendar = ({
       let precedingDaysCompleted = false;
       // If there are preceding days from last month before monday, create these first.
       if(!precedingDaysCompleted){
-         if(precedingMonthCheck.getDay() > 1 ){
-            for(let i = precedingMonthCheck.getDay() - 1; i > 0; i--){
+         // If 1st is on a sunday, just backdate 6 squares.
+         if(precedingMonthCheck.getDay() === 0){
+            for(let i = 6; i > 0; i--){
+               tempBoxes.push(
+                  <CalenderSquareContainer key={`precedingBox ${i}`} >
+                     <CalenderSquare type='preceding'/>
+                  </CalenderSquareContainer >
+               )
+            }
+            precedingDaysCompleted = true
+         }
+         // Esle backdate required awaures.
+         else if(precedingMonthCheck.getDay() > 1 ){
+            for(let i = precedingMonthCheck.getDay()-1; i > 0; i--){
                tempBoxes.push(
                   <CalenderSquareContainer key={`precedingBox ${i}`} >
                      <CalenderSquare type='preceding'/>

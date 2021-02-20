@@ -66,13 +66,14 @@ const CalenderSquare = ({
    }
    sortEntries();
 
-
+   // Preceding day
    if(type==='preceding'){
       return(
          <StyledCalDay className="currentDay" id={calSquareDay}>
          </StyledCalDay>
       )
    }
+   // Selected day
    else if(currentDate.getMonth() + 1 === selectedDate.month && calSquareDay == selectedDate.day){
       return(
          <StyledCalDay className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
@@ -81,6 +82,7 @@ const CalenderSquare = ({
          </StyledCalDay>
       )
    }
+   // Weekend
    else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0){
       return(
          <StyledCalDay className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
@@ -89,12 +91,14 @@ const CalenderSquare = ({
          </StyledCalDay>
       )
    }
+   // Outside month
    else if(calSquareDay > selectedDate.totalDaysInMonth){
       return(
          <StyledCalDay className="outsideDay" >
          </StyledCalDay>
       )
    }
+   // Normal day
    else{
       return(
          <StyledCalDay className="weekDay" id={calSquareDay} onClick={openAddEventModal}>
