@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/student-psych-frontend/static/css/main.832aeac9.chunk.css",
-    "main.js": "/student-psych-frontend/static/js/main.11984a8a.chunk.js",
-    "main.js.map": "/student-psych-frontend/static/js/main.11984a8a.chunk.js.map",
-    "runtime-main.js": "/student-psych-frontend/static/js/runtime-main.b9a3319a.js",
-    "runtime-main.js.map": "/student-psych-frontend/static/js/runtime-main.b9a3319a.js.map",
-    "static/css/2.ffda3d49.chunk.css": "/student-psych-frontend/static/css/2.ffda3d49.chunk.css",
-    "static/js/2.0a21c450.chunk.js": "/student-psych-frontend/static/js/2.0a21c450.chunk.js",
-    "static/js/2.0a21c450.chunk.js.map": "/student-psych-frontend/static/js/2.0a21c450.chunk.js.map",
-    "index.html": "/student-psych-frontend/index.html",
-    "static/css/2.ffda3d49.chunk.css.map": "/student-psych-frontend/static/css/2.ffda3d49.chunk.css.map",
-    "static/css/main.832aeac9.chunk.css.map": "/student-psych-frontend/static/css/main.832aeac9.chunk.css.map",
-    "static/js/2.0a21c450.chunk.js.LICENSE.txt": "/student-psych-frontend/static/js/2.0a21c450.chunk.js.LICENSE.txt",
-    "static/media/mind-matters.95197d34.png": "/student-psych-frontend/static/media/mind-matters.95197d34.png"
+    "main.css": "/static/css/main.1848cb5e.chunk.css",
+    "main.js": "/static/js/main.0fd40103.chunk.js",
+    "main.js.map": "/static/js/main.0fd40103.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a0fd64c3.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a0fd64c3.js.map",
+    "static/css/2.ffda3d49.chunk.css": "/static/css/2.ffda3d49.chunk.css",
+    "static/js/2.fb93408b.chunk.js": "/static/js/2.fb93408b.chunk.js",
+    "static/js/2.fb93408b.chunk.js.map": "/static/js/2.fb93408b.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.ffda3d49.chunk.css.map": "/static/css/2.ffda3d49.chunk.css.map",
+    "static/css/main.1848cb5e.chunk.css.map": "/static/css/main.1848cb5e.chunk.css.map",
+    "static/js/2.fb93408b.chunk.js.LICENSE.txt": "/static/js/2.fb93408b.chunk.js.LICENSE.txt",
+    "static/media/mind-matters.95197d34.png": "/static/media/mind-matters.95197d34.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.b9a3319a.js",
+    "static/js/runtime-main.a0fd64c3.js",
     "static/css/2.ffda3d49.chunk.css",
-    "static/js/2.0a21c450.chunk.js",
-    "static/css/main.832aeac9.chunk.css",
-    "static/js/main.11984a8a.chunk.js"
+    "static/js/2.fb93408b.chunk.js",
+    "static/css/main.1848cb5e.chunk.css",
+    "static/js/main.0fd40103.chunk.js"
   ]
 }
