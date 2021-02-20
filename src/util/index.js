@@ -37,6 +37,7 @@ export const getEntriesAPI = async (month, year) => {
          month : month,
          year : year
       }})
+
       return getEntry.data;
    }
    catch (err) {

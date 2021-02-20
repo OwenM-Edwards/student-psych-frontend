@@ -149,7 +149,6 @@ const Header = ({
    const [searchTerm, setSearchTerm] = useState(false);
    const location = useLocation();
    const printDate = new Date(selectedDate.year, selectedDate.month - 1);
-   console.log()
    // Increments or deincrements month by 1, creates new date in state.
 
    const searchTypes = [
