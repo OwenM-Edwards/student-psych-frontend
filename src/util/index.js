@@ -4,7 +4,7 @@ const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage
 const api = axios.create({
    baseURL: 'https://student-psych-api.herokuapp.com/',
    headers: {
-     token: `${token.id}`,
+     token: `${token.id}`, 
    },
 }); 
 
