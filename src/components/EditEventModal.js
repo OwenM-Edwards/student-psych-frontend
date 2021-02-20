@@ -13,6 +13,7 @@ const Wrapper = styled.div`
    width:400px;
    height:500px;
    background-color:white;
+   z-index:2;
 `
 const StyledCloseButton = styled.div`
    position:absolute;

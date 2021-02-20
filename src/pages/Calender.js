@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { EditEventModal, CalenderSquare, Sidebar, EventModal, AddEventModal } from '../components/index';
-import { modalHandler, getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry } from '../redux/actions/index';
+import { EditEventModal, CalenderSquare, EventModal, AddEventModal } from '../components/index';
+import { modalHandler, getSecureEventInfo, getEntries,getInitialDate } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 
 const Calender = ({ 
       auth, 
-      editEntryState, 
-      deleteEntryState, 
       selectedDate, 
       getSecureEventInfo,
       modalHandler,
       modalState, 
+      entries,
    }) => {
    const [ boxes, setBoxes ] = useState([]);
    const [ headers, setHeaders ] = useState([]);
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-   
+
    useEffect(() => {
       genDayHeaders();
       genBoxes();
-   }, [auth, selectedDate.month]);
+   }, [auth, selectedDate, entries]);
    
 
    const genDayHeaders = () => {
@@ -61,7 +60,13 @@ const Calender = ({
          toast.dismiss();
          toast.info('Please login to view full event.');
       }
+      console.log(eventInfo)
       modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+   }
+   const closeModals = () => {
+      if(modalState.modalDisplay){
+         modalHandler(false);
+      }
    }
 
    const genBoxes = () => {
@@ -75,7 +80,7 @@ const Calender = ({
             for(let i = precedingMonthCheck.getDay() - 1; i > 0; i--){
                tempBoxes.push(
                   <CalenderSquareContainer key={`precedingBox ${i}`} >
-                     <CalenderSquare />
+                     <CalenderSquare type='preceding'/>
                   </CalenderSquareContainer >
                )
             }
@@ -105,7 +110,7 @@ const Calender = ({
          <Wrapper> 
             
             {(modalState.modalDisplay === 'view')
-               ? <EventModal />
+               ? <EventModal draggable="true"/>
                : <React.Fragment/>
             }  
             {(modalState.modalDisplay === 'add')
@@ -117,76 +122,84 @@ const Calender = ({
                : <React.Fragment/>
             } 
 
-            <StyledSidebar> 
-               <Sidebar/>
-            </StyledSidebar>
+            {(!modalState.modalDisplay)
+               ?
+               <StyledMain>
+                  <CalenderHeaderContainer>
+                     {headers}
+                  </CalenderHeaderContainer>
+                  <CalenderBoxesContainer>
+                     {boxes}
+                  </CalenderBoxesContainer>
+               </StyledMain>
+               :
+               <StyledMain className="frosted" onClick={()=>closeModals()}>
+                  <CalenderHeaderContainer>
+                     {headers}
+                  </CalenderHeaderContainer>
+                  <CalenderBoxesContainer>
+                     {boxes}
+                  </CalenderBoxesContainer>
+               </StyledMain>
+            }
 
-            <StyledMain>
-               <CalenderHeaderContainer>
-                  {headers}
-               </CalenderHeaderContainer>
-               <CalenderBoxesContainer>
-                  {boxes}
-               </CalenderBoxesContainer>
-
-            </StyledMain>
          </Wrapper>
    )
 }
 
 
-
 const Wrapper = styled.div`
    width:100%;
    height:100%;
-   background-color:red;
    display:flex;
+
+   & .frosted{
+      box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
+      filter: blur(2px);
+   }
 `
 const StyledMain = styled.div`
    min-width:auto;
    flex-grow:1;
    height:100%;
-   background-color:#2b2b2b;
+   min-height:100%;
    display:flex;
    flex-direction:column;
+   flex-wrap:nowrap;
    padding:50px 50px 50px 0px;
+   transition: all 0.2s ease-in-out;
+
 `
 const CalenderBoxesContainer = styled.div`
    width:100%;
-   height:95%;
-   background-color:#2b2b2b;
+   height:100%;
    display:grid;
    grid-template-columns:repeat(7, 1fr);
-   grid-template-rows:repeat(auto, 1fr);
+   grid-auto-rows: 1fr;
    grid-gap:5px;
+   padding:5px 0 20px 50px;
 `
 const CalenderHeaderContainer = styled.div`
    width:100%;
-   height:5%;
-   background-color:#2b2b2b;
+   min-height:3%;
    display:grid;
    grid-template-columns:repeat(7, 1fr);
-   grid-template-rows:repeat(5, 1fr);
    grid-gap:5px;
+   padding-left:50px;
 `
 const CalenderSquareContainer  = styled.div`
    width:1fr;
-   height:150px;
+   height:1fr;
+   min-width: 0
 `
 
 const CalenderHeader = styled.div`
    width:1fr;
    height:1fr;
-   background-color:white;
+   background: ${({ theme }) => theme.weekDay};
    text-align: center;
+   padding-top:5px;
 `
 
-const StyledSidebar = styled.div`
-   width:20%;
-   max-width: 200px;
-   height:100%;
-   background-color:#2b2b2b;
-`
-
-const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, editEntryState:state.editEntry, deleteEntryState:state.deleteEntry, selectedDate:state.selectedDate.selectedDate});
-export default connect(mapStateToProps, { modalHandler, getSecureEventInfo, deleteEntry, editEntry, selectDate, addEntry })(Calender);
+const mapStateToProps = (state) => ({ entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});
+export default connect(mapStateToProps, { getInitialDate, getEntries, modalHandler, getSecureEventInfo, })(Calender);

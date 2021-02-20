@@ -3,14 +3,35 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import {EventTag} from './index';
 
-const Wrapper = styled.div`
-   width:100%;
-
+const StyledCalDay = styled.div`
    height:100%;
    max-height:100%;
    text-align:center;
+   
+   transition: all 0.2s ease-in-out;
    &:hover {
-      scale:0.99;
+      scale:1.05;
+   }
+   border-radius:3px;
+   &:hover {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   }
+   &.precedingDay{
+      background: ${({ theme }) => theme.precedingDay};
+      color: ${({ theme }) => theme.contrastText};
+   }
+   &.currentDay{
+      background: ${({ theme }) => theme.currentDay};
+      color: ${({ theme }) => theme.contrastText};
+   }
+   &.weekendDay{
+      background: ${({ theme }) => theme.weekendDay};
+   }
+   &.weekDay{
+      background: ${({ theme }) => theme.weekDay};
+   }
+   &.outsideDay{
+      opacity:0;
    }
 `
 
@@ -21,12 +42,9 @@ const CalenderSquare = ({
       selectedDate,
       openAddEventModal,
       openViewEventModal,
+      type,
    }) => {
-
-   let calenderSquareProps = {
-      backgroundColor:'',
-      opacity:1,
-   }
+   let boxType = '';
    // Checks if calenderSquare day is a weekend.
    let weekendCheck = new Date(selectedDate.year, selectedDate.month - 1, calSquareDay);
    let currentDate = new Date();
@@ -48,31 +66,43 @@ const CalenderSquare = ({
    }
    sortEntries();
 
-   // If box = outside total days in month
-   if( calSquareDay > selectedDate.totalDaysInMonth){
-      calenderSquareProps.backgroundColor = 'violet';
-      calenderSquareProps.opacity = 0;
+
+   if(type==='preceding'){
+      return(
+         <StyledCalDay className="currentDay" id={calSquareDay}>
+         </StyledCalDay>
+      )
    }
-   // If box = current day
    else if(currentDate.getMonth() + 1 === selectedDate.month && calSquareDay == selectedDate.day){
-      calenderSquareProps.backgroundColor = 'pink';
+      return(
+         <StyledCalDay className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
+            {calSquareDay}
+            {eventTag}
+         </StyledCalDay>
+      )
    }
-   
-   // If box = A weekend
-   else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0 ){
-      calenderSquareProps.backgroundColor = 'purple';
+   else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0){
+      return(
+         <StyledCalDay className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
+            {calSquareDay}
+            {eventTag}
+         </StyledCalDay>
+      )
    }
-   else {
-      calenderSquareProps.backgroundColor = 'orange';
+   else if(calSquareDay > selectedDate.totalDaysInMonth){
+      return(
+         <StyledCalDay className="outsideDay" >
+         </StyledCalDay>
+      )
    }
-
-
-   return(
-      <Wrapper id={calSquareDay} onClick={openAddEventModal} style={{backgroundColor: calenderSquareProps.backgroundColor, opacity:calenderSquareProps.opacity}}>
-         {calSquareDay}
-         {eventTag}
-      </Wrapper>
-   )
+   else{
+      return(
+         <StyledCalDay className="weekDay" id={calSquareDay} onClick={openAddEventModal}>
+            {calSquareDay}
+            {eventTag}
+         </StyledCalDay>
+      )
+   }
 }
 
 

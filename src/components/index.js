@@ -6,6 +6,7 @@ import EventModal from './EventModal';
 import AddEventModal from './AddEventModal';
 import EventTag from './EventTag';
 import EditEventModal from './EditEventModal';
+import EventForm from './EventForm';
 
 export {
    Header,
@@ -16,4 +17,5 @@ export {
    AddEventModal,
    EventTag,
    EditEventModal,
+   EventForm,
 }
