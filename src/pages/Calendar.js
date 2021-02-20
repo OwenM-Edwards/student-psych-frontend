@@ -5,7 +5,7 @@ import { modalHandler, getSecureEventInfo, getEntries,getInitialDate } from '../
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 
-const Calender = ({ 
+const Calendar = ({ 
       auth, 
       selectedDate, 
       getSecureEventInfo,
@@ -202,4 +202,4 @@ const CalenderHeader = styled.div`
 `
 
 const mapStateToProps = (state) => ({ entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});
-export default connect(mapStateToProps, { getInitialDate, getEntries, modalHandler, getSecureEventInfo, })(Calender);
+export default connect(mapStateToProps, { getInitialDate, getEntries, modalHandler, getSecureEventInfo, })(Calendar);

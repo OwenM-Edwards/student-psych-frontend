@@ -10,7 +10,12 @@ const Wrapper = styled.div`
    width:100%;
    height:100%;
    display:flex;
+   padding:50px;
    justify-content:center;
+   & .frosted{
+      box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
+      filter: blur(2px);
+   }
 `
 const EntryHolder = styled.div`
    width:100px;
@@ -21,7 +26,6 @@ const EntryHolder = styled.div`
 const StyledEntriesContainer = styled.ul `
    width:100%;
    height:100%;
-   background-color:orange;
 `
 const StyledEntry = styled.li`
    width:100%;
@@ -69,11 +73,6 @@ const Search = ({
          entriesState.entries.forEach(entry => {
             sortedEntries.push(
                <StyledEntry onClick={()=>openViewEventModal(entry)} key={count}> 
-                  {entry.day}
-                  {entry.month}
-                  {entry.year}
-                  {entry.startime}
-                  {entry.endtime}
                   {entry.title}
                </StyledEntry>
             )
@@ -87,7 +86,7 @@ const Search = ({
    useEffect(() => {
       async function search(){
          if(!searchfield && !searchterm){
-            window.location = '/calender';
+            window.location = '/calendar';
          }
          else{
             searchEntries(searchfield, searchterm);
@@ -111,13 +110,7 @@ const Search = ({
                ? <EditEventModal />
                : <React.Fragment/>
             } 
-
-
-
-
             <StyledEntriesContainer>
-               {sortedEntries}
-               {sortedEntries}
                {sortedEntries}
             </StyledEntriesContainer>
             {/* {sortedEntries}
@@ -132,7 +125,6 @@ const Search = ({
          </Wrapper>
       )  
    }
- 
 }
 
 

@@ -5,28 +5,34 @@ import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import Select from 'react-select';
 import { toast } from "react-toastify";
-import {mindMattersLogo, leftIconDarkMode, rightIconDarkMode} from "../assets/index.js"
-
+import {mindMattersLogo, leftIconDarkMode, rightIconDarkMode} from "../assets/index.js";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
    width:100%;
-   height:100%;
+   height:50px;
    display:flex;
    flex-direction:row;
    flex-wrap:nowrap;
    background: ${({ theme }) => theme.backgroundContrast};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   & .logoContainer {
+      width:20%;
+      max-width:202px;
+      display:flex;
+      flex-direction:row;
+      padding:0 0 0 5px;
+      height:49px;
+      max-height:100%;
+      align-self:center;
+      align-content:center;
+   }
+   & .logo {
+      max-height:100%;
+   }
 `
-const LogoContainer = styled.div`
-   width:20%;
-   max-width:202px;
-   display:flex;
-   flex-direction:row;
-   padding:0 0 0 5px;
-   height:49px;
-   align-self:center;
-   align-content:center;
-`
+
 const NavigationContainer = styled.div`
    height:100%;
    width:30%;
@@ -55,12 +61,8 @@ const NavigationContainer = styled.div`
          scale:0.9;
       }
    }
-
    & .printMonth{
       margin-right:5px;
-   }
-   & .printYear{
-      
    }
    & .leftArrow{
       height:100%;
@@ -79,20 +81,18 @@ const NavigationContainer = styled.div`
 `
 const SearchContainer = styled.div`
    height:100%;
-   width:40%;
-   display:flex;
-   flex-direction:row;
-   align-items:center;
-   justify-content:space-around;
+   width:50%;
    padding:0 10px 0 10px;
    margin-left:auto;
-   & .searchBar{
-      width:65%;
-      height:42px;
-      padding-left:15px;
-      border-radius:5px 0 0 5px;
-      outline: 0;
-      border: 0;
+   display:flex;
+   justify-content:flex-end;
+   & .searchForm {
+      width:80%;
+      align-self:center;
+      display:flex;
+      flex-direction:row;
+      flex-wrap:nowrap;
+      justify-content:center;
    }
    & .searchButton{
       width:15%;
@@ -109,9 +109,26 @@ const SearchContainer = styled.div`
       transition: all 0.4s ease 0s;
       cursor:pointer;
       margin-right:5px;
+      align-self:center;
    }
-   & .searchType{
+   & .searchField {
       width:20%;
+      height:42px;
+      padding: .6em 1.4em .5em .8em;
+      box-sizing: border-box;
+      margin: 0;
+      border: 1px solid #aaa;
+      box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+      border-radius: .5em;
+
+   }
+   & .searchTerm {
+      width:65%;
+      height:42px;
+      padding-left:15px;
+      border-radius:5px 0 0 5px;
+      outline: 0;
+      border: 0;
    }
 `
 const UserContainer = styled.div`
@@ -138,6 +155,12 @@ const UserContainer = styled.div`
    }
 `
 
+
+
+
+
+
+
 const Header = ({
       clearEntries,
       auth, 
@@ -149,19 +172,19 @@ const Header = ({
    const [searchTerm, setSearchTerm] = useState(false);
    const location = useLocation();
    const printDate = new Date(selectedDate.year, selectedDate.month - 1);
+   const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
+   const onSubmit = (data) => {
+      console.log(data)
+      if(!data.searchField){
+         toast.dismiss();
+         toast.info('Please enter a search term first.');
+      }
+      else {
+         window.location = `/search/${data.searchField}/${data.searchTerm}`;
+      }
+   }
 
-   const searchTypes = [
-      { value: 'title', label: 'Title'},
-      { value: 'organisation', label: 'Organisation'},
-   ];
-   const customStyles = {
-      control: base => ({
-         ...base,
-         height: 41,
-         minHeight: 35
-      })
-   };
 
 
 
@@ -174,12 +197,6 @@ const Header = ({
          year: currentDate.getFullYear(),
          totalDaysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
       })
-   }
-   const handleSearchBar = (e) => {
-      setSearchTerm(e.target.value);
-   }
-   const handleType = (e) => {
-      setSearchField(e.value);
    }
 
    const changeMonth = (val) => {
@@ -205,29 +222,20 @@ const Header = ({
    const handleSignIn = () => {
       window.location = '/signin';
    }
-   const handleSearch = () => {
-      if(!searchTerm){
-         toast.dismiss();
-         toast.info('Please enter a search term first.');
-      }
-      else {
-         window.location = `/search/${searchField}/${searchTerm}`;
-      }
-   }
    const handleBack = () => {
-      window.location = `/calender`;
+      window.location = `/calendar`;
    }
 
 
 
    return(
       <Wrapper>
-         <LogoContainer>
-            <img src={mindMattersLogo}/>
-         </LogoContainer>
+         <Link className="logoContainer" to="/calendar"> 
+            <img className="logo" src={mindMattersLogo}/>
+         </Link>
 
          {/* If at calender, render cal month navigation */}
-         {(location.pathname === '/calender')
+         {(location.pathname === '/calendar')
             ? <NavigationContainer>
                <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
                <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
@@ -249,24 +257,26 @@ const Header = ({
             </NavigationContainer>
             : <React.Fragment/>
          }
-         
+
          <SearchContainer>
-            <input
-               className="searchBar"
-               placeholder="Search events.."
-               type="text" 
-               name="search-bar"
-               onChange={handleSearchBar}
-            />
-            <button className="searchButton" onClick={()=>handleSearch()}>Search</button>
-            <Select
-               className="searchType"
-               defaultValue={searchTypes[0]}
-               options={searchTypes}
-               isSearchable={false}
-               onChange={handleType}
-               styles={customStyles}
-            />
+            <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
+               <input
+                  className="searchTerm"
+                  placeholder="Search events.."
+                  type="text" 
+                  name="searchTerm"
+                  ref={register({ required:true})}
+               />
+               <input id="searchButton" value="submit" className="searchButton" type="submit"/>
+               <select
+                  name="searchField" 
+                  ref={register}
+                  className="searchField"
+               >
+                  <option value="title">Title</option>
+                  <option value="organisation">Organisation</option>
+               </select>
+            </form>
          </SearchContainer>
 
 

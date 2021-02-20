@@ -7,7 +7,7 @@ import {
   Switch,
 } from "react-router-dom";
 import styled from "styled-components";
-import { Calender, SignIn, Register, Verify, Search } from './pages/index';
+import { Calendar, SignIn, Register, Verify, Search } from './pages/index';
 import { Header,LoadingIcon,Sidebar } from './components/index';
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   margin: 0;
 
   & .header {
-    height:7%;
+    height:auto;
     max-height:200px;
     width:100%;
   }
@@ -69,27 +69,29 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
 
             <Route path="/signin">
               {(auth.user.id)
-                ? <Redirect to="/calender"/>
+                ? <Redirect to="/calendar"/>
                 : <SignIn/>
               }
             </Route>
 
             <Route path="/register">
               {(auth.user.id)
-                ? <Redirect to="/calender"/>
+                ? <Redirect to="/calendar"/>
                 : <Register/>
               }
             </Route>
 
             <Route path="/verify" component={Verify}/>
 
-            <Route path="/search/:searchfield/:searchterm" component={Search}/>
+            <Route path="/search/:searchfield/:searchterm">
+                <div className="main"> <Sidebar/><Search/> </div> 
+            </Route>
 
-            <Route path="/calender">
-                <div className="main"> <Sidebar/><Calender/> </div> 
+            <Route path="/calendar">
+                <div className="main"> <Sidebar/><Calendar/> </div> 
             </Route>
             <Route exact path="/">
-              <Redirect to="/calender"/>
+              <Redirect to="/calendar"/>
             </Route>
           </Switch>
         </Wrapper>

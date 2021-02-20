@@ -148,7 +148,7 @@ export const signOut = () => async (dispatch) => {
    dispatch({
       type: SIGN_OUT
    })
-   window.location = "/calender"
+   window.location = "/calendar"
 }
 
 // Sign user in.
@@ -161,7 +161,7 @@ export const signIn = (info) => async (dispatch) => {
       type: RECEIVE_SIGN_IN,
       payload:APIData,
    })
-   window.location = "/calender";
+   window.location = "/calendar";
 }
 
 // Register new user.
