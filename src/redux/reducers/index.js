@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import entries from './entries';
-import addEntry from './addEntry';
+import addEntry from './addentry';
 import authenticate from './authenticate';
 import register from './register';
 import selectedDate from './selectedDate';
