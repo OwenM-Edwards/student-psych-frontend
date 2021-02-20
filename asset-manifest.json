@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/student-psych-frontend/static/css/main.832aeac9.chunk.css",
-    "main.js": "/student-psych-frontend/static/js/main.a5ad4295.chunk.js",
-    "main.js.map": "/student-psych-frontend/static/js/main.a5ad4295.chunk.js.map",
+    "main.js": "/student-psych-frontend/static/js/main.00889c68.chunk.js",
+    "main.js.map": "/student-psych-frontend/static/js/main.00889c68.chunk.js.map",
     "runtime-main.js": "/student-psych-frontend/static/js/runtime-main.b9a3319a.js",
     "runtime-main.js.map": "/student-psych-frontend/static/js/runtime-main.b9a3319a.js.map",
     "static/css/2.ffda3d49.chunk.css": "/student-psych-frontend/static/css/2.ffda3d49.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.ffda3d49.chunk.css",
     "static/js/2.0a21c450.chunk.js",
     "static/css/main.832aeac9.chunk.css",
-    "static/js/main.a5ad4295.chunk.js"
+    "static/js/main.00889c68.chunk.js"
   ]
 }
