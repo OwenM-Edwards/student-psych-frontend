@@ -1,5 +1,4 @@
 {
-  "homepage": "http://www.owenedwards.me/student-psych-frontend/",
   "name": "studentpsych",
   "version": "0.1.0",
   "private": true,
@@ -28,9 +27,7 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "npm install -g serve && serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
