@@ -23,7 +23,7 @@ export const recentEntriesAPI = async () => {
 
    } catch (err) {
       toast.dismiss();
-         toast.error(err);
+      toast.error(err);
       
       return false;
    }
