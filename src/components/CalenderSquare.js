@@ -8,7 +8,7 @@ const StyledCalDay = styled.div`
    max-height:100%;
    text-align:center;
    border-radius:3px;
-   transition: all 0.2s ease-in-out;
+   transition: all 0.1s ease-in-out;
    &:hover {
       scale:1.05;
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
