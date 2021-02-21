@@ -37,13 +37,44 @@ const Wrapper = styled.div`
       width:100%;
       margin: 2px auto;
    }
+   & .verifyDirectBox{
+      width:500px;
+      height:300px;
+      background-color:${({ theme }) => theme.backgroundContrast};
+      align-self:center;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      border-radius:5px;
+      padding:50px;
+      & .header {
+         font-size:1.5rem;
+         text-align:center;
+         margin-bottom:10px;
+      }
+      & .buttonLink {
+         justify-self:center;
+         align-self:center;
+      }
+      & .button {
+         width:100px;
+         height:42px;
+         color: #2b2b2b;
+         text-transform: uppercase;
+         text-decoration: none;
+         background-color:${({ theme }) => theme.offwhite};
+         padding: 5px 10px 5px 10px;
+         border-radius:5px;
+         border: none;
+         transition: all 0.2s ease 0s;
+         cursor:pointer;
+         margin:10px 0 10px 0;
+         justify-self:center;
+         align-self:center;
+      }
+   }
 `
-const RegisterAcceptedModal = styled.div`
-   width:200px;
-   height:400px;
-   position:absolute;
-   background-color:red;
-`
+
 
 const Register = ({registerUser, registerState}) => {
    const { register, handleSubmit, watch, errors } = useForm();
@@ -60,73 +91,80 @@ const Register = ({registerUser, registerState}) => {
    }
 
    if(!registerState.isFetching){
-      return( 
-         <Wrapper>
-            {(registerState.success)
-               ? 
-               <RegisterAcceptedModal>
-                  Please confirm email before signing in.
-                  <Link to="/signIn"> <button>Sign In.</button> </Link>
-                  <button>Resend Email.</button>
-               </RegisterAcceptedModal>
-               : <div></div>
-            }
-            <form onSubmit={handleSubmit(handleRegister)} className="registerForm">
-               <fieldset className="registerFieldset">
-                  <legend>Register</legend>
-                  <input
-                     placeholder="Email"
-                     className="registerInput"
-                     ref={register({ required:true })}
-                     type="email" name="userEmail"  id="email-address" 
-                  />
-                  <input 
-                     placeholder="Password"
-                     minLength= "6"
-                     className="registerInput"
-                     ref={register({ required:true })}
-                     type="password" name="userPassword"  id="password" 
-                  />
-                  <input 
-                     placeholder="Confirm Password"
-                     minLength= "6"
-                     className="registerInput"
-                     ref={register({ required:true })}
-                     type="password" name="userPasswordConfirm"  id="password" 
-                  />
-                  <select 
-                     className="registerInput"
-                     name="userType"
-                     ref={register({ required:true })}
-                     defaultValue={'DEFAULT'}
-                  >
-                     <option value='DEFAULT' disabled>I am a...</option>
-                     <option value="Medical Student">Medical Student</option>
-                     <option value="Doctor">Doctor</option>
-                     <option value="Non-medical Student">Doctor</option>
-                     <option value="Other">Other</option>
-                  </select>
-
-
-                  <div className="buttonContainer">
-                     <input 
-                        className="registerInput" 
-                        type="submit" 
-                        value="Register" 
-                     />
-                  </div>
-
-                  <Link className="buttonContainer" to="/signIn"> 
+      if(registerState.success){
+         return( 
+            <Wrapper>
+               <form onSubmit={handleSubmit(handleRegister)} className="registerForm">
+                  <fieldset className="registerFieldset">
+                     <legend>Register</legend>
                      <input
-                        type="button" 
-                        value="Sign In"
-                        className="registerInput" 
+                        placeholder="Email"
+                        className="registerInput"
+                        ref={register({ required:true })}
+                        type="email" name="userEmail"  id="email-address" 
                      />
-                  </Link>
-               </fieldset>
-            </form>
-         </Wrapper>
-      ) 
+                     <input 
+                        placeholder="Password"
+                        minLength= "6"
+                        className="registerInput"
+                        ref={register({ required:true })}
+                        type="password" name="userPassword"  id="password" 
+                     />
+                     <input 
+                        placeholder="Confirm Password"
+                        minLength= "6"
+                        className="registerInput"
+                        ref={register({ required:true })}
+                        type="password" name="userPasswordConfirm"  id="password" 
+                     />
+                     <select 
+                        className="registerInput"
+                        name="userType"
+                        ref={register({ required:true })}
+                        defaultValue={'DEFAULT'}
+                     >
+                        <option value='DEFAULT' disabled>I am a...</option>
+                        <option value="Medical Student">Medical Student</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Non-medical Student">Doctor</option>
+                        <option value="Other">Other</option>
+                     </select>
+   
+   
+                     <div className="buttonContainer">
+                        <input 
+                           className="registerInput" 
+                           type="submit" 
+                           value="Register" 
+                        />
+                     </div>
+   
+                     <Link className="buttonContainer" to="/signIn"> 
+                        <input
+                           type="button" 
+                           value="Sign In"
+                           className="registerInput" 
+                        />
+                     </Link>
+                  </fieldset>
+               </form>
+            </Wrapper>
+         ) 
+      }
+      else {
+         return (
+            <Wrapper>
+               <div className="verifyDirectBox">
+                  <h1 className="header">Please confirm email before signing in.</h1>
+                  <Link className="buttonLink" to="/signIn"> <button  className="button">Sign In</button> </Link>
+                  <button className="button">Resend Email</button>
+               </div>
+
+            </Wrapper>
+         )
+
+      }
+      
    }
    else {
       return(
