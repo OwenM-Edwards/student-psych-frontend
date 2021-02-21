@@ -7,15 +7,8 @@ const StyledCalDay = styled.div`
    height:100%;
    max-height:100%;
    text-align:center;
-   
-   transition: all 0.2s ease-in-out;
-   &:hover {
-      scale:1.05;
-   }
    border-radius:3px;
-   &:hover {
-      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-   }
+   transition: all 0.2s ease-in-out;
    &.precedingDay{
       background: ${({ theme }) => theme.currentDay};
       opacity:0.05;
@@ -23,12 +16,24 @@ const StyledCalDay = styled.div`
    &.currentDay{
       background: ${({ theme }) => theme.currentDay};
       color: ${({ theme }) => theme.contrastText};
+      &:hover {
+         scale:1.05;
+         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      }
    }
    &.weekendDay{
       background: ${({ theme }) => theme.weekendDay};
+      &:hover {
+         scale:1.05;
+         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      }
    }
    &.weekDay{
       background: ${({ theme }) => theme.weekDay};
+      &:hover {
+         scale:1.05;
+         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      }
    }
 `
 
