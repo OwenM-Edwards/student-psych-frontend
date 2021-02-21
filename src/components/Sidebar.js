@@ -13,36 +13,63 @@ const Wrapper = styled.div`
    text-align:center;
    padding-top:50px;
 `
-const PopularEventsContainer = styled.div`
+const EventsContainer = styled.div`
    width:100%;
    height:50%;
-`
-const RecentEventsContainer = styled.div`
-   width:100%;
-   height:50%;
+   display:flex;
+   flex-direction:column;
+   padding:5px;
+
+   & .recentEventHeader{
+      font-size:1.1rem;
+      margin-bottom:15px;
+   }
+   & .eventTag {
+      margin-bottom:10px;
+   }
 `
 
-const Sidebar = ({getRecentEvents}) => {
+const Sidebar = ({getRecentEvents, recentEntries}) => {
+
+
+   let recentEvents = [];
+   const genRecentEvents = () => {
+      console.log('sorting')
+      let counter = 0;
+      if(recentEntries){
+         recentEntries.forEach(entry => {
+            recentEvents.unshift(
+               <p className="eventTag" key={counter}>{entry.title}</p>
+            )
+            counter++;
+         })
+         console.log(recentEvents);
+      }         
+   }
+   genRecentEvents();
 
    useEffect(() => {
-      getRecentEvents();
-   }, []);
+      if(!recentEntries){
+         getRecentEvents();
+      }
+   }, [recentEntries]);
 
 
    return(
       <Wrapper>
-         <PopularEventsContainer>
-            Popular upcoming events.
-         </PopularEventsContainer>
+         <EventsContainer>
+            <h2 className="recentEventHeader">Popular upcoming events.</h2>
+         </EventsContainer>
 
-         <RecentEventsContainer>
-            Recently added events.
-         </RecentEventsContainer>
+         <EventsContainer>
+            <h2 className="recentEventHeader">Recently added events.</h2>
+            {recentEvents}
+         </EventsContainer>
       </Wrapper>
    )
 }
 
 
 
-const mapStateToProps = (state) => ({ });
+const mapStateToProps = (state) => ({ recentEntries:state.recentEvents.recentEntries });
 export default connect(mapStateToProps, { getRecentEvents })(Sidebar);

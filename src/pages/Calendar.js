@@ -17,31 +17,10 @@ const Calendar = ({
    const [ headers, setHeaders ] = useState([]);
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-   let done = false;
-   const sorting = () => {
-      if(done){
-         const dates = [];
-         let counter = 0;
-         if(entries.entries){
-            entries.entries.forEach(entry => {
-               dates[counter] = entry.createdAt;
-               counter++;
-            })
-         }
-         console.log(dates);
-         dates.sort()
-         console.log('SORTED');
-         console.log(dates);
-         let done = true;
-      }
-   }
-
-
 
    useEffect(() => {
       genDayHeaders();
       genBoxes();
-      sorting();
    }, [auth, selectedDate, entries]);
    
 

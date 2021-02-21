@@ -7,13 +7,14 @@ const initialState = {
 
 function recentEvents(state = initialState, action) {
    switch(action.type){
-      case RECEIVE_RECENT_ENTRIES:
+      case REQUEST_RECENT_ENTRIES:
          return {
             isFetching:true,
          }
-      case REQUEST_RECENT_ENTRIES:
+      case RECEIVE_RECENT_ENTRIES:
          return {
             isFetching:false,
+            recentEntries:action.payload.recentEntries,
          }
       default:
          return state;
