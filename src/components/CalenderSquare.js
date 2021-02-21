@@ -30,9 +30,6 @@ const StyledCalDay = styled.div`
    &.weekDay{
       background: ${({ theme }) => theme.weekDay};
    }
-   &.outsideDay{
-      opacity:0;
-   }
 `
 
 
@@ -88,13 +85,6 @@ const CalenderSquare = ({
          <StyledCalDay className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
             {calSquareDay}
             {eventTag}
-         </StyledCalDay>
-      )
-   }
-   // Outside month
-   else if(calSquareDay > selectedDate.totalDaysInMonth){
-      return(
-         <StyledCalDay className="outsideDay" >
          </StyledCalDay>
       )
    }
