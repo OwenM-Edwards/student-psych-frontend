@@ -19,7 +19,7 @@ const EventsContainer = styled.div`
    min-height:30%;
    display:flex;
    flex-direction:column;
-   
+   padding:10px;
    & .recentEventHeader{
       font-size:1.1rem;
       margin-bottom:15px;
