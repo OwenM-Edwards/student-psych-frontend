@@ -178,7 +178,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   defaultValue={title}
                   name="eventTitle"
                   minLength="4"
-                  maxlength="50"
+                  maxLength="50"
                   ref={register({ required:true })}
                />
                {/* Description */}
@@ -189,7 +189,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   placeholder="Description - 90 characters."
                   name="eventDescription"
                   minLength="4"
-                  maxlength="90"
+                  maxLength="90"
                   ref={register({ required:true })}
                />
                {/* Organisation */}
@@ -198,7 +198,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   type="text"
                   defaultValue={organisation}
                   placeholder="Organisation"
-                  maxlength="30"
+                  maxLength="30"
                   name="eventOrganisation"
                   ref={register({ required:true })}
                />
