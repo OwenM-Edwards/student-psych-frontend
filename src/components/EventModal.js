@@ -77,10 +77,27 @@ const Wrapper = styled.div`
       background-color:#323f4b;
       border-radius:5px;
       max-width:80%;
-      color:white;
+      color: ${({ theme }) => theme.contrastText};
       padding:5px;
       font-size:1.6rem;
       word-wrap: break-word;
+   }
+   & .career{
+      background-color:${({ theme }) => theme.red};
+      height:100%;
+
+   }
+   & .conference{
+      background-color:${({ theme }) => theme.blue};
+   }
+   & .special{
+      background-color:${({ theme }) => theme.purple};
+   }
+   & .other{
+      background-color:${({ theme }) => theme.orange};
+   }
+   & .revision{
+      background-color:${({ theme }) => theme.green};
    }
    & .eventInfoContainer{
       display:flex;
@@ -158,7 +175,24 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    // PRIVATE
    // private links
    // public links
-
+   let eventTitle = '';
+   switch(modalInfo.type){
+      case 'Careers event':
+         eventTitle = <h1 className="career eventTitle">{modalInfo.title}</h1>
+         break;
+      case 'Conference':
+         eventTitle = <h1 className="conference eventTitle">{modalInfo.title}</h1>
+         break;
+      case 'Special interest talk':
+         eventTitle = <h1 className="special eventTitle">{modalInfo.title}</h1>
+         break;
+      case 'Revision':
+         eventTitle = <h1 className="revision eventTitle">{modalInfo.title}</h1>
+         break;
+      case 'Other':
+         eventTitle = <h1 className="other eventTitle">{modalInfo.title}</h1>
+         break;
+   }
 
 
    // If logged in, display event info
@@ -178,7 +212,8 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
 
             <InfoWrapper>
                {/* Title */}
-               <h1 className="eventTitle">{modalInfo.title}</h1>
+
+               {eventTitle}
                {/* Event time */}
                   <div className="eventInfoContainer">
                   <img className="icon"src={eventTime}/>
@@ -189,8 +224,8 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                   <img className="icon"src={eventDate}/>
                   {`
                      ${printDate.toLocaleString('en-us', {  weekday: 'long' })}
-                     ${printDate.toLocaleString('default', { month: 'long' })} 
                      ${modalInfo.day}, 
+                     ${printDate.toLocaleString('default', { month: 'long' })}, 
                      ${modalInfo.year}.
                   `}
                </div>
