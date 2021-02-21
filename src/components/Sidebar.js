@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `
 const EventsContainer = styled.div`
    width:100%;
-   min-height:30%;
+   min-height:40%;
    display:flex;
    flex-direction:column;
    padding:10px;
