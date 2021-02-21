@@ -12,4 +12,5 @@ export const darkTheme = {
    weekDay:'#616e7c',
    interactable:'#efc9a4',
    warm:'#efc9a4',
+   offwhite:'#e4e7eb',
 }
