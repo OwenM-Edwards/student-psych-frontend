@@ -275,7 +275,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
 
 
                {/* Submit Button */}
-               <input className="formSubmitButton formInput" type="submit" />
+               <input value="Submit" className="formSubmitButton formInput" type="submit" />
             </fieldset>
          </form>
       </Wrapper>
