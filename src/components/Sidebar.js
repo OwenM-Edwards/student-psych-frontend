@@ -26,8 +26,8 @@ const EventsContainer = styled.div`
    }
 `
 const EventTag = styled.div`
-   background-color:${({ theme }) => theme.warm};
-   color:${({ theme }) => theme.contrastText};
+   background-color:${({ theme }) => theme.backgroundLight};
+   color: ${({ theme }) => theme.contrastText};
    padding:5px 0 5px 0;
    border-radius:3px;
    margin: 0 5px 10px 5px;
