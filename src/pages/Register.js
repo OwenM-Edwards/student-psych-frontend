@@ -103,6 +103,7 @@ const Register = ({registerUser, registerState}) => {
                      <option value='DEFAULT' disabled>I am a...</option>
                      <option value="Medical Student">Medical Student</option>
                      <option value="Doctor">Doctor</option>
+                     <option value="Non-medical Student">Doctor</option>
                      <option value="Other">Other</option>
                   </select>
 
