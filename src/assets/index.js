@@ -13,6 +13,7 @@ import eventEdit from './eventEdit.png';
 import eventDelete from './eventDelete.png';
 import add from './add.png';
 import remove from './remove.png';
+import search from './search.png';
 
 export {
    mindMattersLogo,
@@ -30,4 +31,5 @@ export {
    eventDelete,
    add,
    remove,
+   search,
 }

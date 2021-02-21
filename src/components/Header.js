@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import {mindMattersLogo, leftIconDarkMode, rightIconDarkMode} from "../assets/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import {search} from '../assets/index';
 
 const Wrapper = styled.div`
    width:100%;
@@ -48,7 +49,6 @@ const NavigationContainer = styled.div`
    justify-content:space-around;
    padding:0 10px 0 10px;
    margin-right:auto;
-   
    & .todayButton {
       width:auto;
       height:42px;
@@ -86,13 +86,15 @@ const NavigationContainer = styled.div`
 `
 const SearchContainer = styled.div`
    height:100%;
-   width:50%;
-   padding:0 10px 0 10px;
+   width:20%;
    margin-left:auto;
    display:flex;
-   justify-content:flex-end;
+   & .icon {
+      display:inline;
+      height:40px;
+   }
    & .searchForm {
-      width:80%;
+      width:100%;
       align-self:center;
       display:flex;
       flex-direction:row;
@@ -100,13 +102,13 @@ const SearchContainer = styled.div`
       justify-content:center;
    }
    & .searchButton{
-      width:15%;
+      width:14%;
       height:42px;
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
       background-color:${({ theme }) => theme.offwhite};
-      padding: 5px;
+      padding-top:2px;
       border-radius: 0 5px 5px 0;
       display: inline-block;
       border: none;
@@ -117,7 +119,7 @@ const SearchContainer = styled.div`
       align-self:center;
    }
    & .searchField {
-      width:20%;
+      width:30%;
       height:42px;
       padding: .6em 1.4em .5em .8em;
       box-sizing: border-box;
@@ -129,7 +131,7 @@ const SearchContainer = styled.div`
 
    }
    & .searchTerm {
-      width:65%;
+      width:70%;
       height:42px;
       padding-left:15px;
       border-radius:5px 0 0 5px;
@@ -274,7 +276,7 @@ const Header = ({
                   name="searchTerm"
                   ref={register({ required:true})}
                />
-               <input id="searchButton" value="search" className="searchButton" type="submit"/>
+               <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
                <select
                   name="searchField" 
                   ref={register}
@@ -283,6 +285,7 @@ const Header = ({
                   <option value="title">Title</option>
                   <option value="organisation">Organisation</option>
                </select>
+               
             </form>
          </SearchContainer>
 
