@@ -1,9 +1,7 @@
 import React, {useEffect} from 'react';
-import ReactDOM from 'react-dom';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import {modalHandler,deleteEntry} from '../redux/actions/index';
-import Draggable from 'react-draggable'; // The default
 import {
    close,
    eventDate,
@@ -141,6 +139,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    const handleEdit = () => {
       modalHandler({modalDisplay:'edit', modalInfo: modalState.modalInfo});
    }
+
    let publicLinks = [];
    const genPublicLinks = () => {
       let count = 1;
@@ -152,6 +151,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
       })
    }
    genPublicLinks();
+
    let privateLinks = [];
    const genPrivateLinks = () => {
       let count = 1;
@@ -163,18 +163,17 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
             count++;
          })
       }
-
    }
    genPrivateLinks();
+
 
    useEffect(() => {
       genPublicLinks();
       genPrivateLinks();
-   }, [secureInfo, modalInfo]);
+   }, [secureInfo, secureInfo.owner, modalInfo]);
 
-   // PRIVATE
-   // private links
-   // public links
+
+   // Event title colors by event type.
    let eventTitle = '';
    switch(modalInfo.type){
       case 'Careers event':
@@ -195,14 +194,12 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    }
 
 
-   // If logged in, display event info
    return(
-
          <Wrapper>
             {/* Close modal button */}
             <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
             {/* If user created event, show admin contols. */}
-            {(secureInfo && secureInfo.owner)
+            {(secureInfo.owner)
             ? <React.Fragment>
                   <img onClick={handleEdit} className="editButton" src={eventEdit}/>
                   <img onClick={handleDelete} className="deleteButton" src={eventDelete}/>

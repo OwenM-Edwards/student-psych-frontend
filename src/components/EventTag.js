@@ -36,18 +36,6 @@ const Wrapper = styled.div`
    }
 
 `
-// EVENT COLORS AND TYPES
-
-// ORGANISATION TYPES
-// organisation type is tied to the admins org type in database.
-//
-// 
-// POULARITY BASED OFF OF CLICKS, NOt ATTENDING/INTERESTED.
-// HIDE THE SIDEBAR
-
-
-
-
 
 const EventTag = ({ openViewEventModal, eventInfo }) => {
    const handleClick = (e) => {

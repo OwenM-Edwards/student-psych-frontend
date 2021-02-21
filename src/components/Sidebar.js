@@ -102,8 +102,8 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
             <p className="colorCode red">Careers Event</p>
             <p className="colorCode blue">Conference</p>
             <p className="colorCode purple">Special Interest Talk</p>
-            <p className="colorCode orange">Other</p>
             <p className="colorCode green">Revision or Training</p>
+            <p className="colorCode orange">Other</p>
          </EventsContainer>
       </Wrapper>
    )

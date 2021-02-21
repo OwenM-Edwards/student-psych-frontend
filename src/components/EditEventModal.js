@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { LoadingIcon } from './index';
-import { toast } from 'react-toastify';
-import {modalHandler, editEvent} from '../redux/actions/index';
+import {modalHandler, editEntry} from '../redux/actions/index';
 import { EventForm } from '../components/index';
 
-import { editEntry } from '../redux/actions/index';
 import {
    close,
 } from '../assets/index';
@@ -52,55 +49,20 @@ const Wrapper = styled.div`
       margin-top:10px;
    }
 `
-const StyledCloseButton = styled.div`
-   position:absolute;
-   top:0;
-   right:0;
-   width:20px;
-   height:20px;
-   background-color:red;
-   cursor: pointer;
-`
 
 const EditEventModal = ({ 
       auth, 
-      addEntryState, 
-      setModalToggle, 
-      handleEditEvent, 
+      editEntryState, 
       modalState,
       modalHandler,
       editEntry,
    }) => {
    const modalInfo = modalState.modalInfo;
-   const [ inputTitle, setInputTitle ] = useState(modalInfo.title);
-   const [ inputStartTime, setInputStartTime ] = useState(modalInfo.starttime);
-   const [ inputEndTime, setInputEndTime ] = useState(modalInfo.endtime);
-   const [ inputType, setInputType ] = useState('type 1');
-   const [ inputDescription, setInputDescription ] = useState(modalInfo.description);
-   const eventTypes = [
-      { value: 'type 1', label: 'Event Type One'},
-      { value: 'type 2', label: 'Event Type Two'},
-      { value: 'type 3', label: 'Event Type Three'},
-   ];
+
    const capitalizeTrim = (string) => {
       let returnString = string[0].toUpperCase() + string.slice(1);
       
       return returnString.trim();
-   }
-   const handleTitle = (e) => {
-      setInputTitle(e.target.value);
-   }
-   const handleStartTime = (e) => {
-      setInputStartTime(e.target.value);
-   }
-   const handleEndTime = (e) => {
-      setInputEndTime(e.target.value);
-   }
-   const handleType = (e) => {
-      setInputType(e.value);
-   }
-   const handleDescription = (e) => {
-      setInputDescription(e.target.value);
    }
 
    const handleEdit = (data) => {
@@ -123,7 +85,7 @@ const EditEventModal = ({
    }
 
 
-   if(!addEntryState.isFetching){
+   if(!editEntryState.isFetching){
       return(
          <Wrapper>
             <h1 className="formTitle">Edit Event</h1>
@@ -146,6 +108,6 @@ const EditEventModal = ({
    
 }
 
-const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, addEntryState: state.addEntry });
+const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, editEntryState: state.editEntry });
 
 export default connect(mapStateToProps,{modalHandler, editEntry})(EditEventModal);

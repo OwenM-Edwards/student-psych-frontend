@@ -51,16 +51,21 @@ const Calendar = ({
    // View Event
    const openViewEventModal = (eventInfo) => {
       if(auth.user.id){
-         getSecureEventInfo({
-            eventInfo:eventInfo,
-            userid:auth.user.id
-         })
+         async function f(){
+            const secureInfo = await getSecureEventInfo({
+               eventInfo:eventInfo,
+               userid:auth.user.id
+            })
+
+            modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+         } 
+         f(); 
       }
       else{
          toast.dismiss();
          toast.info('Please login to view full event.');
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
-      modalHandler({modalDisplay:'view', modalInfo: eventInfo});
    }
    const closeModals = () => {
       if(modalState.modalDisplay){
