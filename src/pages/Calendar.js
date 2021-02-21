@@ -183,9 +183,8 @@ const StyledMain = styled.div`
    display:flex;
    flex-direction:column;
    flex-wrap:nowrap;
-   padding:50px 50px 50px 0px;
+   padding:30px 30px 10px 0px;
    transition: all 0.2s ease-in-out;
-
 `
 const CalenderBoxesContainer = styled.div`
    width:100%;
@@ -194,7 +193,7 @@ const CalenderBoxesContainer = styled.div`
    grid-template-columns:repeat(7, 1fr);
    grid-auto-rows: 1fr;
    grid-gap:5px;
-   padding:5px 0 20px 50px;
+   padding:5px 0 20px 30px;
 `
 const CalenderHeaderContainer = styled.div`
    width:100%;
@@ -202,7 +201,7 @@ const CalenderHeaderContainer = styled.div`
    display:grid;
    grid-template-columns:repeat(7, 1fr);
    grid-gap:5px;
-   padding-left:50px;
+   padding-left:30px;
 `
 const CalenderSquareContainer  = styled.div`
    width:1fr;

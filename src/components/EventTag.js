@@ -78,6 +78,11 @@ const EventTag = ({ openViewEventModal, eventInfo }) => {
          </Wrapper>
       )
    }
+   else {
+      return (
+         null
+      )
+   }
 }
 
 export default EventTag;

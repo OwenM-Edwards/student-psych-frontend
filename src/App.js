@@ -16,6 +16,20 @@ import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./components/GlobalStyle";
 import { darkTheme } from "./components/Theme"
 
+import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
+const history = createBrowserHistory();
+
+const trackingId = "G-2ES0TGG9ZW";
+ReactGA.initialize(trackingId);
+ReactGA.set({
+  userid: 2
+})
+history.listen(location => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
+
 const Wrapper = styled.div`
   min-width:100%;
   max-width: 100%;

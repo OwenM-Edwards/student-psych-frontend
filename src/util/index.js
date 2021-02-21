@@ -58,8 +58,13 @@ export const getEntriesAPI = async (month, year) => {
          month : month,
          year : year
       }})
+      if(getEntry.data){
+         return getEntry.data;
+      }
+      else {
+         return false;
+      }
 
-      return getEntry.data;
    }
    catch (err) {
       toast.dismiss();
@@ -79,9 +84,9 @@ export const addEntryAPI = async (eventInfo) => {
       
    }
    catch (err) {
+      console.log(err.response.data)
       toast.dismiss();
-      toast.error(err);
-      
+      toast.error('test');
       return false;
    }
 }

@@ -13,10 +13,14 @@ const Wrapper = styled.div`
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    text-align:center;
    padding-top:8%;
+   display:flex;
+   flex-direction:column;
+   justify-content:space-between;
+   align-content:space-between;
 `
 const EventsContainer = styled.div`
    width:100%;
-   min-height:30%;
+   min-height:20%;
    display:flex;
    flex-direction:column;
    padding:10px;
@@ -25,6 +29,7 @@ const EventsContainer = styled.div`
       margin-bottom:15px;
    }
    & .colorCode{
+      border-radius:3px;
       opacity:0.9;
       margin-bottom:5px;
       color: ${({ theme }) => theme.contrastText};
@@ -49,11 +54,13 @@ const EventsContainer = styled.div`
    }
 `
 const EventTag = styled.div`
+   opacity:0.9;
+   width:95%;
    background-color:${({ theme }) => theme.backgroundLight};
    color: ${({ theme }) => theme.contrastText};
    padding:5px 0 5px 0;
    border-radius:3px;
-   margin: 0 5px 10px 5px;
+   margin: 0 5px 5px 5px;
    cursor: pointer;
 `
 
@@ -65,9 +72,34 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
       if(recentEntries && capReached !== true){
          recentEntries.forEach(entry => {
             if(counter < 3){
-               recentEvents.push(
-                  <EventTag key={counter}>{entry.title}</EventTag>
-               )
+               switch(entry.type){
+                  case 'Careers event':
+                     recentEvents.push(
+                        <EventTag className="red" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Conference':
+                     recentEvents.push(
+                        <EventTag className="blue" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Special interest talk':
+                     recentEvents.push(
+                        <EventTag className="purple" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Revision':
+                     recentEvents.push(
+                        <EventTag className="green" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Other':
+                     recentEvents.push(
+                        <EventTag className="orange" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+               }
+
                counter++;
             }
             else {
