@@ -10,6 +10,7 @@ function secureEntry(state = initialState, action) {
       case REQUEST_SECURE_ENTRY:
          return {
             isFetching: true,
+            secureInfo:false,
          }
       case RECEIVE_SECURE_ENTRY:
          return {
