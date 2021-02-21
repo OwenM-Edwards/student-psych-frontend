@@ -21,8 +21,6 @@ const Wrapper = styled.div`
    & .career{
       background-color:${({ theme }) => theme.red};
       height:100%;
-      
-
    }
    & .conference{
       background-color:${({ theme }) => theme.blue};
@@ -43,19 +41,9 @@ const Wrapper = styled.div`
 // ORGANISATION TYPES
 // organisation type is tied to the admins org type in database.
 //
-//
-// careers event / RED
-// conference / BLUE
-// special interest talk / PURPLE
-// other / ORANGE
-// revision / training / GREEN
 // 
 // POULARITY BASED OFF OF CLICKS, NOt ATTENDING/INTERESTED.
-// 
-// 
-// COLOR KEY IN THE SIDEBAR
 // HIDE THE SIDEBAR
-// DATE IS AMERICAN
 
 
 
