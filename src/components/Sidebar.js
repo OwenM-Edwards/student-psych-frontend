@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
+import { getRecentEvents } from '../redux/actions/index';
+import { connect } from 'react-redux';
 
 const Wrapper = styled.div`
    width:20%;
@@ -20,7 +22,13 @@ const RecentEventsContainer = styled.div`
    height:50%;
 `
 
-const Sidebar = () => {
+const Sidebar = ({getRecentEvents}) => {
+
+   useEffect(() => {
+      getRecentEvents();
+   }, []);
+
+
    return(
       <Wrapper>
          <PopularEventsContainer>
@@ -34,4 +42,7 @@ const Sidebar = () => {
    )
 }
 
-export default Sidebar;
+
+
+const mapStateToProps = (state) => ({ });
+export default connect(mapStateToProps, { getRecentEvents })(Sidebar);

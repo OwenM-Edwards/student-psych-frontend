@@ -175,7 +175,6 @@ const Header = ({
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
    const onSubmit = (data) => {
-      console.log(data)
       if(!data.searchField){
          toast.dismiss();
          toast.info('Please enter a search term first.');
@@ -267,7 +266,7 @@ const Header = ({
                   name="searchTerm"
                   ref={register({ required:true})}
                />
-               <input id="searchButton" value="submit" className="searchButton" type="submit"/>
+               <input id="searchButton" value="search" className="searchButton" type="submit"/>
                <select
                   name="searchField" 
                   ref={register}

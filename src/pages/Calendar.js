@@ -17,10 +17,31 @@ const Calendar = ({
    const [ headers, setHeaders ] = useState([]);
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
+   let done = false;
+   const sorting = () => {
+      if(done){
+         const dates = [];
+         let counter = 0;
+         if(entries.entries){
+            entries.entries.forEach(entry => {
+               dates[counter] = entry.createdAt;
+               counter++;
+            })
+         }
+         console.log(dates);
+         dates.sort()
+         console.log('SORTED');
+         console.log(dates);
+         let done = true;
+      }
+   }
+
+
 
    useEffect(() => {
       genDayHeaders();
       genBoxes();
+      sorting();
    }, [auth, selectedDate, entries]);
    
 
@@ -60,7 +81,6 @@ const Calendar = ({
          toast.dismiss();
          toast.info('Please login to view full event.');
       }
-      console.log(eventInfo)
       modalHandler({modalDisplay:'view', modalInfo: eventInfo});
    }
    const closeModals = () => {
@@ -87,7 +107,7 @@ const Calendar = ({
             }
             precedingDaysCompleted = true
          }
-         // Esle backdate required awaures.
+         // Esle backdate required days.
          else if(precedingMonthCheck.getDay() > 1 ){
             for(let i = precedingMonthCheck.getDay()-1; i > 0; i--){
                tempBoxes.push(

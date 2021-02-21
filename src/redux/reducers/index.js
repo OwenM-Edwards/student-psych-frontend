@@ -10,6 +10,7 @@ import secureEntry from './secureEntry';
 import token from './token';
 import searchEntries from './searchEntries';
 import modal from './modal';
+import recentEvents from './recentEvents';
 
 export default combineReducers({
    entries,
@@ -23,4 +24,5 @@ export default combineReducers({
    token,
    searchEntries,
    modal,
+   recentEvents,
 });

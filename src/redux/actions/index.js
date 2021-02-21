@@ -21,6 +21,8 @@ import {
    REQUEST_SEARCH_TERM,
    RECEIVE_SEARCH_TERM,
    MODAL_HANDLE,
+   REQUEST_RECENT_ENTRIES,
+   RECEIVE_RECENT_ENTRIES,
 } from './action-types';
 
 import { 
@@ -33,7 +35,23 @@ import {
    deleteEntryAPI,
    editEntryAPI,
    searchEntriesAPI,
+   recentEntriesAPI,
 } from '../../util/index';
+
+
+// Get recent events.
+export const getRecentEvents = () => async (dispatch) => {
+   dispatch({
+      type: REQUEST_RECENT_ENTRIES,
+   })
+   const APIData = await recentEntriesAPI()
+   dispatch({
+      type: RECEIVE_RECENT_ENTRIES,
+      payload:{
+         recentEntries: APIData,
+      }
+   })
+}
 
 
 // Set modal info.
@@ -121,11 +139,11 @@ export const addEntry = (eventInfo) =>  async (dispatch) => {
 
 
 // Delete event.
-export const deleteEntry = (entryid) =>  async (dispatch) => {
+export const deleteEntry = (entryid, userid) =>  async (dispatch) => {
    dispatch({
       type: REQUEST_DELETE_ENTRY,
    })
-   const APIData = await deleteEntryAPI(entryid);
+   const APIData = await deleteEntryAPI(entryid,userid);
    dispatch({
       type: RECEIVE_DELETE_ENTRY,
    })

@@ -17,8 +17,8 @@ const StyledCalDay = styled.div`
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    }
    &.precedingDay{
-      background: ${({ theme }) => theme.precedingDay};
-      color: ${({ theme }) => theme.contrastText};
+      background: ${({ theme }) => theme.currentDay};
+      opacity:0.05;
    }
    &.currentDay{
       background: ${({ theme }) => theme.currentDay};
@@ -69,7 +69,7 @@ const CalenderSquare = ({
    // Preceding day
    if(type==='preceding'){
       return(
-         <StyledCalDay className="currentDay" id={calSquareDay}>
+         <StyledCalDay className="precedingDay" id={calSquareDay}>
          </StyledCalDay>
       )
    }

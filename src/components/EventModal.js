@@ -34,7 +34,7 @@ const Wrapper = styled.div`
    & .icon {
       width:20px;
       height:20px;
-      margin-right:5px;
+      margin-right:15px;
    }
    & .closeButton{
       position:absolute;
@@ -116,7 +116,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    const modalInfo = modalState.modalInfo;
    const printDate = new Date(modalInfo.year, modalInfo.month - 1, modalInfo.day);
    const handleDelete = () => {
-      deleteEntry(secureInfo.eventinfo.id);
+      deleteEntry(secureInfo.eventinfo.id, auth.user.id);
       modalHandler(false);
    }
    
@@ -151,7 +151,6 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    genPrivateLinks();
 
    useEffect(() => {
-      console.log('trig')
       genPublicLinks();
       genPrivateLinks();
    }, [secureInfo, modalInfo]);
@@ -216,7 +215,6 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                </div>
                {/* Public Links */}
                <div className="eventInfoContainer">
-
                   <img className="icon"src={eventLink}/>
                   <span>{publicLinks}</span>
                </div>    

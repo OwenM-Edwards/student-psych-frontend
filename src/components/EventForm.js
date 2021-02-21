@@ -42,7 +42,6 @@ const EventForm = ({handleSubmitEvent}) => {
    const [publicInfoState, setPublicInfoState] = useState(["","",""]);
    const [privateInfoState, setPrivateInfoState] = useState(["","",""]);
    const onSubmit = (data) => {
-      console.log(data)
       // Sets the default values of the dynamically generated link inputs, to current values.
       // This persists them in state, and if form failed validation, they wont vanish.
       setPublicInfoState([data.PublicLinkInfo0,data.PublicLinkInfo1,data.PublicLinkInfo2])

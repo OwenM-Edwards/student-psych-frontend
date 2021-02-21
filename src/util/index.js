@@ -9,6 +9,25 @@ const api = axios.create({
 }); 
 
 
+// Recent Entries.
+export const recentEntriesAPI = async () => {
+   try {
+      const recentEntries = await api.get('entry/recent')
+      if(recentEntries.data){
+         console.log(recentEntries.data)
+         return recentEntries.data;
+      }
+      else {
+         return false;
+      }
+
+   } catch (err) {
+      toast.dismiss();
+      toast.error(err.response.data);
+      return false;
+   }
+}
+
 // Search events.
 export const searchEntriesAPI = async (searchfield, searchterm) => {
    try {
@@ -64,10 +83,11 @@ export const addEntryAPI = async (eventInfo) => {
 }
 
 // Delete event.
-export const deleteEntryAPI = async (entryid) => {
+export const deleteEntryAPI = async (entryid, userid) => {
    try {
       const deleteEntry = await api.delete('entry/deleteentry', { params: {
-         entryid : entryid
+         entryid : entryid,
+         userid: userid,
       }})
       return true;
    }
@@ -145,7 +165,6 @@ export const authenticateAPI = async ( userEmail, userPassword ) => {
 
 // Register new user.
 export const registerAPI = async ( userEmail, userPassword ) => {
-   console.log(userEmail, userPassword)
    try {
       const register = await api.post('auth/register',{ data: {
             "userpassword": userPassword,
