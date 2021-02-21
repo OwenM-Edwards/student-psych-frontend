@@ -55,7 +55,7 @@ const NavigationContainer = styled.div`
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.warm};
       padding: 5px 10px 5px 10px;
       border-radius:5px;
       display: inline-block;
