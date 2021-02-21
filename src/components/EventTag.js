@@ -17,6 +17,34 @@ const Wrapper = styled.div`
    transition: all 0.2s ease-in-out;
 
 `
+// EVENT COLORS AND TYPES
+
+// ORGANISATION TYPES
+// organisation type is tied to the admins org type in database.
+//
+//
+// careers event / RED
+// conference / BLUE
+// special interest talk / PURPLE
+// other / ORANGE
+// revision / training / GREEN
+// 
+// POULARITY BASED OFF OF CLICKS, NOt ATTENDING/INTERESTED.
+// 
+// EXTRA REGISTER INFO
+// confirm password
+// extra info about admin etc
+// I am a - medical student / doctor / student studying alternate degree, other
+// 
+// 
+// REMOVE SEARCH FIELD, SEARCH BY BOTH BY DEFUALT.
+// 
+// COLOR KEY IN THE SIDEBAR
+// HIDE THE SIDEBAR
+// DATE IS AMERICAN
+
+
+
 
 
 const EventTag = ({ openViewEventModal, eventInfo }) => {

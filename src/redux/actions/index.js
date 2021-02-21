@@ -183,11 +183,11 @@ export const signIn = (info) => async (dispatch) => {
 }
 
 // Register new user.
-export const registerUser = (info) => async (dispatch) => {
+export const registerUser = (userEmail, userPassword, userType) => async (dispatch) => {
    dispatch({
       type: REQUEST_REGISTER_USER,
    })
-   const APIData = await registerAPI(info.userEmail, info.userPassword)
+   const APIData = await registerAPI(userEmail, userPassword, userType)
    dispatch({
       type: RECEIVE_REGISTER_USER,
    })

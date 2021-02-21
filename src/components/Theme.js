@@ -13,4 +13,10 @@ export const darkTheme = {
    interactable:'#efc9a4',
    warm:'#efc9a4',
    offwhite:'#e4e7eb',
+
+   green: '#AED581',
+   red: '#FF8A80',
+   blue: '#82B1FF',
+   orange: '#FFCC80',
+   purple: '#B388FF',
 }

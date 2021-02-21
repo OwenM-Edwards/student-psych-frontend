@@ -235,8 +235,11 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   className="formInput" 
                   ref={register}
                >
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
+                  <option value="Careers event">Careers event</option>
+                  <option value="Conference">Conference</option>
+                  <option value="Special interest talk">Special interest talk</option>
+                  <option value="Revision">Revision</option>
+                  <option value="Other">Other</option>
                </select>
 
                <div className="formLinks">

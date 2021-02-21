@@ -33,7 +33,8 @@ const StyledCalDay = styled.div`
       }
    }
    &.currentDay{
-      background: ${({ theme }) => theme.warm};
+      background-color:${({ theme }) => theme.backgroundLight};
+      opacity:0.7;
    }
    &.weekendDay{
       background: ${({ theme }) => theme.weekendDay};

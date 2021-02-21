@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
 const api = axios.create({
-   // baseURL: 'http://localhost:3000'
+   // baseURL: 'http://localhost:3000',
    baseURL: 'https://student-psych-api.herokuapp.com/',
    headers: {
      token: `${token.id}`, 
@@ -23,7 +23,8 @@ export const recentEntriesAPI = async () => {
 
    } catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+         toast.error(err);
+      
       return false;
    }
 }
@@ -44,7 +45,8 @@ export const searchEntriesAPI = async (searchfield, searchterm) => {
 
    } catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -61,7 +63,8 @@ export const getEntriesAPI = async (month, year) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -77,7 +80,8 @@ export const addEntryAPI = async (eventInfo) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -93,7 +97,8 @@ export const deleteEntryAPI = async (entryid, userid) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -108,7 +113,8 @@ export const editEntryAPI = async (eventInfo) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error('test');
+      toast.error(err);
+      
       return false;
    }
 }
@@ -126,7 +132,8 @@ export const secureEventInfoAPI = async ( day, month, year, userid ) => {
    }
    catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -141,7 +148,8 @@ export const verifyAPI = async ( token ) => {
       return true;
    } catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
@@ -158,23 +166,27 @@ export const authenticateAPI = async ( userEmail, userPassword ) => {
       return user.data;
    } catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }
 
 // Register new user.
-export const registerAPI = async ( userEmail, userPassword ) => {
+export const registerAPI = async ( userEmail, userPassword, userType ) => {
+   console.log(userEmail, userPassword, userType)
    try {
-      const register = await api.post('auth/register',{ data: {
+      const register = await api.post('auth/register', { data: {
             "userpassword": userPassword,
             "useremail": userEmail,
+            "usertype" : userType,
          }
       })
       return register;
    } catch (err) {
       toast.dismiss();
-      toast.error(err.response.data);
+      toast.error(err);
+      
       return false;
    }
 }

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { registerUser } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
@@ -33,7 +35,7 @@ const Wrapper = styled.div`
    & .registerInput {
       padding:10px;
       width:100%;
-      margin: 0 auto;
+      margin: 2px auto;
    }
 `
 const RegisterAcceptedModal = styled.div`
@@ -44,17 +46,17 @@ const RegisterAcceptedModal = styled.div`
 `
 
 const Register = ({registerUser, registerState}) => {
-   const [ userEmail, setUserEmail] = useState('');
-   const [ userPassword, setUserPassword] = useState('');
-   const handlePassword = (event) => {
-      setUserPassword(event.target.value)
-   }
-   const handleEmail = (event) => {
-      setUserEmail(event.target.value)
-   }
-   const handleRegister = (event) => {
-      event.preventDefault();
-      registerUser({userEmail, userPassword})
+   const { register, handleSubmit, watch, errors } = useForm();
+
+   const handleRegister = (data) => {
+      console.log(data)
+      if(data.userPassword !== data.userPasswordConfirm){
+         toast.dismiss();
+         toast.error('Passwords must match.');
+      }
+      else {
+         registerUser(data.userEmail, data.userPassword, data.userType)
+      }
    }
 
    if(!registerState.isFetching){
@@ -69,22 +71,42 @@ const Register = ({registerUser, registerState}) => {
                </RegisterAcceptedModal>
                : <div></div>
             }
-            <form onSubmit={handleRegister} className="registerForm">
+            <form onSubmit={handleSubmit(handleRegister)} className="registerForm">
                <fieldset className="registerFieldset">
                   <legend>Register</legend>
                   <input
                      placeholder="Email"
                      className="registerInput"
-                     onChange={handleEmail} 
-                     type="email" name="email-address"  id="email-address" 
+                     ref={register({ required:true })}
+                     type="email" name="userEmail"  id="email-address" 
                   />
                   <input 
                      placeholder="Password"
                      minLength= "6"
                      className="registerInput"
-                     onChange={handlePassword} 
-                     type="password" name="password"  id="password" 
+                     ref={register({ required:true })}
+                     type="password" name="userPassword"  id="password" 
                   />
+                  <input 
+                     placeholder="Confirm Password"
+                     minLength= "6"
+                     className="registerInput"
+                     ref={register({ required:true })}
+                     type="password" name="userPasswordConfirm"  id="password" 
+                  />
+                  <select 
+                     className="registerInput"
+                     name="userType"
+                     ref={register({ required:true })}
+                     defaultValue={'DEFAULT'}
+                  >
+                     <option value='DEFAULT' disabled>I am a...</option>
+                     <option value="Medical Student">Medical Student</option>
+                     <option value="Doctor">Doctor</option>
+                     <option value="Other">Other</option>
+                  </select>
+
+
                   <div className="buttonContainer">
                      <input 
                         className="registerInput" 
