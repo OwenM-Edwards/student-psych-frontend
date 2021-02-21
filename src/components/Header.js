@@ -49,14 +49,13 @@ const NavigationContainer = styled.div`
    padding:0 10px 0 10px;
    margin-right:auto;
    & .todayButton {
-      width:50%;
-      max-width: 50px;
+      width:auto;
       height:42px;
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
       background-color:${({ theme }) => theme.offwhite};
-      padding: 5px;
+      padding: 5px 10px 5px 10px;
       border-radius:5px;
       display: inline-block;
       border: none;
