@@ -1,10 +1,14 @@
-images for events.
-google cal style account modal.
-google cal style search by whole month in sidebar.
-check for uni emails.
-allow partial view when not logged in.
-Encrypt user login.
-Mod page for Ella.
-Add logo.
-Add iconsvg.
-Dark/light mode.
+
+// EVENT COLORS AND TYPES
+
+// ORGANISATION TYPES
+// organisation type is tied to the admins org type in database.
+//
+// 
+// POULARITY BASED OFF OF CLICKS, NOt ATTENDING/INTERESTED.
+// HIDE THE SIDEBAR
+// 
+// EDIT EVENT RESTS TYPE
+// LINKS DONT WORK
+// CANT EDIT EVENT -SOME TO DO WITH SECURE INFO
+ 
