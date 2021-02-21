@@ -120,12 +120,13 @@ export const editEntryAPI = async (eventInfo) => {
 }
 
 // Get secured event info if logged in.
-export const secureEventInfoAPI = async ( day, month, year, userid ) => {
+export const secureEventInfoAPI = async ( day, month, year, id, userid ) => {
    try {
       const getSecureEntry = await api.get('entry/getsecureentry', { params: {
          day: day,
          month : month,
          year : year,
+         id: id,
          userid: userid,
       }})
       return getSecureEntry.data;
