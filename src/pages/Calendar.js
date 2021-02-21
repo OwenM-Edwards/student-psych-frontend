@@ -102,7 +102,7 @@ const Calendar = ({
          }
       }
       // Gen rest of month
-      for(let i = 1; i < 31 + 1; i++){
+      for(let i = 1; i < selectedDate.totalDaysInMonth + 1; i++){
          tempBoxes.push(
             <CalenderSquareContainer key={i} >
                <CalenderSquare 
