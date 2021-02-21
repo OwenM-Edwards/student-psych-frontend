@@ -9,7 +9,36 @@ const Wrapper = styled.div`
    width:100%;
    height:100%;
    display:flex;
+   flex-direction:column;
    justify-content:center;
+   background-color: ${({ theme }) => theme.background};
+   
+   & .buttonContainer {
+      align-self:center;
+      background-color: ${({ theme }) => theme.backgroundContrast};
+      width:300px;
+      height:200px;
+      display:flex;
+      border-radius:10px;
+      justify-content:center;
+   }
+   & .verifyButton{
+      align-self:center;
+      width:100px;
+      height:40px;
+      color: #2b2b2b;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: white;
+      padding: 5px;
+      border-radius:5px;
+      border: none;
+      transition: all 0.4s ease 0s;
+      cursor:pointer;
+      &:hover{
+         scale:0.98;
+      }
+   }
 
 `
 
@@ -17,6 +46,13 @@ const Wrapper = styled.div`
 const Verify = ({verifyToken, tokenState}) => {
    const location = window.location.href;
    const token = location.substring(location.lastIndexOf('/') + 1);
+   if(token === 'verify'){
+      window.location = '/calendar';
+   }
+
+   
+
+
 
    useEffect(()=>{
       if(tokenState.success){
@@ -32,7 +68,9 @@ const Verify = ({verifyToken, tokenState}) => {
    if(!tokenState.isFetching){
       return(
          <Wrapper>
-            <button onClick={submitToken}>Verify Email</button>
+            <div className="buttonContainer">
+               <button className="verifyButton" onClick={submitToken}>Verify Email</button>
+            </div>
          </Wrapper>
       )   
    }

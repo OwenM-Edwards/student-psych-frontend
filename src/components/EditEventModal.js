@@ -5,15 +5,52 @@ import Select from 'react-select';
 import { LoadingIcon } from './index';
 import { toast } from 'react-toastify';
 import {modalHandler, editEvent} from '../redux/actions/index';
+import { EventForm } from '../components/index';
 
 import { editEntry } from '../redux/actions/index';
+import {
+   close,
+} from '../assets/index';
 
 const Wrapper = styled.div`
    position:absolute;
-   width:400px;
-   height:500px;
-   background-color:white;
+   top:10%;
+   left:20%;
+   width:500px;
+   height:auto;
+   background: ${({ theme }) => theme.backgroundLight};
+   color: ${({ theme }) => theme.contrastText};
+   display:flex;
+   flex-direction:column;
+   padding:10px;
    z-index:2;
+   border-radius:5px;
+   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   & .formTitle {
+      font-size:1.6rem;
+      position: relative;
+      left:10px;
+   }
+   & .closeButton{
+      position:absolute;
+      top:8px;
+      right:5px;
+      width:30px;
+      height:30px;
+      cursor: pointer;
+      transition: all 0.2s ease 0s;
+      &:hover {
+         scale:0.9;
+      }
+   }
+   & .inputForm{
+      display:flex;
+      flex-direction:column;
+      flex-wrap:nowrap;
+      padding:10px;
+      border: 0;
+      margin-top:10px;
+   }
 `
 const StyledCloseButton = styled.div`
    position:absolute;
@@ -45,7 +82,11 @@ const EditEventModal = ({
       { value: 'type 2', label: 'Event Type Two'},
       { value: 'type 3', label: 'Event Type Three'},
    ];
-
+   const capitalizeTrim = (string) => {
+      let returnString = string[0].toUpperCase() + string.slice(1);
+      
+      return returnString.trim();
+   }
    const handleTitle = (e) => {
       setInputTitle(e.target.value);
    }
@@ -62,21 +103,21 @@ const EditEventModal = ({
       setInputDescription(e.target.value);
    }
 
-   const handleEdit = (e) => {
-      e.preventDefault();
+   const handleEdit = (data) => {
       editEntry({
-         title:inputTitle,
-         description:inputDescription,
+         title:capitalizeTrim(data.eventTitle),
+         description:capitalizeTrim(data.eventDescription),
+         organisation:capitalizeTrim(data.eventOrganisation),
          day:modalInfo.day,
-         id: modalInfo.id,
          month:modalInfo.month,
          year:modalInfo.year,
-         image:'image',
-         type:inputType,
+         image:'',
+         type:data.eventType,
          userid:auth.user.id,
-         starttime:inputStartTime,
-         endtime:inputEndTime,
+         starttime:data.eventStartTime,
+         endtime:data.eventEndTime,
          entryid:modalInfo.id,
+         id: modalInfo.id,
       })
       modalHandler(false);
    }
@@ -85,55 +126,13 @@ const EditEventModal = ({
    if(!addEntryState.isFetching){
       return(
          <Wrapper>
-            EDIT EVENT MODAL
-            <StyledCloseButton onClick={()=>modalHandler(false)}></StyledCloseButton>
-            <form onSubmit={handleEdit}>
-               <fieldset>
-                  <legend>Add Event.</legend>
-                  <input
-                     placeholder="Title"
-                     type="text" 
-                     name="event-title"
-                     defaultValue={modalInfo.title}
-                     required="required"
-                     onChange={handleTitle}
-                  />
-   
-                  <input
-                     placeholder="Start Time"
-                     type="time" name="start-event-time"
-                     required="required"
-                     defaultValue={modalInfo.starttime}
-                     onChange={handleStartTime}
-                  />
-                  <input
-                     placeholder="End Time"
-                     type="time" name="end-event-time"
-                     required="required"
-                     defaultValue={modalInfo.endtime}
-                     onChange={handleEndTime}
-                  />
-   
-                  <Select
-                     defaultValue={eventTypes[0]}
-                     options={eventTypes}
-                     isSearchable={false}
-                     required="required"
-                     onChange={handleType}
-                  />
-   
-                  <textarea
-                     placeholder="Event Description"
-                     type="text"
-                     defaultValue={modalInfo.description}
-                     required="required"
-                     minLength="3"
-                     maxLength="80"
-                     onChange={handleDescription}
-                  />
-                  <button type="submit">Submit</button>
-               </fieldset>
-            </form>
+            <h1 className="formTitle">Edit Event</h1>
+            {/* Close modal button */}
+            <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+
+            <div className="inputForm">
+               <EventForm defaultOptions={modalInfo} handleSubmitEvent={handleEdit}/>
+            </div>
          </Wrapper>
       )
    }

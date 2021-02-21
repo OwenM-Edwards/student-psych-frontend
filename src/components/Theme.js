@@ -11,4 +11,5 @@ export const darkTheme = {
    weekendDay:'#3e4c59',
    weekDay:'#616e7c',
    interactable:'#efc9a4',
+   warm:'#efc9a4',
 }

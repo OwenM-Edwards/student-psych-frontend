@@ -5,6 +5,18 @@ import {
    add,
    remove,
 } from '../assets/index';
+import {
+   close,
+   eventDate,
+   eventDescription,
+   eventLink,
+   eventOrganisation,
+   eventSecure,
+   eventTime,
+   eventType,
+   eventEdit,
+   eventDelete,
+} from '../assets/index';
 
 
 const Wrapper = styled.div`
@@ -17,6 +29,11 @@ const Wrapper = styled.div`
    word-wrap: break-word;
    color: ${({ theme }) => theme.contrastText};
    z-index:3;
+
+   & .formInput {
+      padding:10px;
+      margin-bottom:5px;
+   }
    & .inputForm{
       display:flex;
       flex-direction:column;
@@ -25,6 +42,56 @@ const Wrapper = styled.div`
       border: 0;
       margin-top:10px;
    }
+   & .eventTimeContainer{
+      width:50%;
+      align-self:flex-start;
+      display:flex;  
+   }
+   & .formTime{
+         width:50%;
+         height:100%;
+      }
+   & .formDescription{
+      resize: none;
+   }
+   & .formSubmitButton {
+      width:100px;
+      height:40px;
+      color: #2b2b2b;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: white;
+      padding: 5px;
+      border-radius:5px;
+      border: none;
+      transition: all 0.4s ease 0s;
+      margin-top:10px;
+      cursor:pointer;
+      &:hover{
+         scale:0.98;
+      }
+   }
+   & .formLinks {
+      width:100%;
+      height: auto;
+      display:flex;
+      flex-wrap:wrap;
+      margin-bottom:5px;
+      margin-top:10px;
+   }
+   & .formLink {
+      width:40%;
+      padding:5px;
+      height:30px;
+      margin-bottom:5px;
+   }
+   & .formLinkType {
+      width:40%;
+      height:30px;
+      margin-bottom:5px;
+      margin-right:5px;
+   }
+
    & .icon {
       width:5%;
       height:23px;
@@ -33,9 +100,14 @@ const Wrapper = styled.div`
    }
 `
 
+// HandleSubmitEvent is the event to fire on form completion.
+// Default options, enter false if form starts empty.
 
+const EventForm = ({handleSubmitEvent, defaultOptions}) => {
+   
+   const {title, organisation, description, day, month, year, image, type, starttime, endtime} = (defaultOptions) ? defaultOptions : '';
+   
 
-const EventForm = ({handleSubmitEvent}) => {
    const { register, handleSubmit, watch, errors } = useForm();
    const [publicCount, setPublicCount] = useState(1);
    const [privateCount, setPrivateCount] = useState(1);
@@ -74,6 +146,7 @@ const EventForm = ({handleSubmitEvent}) => {
       return (
          <React.Fragment>
             <input
+               className="formLink" 
                placeholder={`${type} Link`}
                type="text" 
                name={`${type}LinkInfo${id}`}
@@ -83,8 +156,8 @@ const EventForm = ({handleSubmitEvent}) => {
                id={id}
             />
             <select 
+               className="formLinkType" 
                name={`${type}LinkType${id}`}
-               className="formType" 
                ref={register}
             >
                <option value="1">Option 1</option>
@@ -102,13 +175,15 @@ const EventForm = ({handleSubmitEvent}) => {
                   className="formInput"
                   type="text"
                   placeholder="Title"
+                  defaultValue={title}
                   name="eventTitle"
                   ref={register({ required:true, maxLength: 50, minLength: 4, })}
                />
                {/* Description */}
                <textarea
-                  className="formInput"
+                  className="formDescription formInput"
                   type="text"
+                  defaultValue={description}
                   placeholder="Event Description"
                   name="eventDescription"
                   ref={register({ required:true, maxLength: 80, minLength: 4, })}
@@ -117,35 +192,43 @@ const EventForm = ({handleSubmitEvent}) => {
                <input
                   className="formInput"
                   type="text"
+                  defaultValue={organisation}
                   placeholder="Organisation"
                   name="eventOrganisation"
                   ref={register({ required:true })}
                />
                {/* Image */}
                <input
-                  name="eventImage"
+                  name="formInput"
                   className="formInput"
+                  defaultValue={image}
                   type="file"
                   accept="image/png, image/jpeg"
                   id="file"
                   ref={register()}
                />
-               {/* Start Time */}
-               <input
-                  className="formInput"
-                  placeholder="Start Time"
-                  type="time" 
-                  name="eventStartTime"
-                  ref={register({ required:true })}
-               />
-               {/* End Time */}
-               <input
-                  className="formInput"
-                  placeholder="End Time"
-                  type="time" 
-                  name="eventEndTime"
-                  ref={register({ required:true })}
-               />
+
+               <div className="eventTimeContainer">
+                  {/* Start Time */}
+                  <input
+                     className="formTime formInput"
+                     placeholder="Start Time"
+                     defaultValue={starttime}
+                     type="time" 
+                     name="eventStartTime"
+                     ref={register({ required:true })}
+                  />
+                  {/* End Time */}
+                  <input
+                     className="formTime formInput"
+                     placeholder="End Time"
+                     defaultValue={endtime}
+                     type="time" 
+                     name="eventEndTime"
+                     ref={register({ required:true })}
+                  />
+               </div>
+
                {/* Event Type */}
                <select 
                   name="eventType" 
@@ -156,7 +239,8 @@ const EventForm = ({handleSubmitEvent}) => {
                   <option value="2">Option 2</option>
                </select>
 
-               {/* Public Links */}
+               <div className="formLinks">
+                  {/* Public Links */}
                   {[...Array(publicCount)].map((x, i) => <Link type="Public" id={i} key={i}/> )}
                   {(publicCount > 2)
                      ? <React.Fragment/>
@@ -166,8 +250,10 @@ const EventForm = ({handleSubmitEvent}) => {
                      ? <img className="icon" onClick={()=>handleIncreaseLinks('public', publicCount - 1)} src={remove}/> 
                      : <React.Fragment/>
                   }
-
-               {/* Private Links */}
+               </div>
+               
+               <div className="formLinks">
+                  {/* Private Links */}
                   {[...Array(privateCount)].map((x, i) => <Link type="Private" id={i} key={i}/> )}
                   {(privateCount > 2)
                      ? <React.Fragment/>
@@ -177,9 +263,11 @@ const EventForm = ({handleSubmitEvent}) => {
                      ? <img className="icon" onClick={()=>handleIncreaseLinks('private', privateCount - 1)} src={remove}/> 
                      : <React.Fragment/>
                   }
+               </div>
+
 
                {/* Submit Button */}
-               <input type="submit" />
+               <input className="formSubmitButton formInput" type="submit" />
             </fieldset>
          </form>
       </Wrapper>

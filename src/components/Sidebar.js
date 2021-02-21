@@ -7,7 +7,7 @@ const Wrapper = styled.div`
    width:20%;
    max-width: 200px;
    height:100%;
-   z-index:-1;
+   z-index:2;
    background: ${({ theme }) => theme.backgroundContrast};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    text-align:center;
@@ -18,32 +18,31 @@ const EventsContainer = styled.div`
    height:50%;
    display:flex;
    flex-direction:column;
-   padding:5px;
-
    & .recentEventHeader{
       font-size:1.1rem;
       margin-bottom:15px;
    }
-   & .eventTag {
-      margin-bottom:10px;
-   }
+`
+const EventTag = styled.div`
+   background-color:${({ theme }) => theme.warm};
+   color:${({ theme }) => theme.contrastText};
+   padding:5px 0 5px 0;
+   border-radius:3px;
+   margin: 0 5px 10px 5px;
+   cursor: pointer;
 `
 
 const Sidebar = ({getRecentEvents, recentEntries}) => {
-
-
    let recentEvents = [];
    const genRecentEvents = () => {
-      console.log('sorting')
       let counter = 0;
       if(recentEntries){
          recentEntries.forEach(entry => {
             recentEvents.unshift(
-               <p className="eventTag" key={counter}>{entry.title}</p>
+               <EventTag key={counter}>{entry.title}</EventTag>
             )
             counter++;
          })
-         console.log(recentEvents);
       }         
    }
    genRecentEvents();
@@ -58,11 +57,12 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
    return(
       <Wrapper>
          <EventsContainer>
-            <h2 className="recentEventHeader">Popular upcoming events.</h2>
+            <h2 className="recentEventHeader">Popular Events</h2>
+            {recentEvents}
          </EventsContainer>
 
          <EventsContainer>
-            <h2 className="recentEventHeader">Recently added events.</h2>
+            <h2 className="recentEventHeader">Recent Events</h2>
             {recentEvents}
          </EventsContainer>
       </Wrapper>

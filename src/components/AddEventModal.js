@@ -8,20 +8,10 @@ import { addEntry,modalHandler } from '../redux/actions/index';
 import { EventForm } from '../components/index';
 import {
    close,
-   eventDate,
-   eventDescription,
-   eventLink,
-   eventOrganisation,
-   eventSecure,
-   eventTime,
-   eventType,
-   eventEdit,
-   eventDelete,
-   add,
 } from '../assets/index';
 
 const Wrapper = styled.div`
-position:absolute;
+   position:absolute;
    top:10%;
    left:20%;
    width:500px;
@@ -34,6 +24,11 @@ position:absolute;
    z-index:2;
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   & .formTitle {
+      font-size:1.6rem;
+      position: relative;
+      left:10px;
+   }
    & .closeButton{
       position:absolute;
       top:8px;
@@ -53,10 +48,6 @@ position:absolute;
       padding:10px;
       border: 0;
       margin-top:10px;
-   }
-   & .formInput {
-      padding:10px;
-      margin-bottom:5px;
    }
 `
 const TimeInputContainer = styled.div`
@@ -160,6 +151,7 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, modalState, modalHan
    if(!addEntryState.isFetching){
       return(
          <Wrapper>
+            <h1 className="formTitle">Add Event</h1>
             {/* Close modal button */}
             <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
 
