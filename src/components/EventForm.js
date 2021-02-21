@@ -174,19 +174,23 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                <input
                   className="formInput"
                   type="text"
-                  placeholder="Title"
+                  placeholder="Title - 50 characters."
                   defaultValue={title}
                   name="eventTitle"
-                  ref={register({ required:true, maxLength: 50, minLength: 4, })}
+                  minLength="4"
+                  maxlength="50"
+                  ref={register({ required:true })}
                />
                {/* Description */}
                <textarea
                   className="formDescription formInput"
                   type="text"
                   defaultValue={description}
-                  placeholder="Event Description"
+                  placeholder="Description - 90 characters."
                   name="eventDescription"
-                  ref={register({ required:true, maxLength: 80, minLength: 4, })}
+                  minLength="4"
+                  maxlength="90"
+                  ref={register({ required:true })}
                />
                {/* Organisation */}
                <input
@@ -194,6 +198,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   type="text"
                   defaultValue={organisation}
                   placeholder="Organisation"
+                  maxlength="30"
                   name="eventOrganisation"
                   ref={register({ required:true })}
                />
