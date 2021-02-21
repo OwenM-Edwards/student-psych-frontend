@@ -9,31 +9,37 @@ const StyledCalDay = styled.div`
    text-align:center;
    border-radius:3px;
    transition: all 0.2s ease-in-out;
+   &:hover {
+      scale:1.05;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   }
+   & .day{
+      margin: 0 auto;
+      background: ${({ theme }) => theme.backgroundContrast};
+      border-radius:0 0 30px 30px;
+      width:40px;
+      height:26px;
+      text-align:center;
+      padding:2px 2px 2px 2px;
+      margin-bottom:10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.05);
+   }
    &.precedingDay{
       background: ${({ theme }) => theme.currentDay};
       opacity:0.05;
-   }
-   &.currentDay{
-      background: ${({ theme }) => theme.currentDay};
-      color: ${({ theme }) => theme.contrastText};
       &:hover {
-         scale:1.05;
+         scale:1;
          box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
       }
+   }
+   &.currentDay{
+      background: ${({ theme }) => theme.warm};
    }
    &.weekendDay{
       background: ${({ theme }) => theme.weekendDay};
-      &:hover {
-         scale:1.05;
-         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-      }
    }
    &.weekDay{
       background: ${({ theme }) => theme.weekDay};
-      &:hover {
-         scale:1.05;
-         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-      }
    }
 `
 
@@ -79,7 +85,7 @@ const CalenderSquare = ({
    else if(currentDate.getMonth() + 1 === selectedDate.month && calSquareDay == selectedDate.day){
       return(
          <StyledCalDay className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
-            {calSquareDay}
+            <p className="day">{calSquareDay}</p>
             {eventTag}
          </StyledCalDay>
       )
@@ -88,7 +94,7 @@ const CalenderSquare = ({
    else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0){
       return(
          <StyledCalDay className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
-            {calSquareDay}
+            <p className="day">{calSquareDay}</p>
             {eventTag}
          </StyledCalDay>
       )
@@ -97,7 +103,7 @@ const CalenderSquare = ({
    else{
       return(
          <StyledCalDay className="weekDay" id={calSquareDay} onClick={openAddEventModal}>
-            {calSquareDay}
+            <p className="day">{calSquareDay}</p>
             {eventTag}
          </StyledCalDay>
       )
