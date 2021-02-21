@@ -95,11 +95,11 @@ export const verifyToken = (token) => async (dispatch) => {
 
 // Get full event info if user is logged in.
 export const getSecureEventInfo = ({eventInfo, userid}) => async (dispatch) => {
-   const { day, month, year } = eventInfo;
+   const { day, month, year, id } = eventInfo;
    dispatch({
       type: REQUEST_SECURE_ENTRY,
    })
-   const APIData = await secureEventInfoAPI(day, month, year, userid);
+   const APIData = await secureEventInfoAPI(day, month, year, id, userid);
    dispatch({
       type: RECEIVE_SECURE_ENTRY,
       payload:  APIData,
