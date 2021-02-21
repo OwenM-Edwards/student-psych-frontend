@@ -8,16 +8,21 @@ const Wrapper = styled.div`
    font-size:1rem;
    color: ${({ theme }) => theme.contrastText};
    transition: all 0.2s ease-in-out;
+   opacity:0.9;
    & .tag {
       padding:5px;
       overflow:hidden;
       word-wrap: break-word;
       margin-bottom:5px;
       cursor: pointer;
+      border-radius:0 0 10px 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.10);
    }
    & .career{
       background-color:${({ theme }) => theme.red};
       height:100%;
+      
+
    }
    & .conference{
       background-color:${({ theme }) => theme.blue};
