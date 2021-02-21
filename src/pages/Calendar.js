@@ -207,7 +207,7 @@ const CalenderSquareContainer  = styled.div`
 const CalenderHeader = styled.div`
    width:1fr;
    height:1fr;
-   background: ${({ theme }) => theme.weekDay};
+   background: ${({ theme }) => theme.backgroundContrast};
    text-align: center;
    padding-top:5px;
 `
