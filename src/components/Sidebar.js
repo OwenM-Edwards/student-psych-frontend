@@ -25,10 +25,11 @@ const EventsContainer = styled.div`
       margin-bottom:15px;
    }
    & .colorCode{
+      opacity:0.9;
       margin-bottom:5px;
       color: ${({ theme }) => theme.contrastText};
       padding:4px;
-      width:80%;
+      width:93%;
       align-self:center;
    }
    & .red {
