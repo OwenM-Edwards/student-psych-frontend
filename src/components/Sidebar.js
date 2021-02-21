@@ -16,13 +16,35 @@ const Wrapper = styled.div`
 `
 const EventsContainer = styled.div`
    width:100%;
-   min-height:40%;
+   min-height:30%;
    display:flex;
    flex-direction:column;
    padding:10px;
    & .recentEventHeader{
       font-size:1.1rem;
       margin-bottom:15px;
+   }
+   & .colorCode{
+      margin-bottom:5px;
+      color: ${({ theme }) => theme.contrastText};
+      padding:4px;
+      width:80%;
+      align-self:center;
+   }
+   & .red {
+      background: ${({ theme }) => theme.red};
+   }
+   & .blue {
+      background: ${({ theme }) => theme.blue};
+   }
+   & .purple {
+      background: ${({ theme }) => theme.purple};
+   }
+   & .orange {
+      background: ${({ theme }) => theme.orange};
+   }
+   & .green {
+      background: ${({ theme }) => theme.green};
    }
 `
 const EventTag = styled.div`
@@ -36,14 +58,20 @@ const EventTag = styled.div`
 
 const Sidebar = ({getRecentEvents, recentEntries}) => {
    let recentEvents = [];
+   let capReached = false;
    const genRecentEvents = () => {
       let counter = 0;
-      if(recentEntries){
+      if(recentEntries && capReached !== true){
          recentEntries.forEach(entry => {
-            recentEvents.unshift(
-               <EventTag key={counter}>{entry.title}</EventTag>
-            )
-            counter++;
+            if(counter < 3){
+               recentEvents.push(
+                  <EventTag key={counter}>{entry.title}</EventTag>
+               )
+               counter++;
+            }
+            else {
+               capReached = true;
+            }
          })
       }         
    }
@@ -66,6 +94,15 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
          <EventsContainer>
             <h2 className="recentEventHeader">Recent Events</h2>
             {recentEvents}
+         </EventsContainer>
+
+         <EventsContainer>
+            <h2 className="recentEventHeader">Colour Codes:</h2>
+            <p className="colorCode red">Careers Event</p>
+            <p className="colorCode blue">Conference</p>
+            <p className="colorCode purple">Special Interest Talk</p>
+            <p className="colorCode orange">Other</p>
+            <p className="colorCode green">Revision or Training</p>
          </EventsContainer>
       </Wrapper>
    )
