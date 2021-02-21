@@ -48,6 +48,7 @@ const NavigationContainer = styled.div`
    justify-content:space-around;
    padding:0 10px 0 10px;
    margin-right:auto;
+   
    & .todayButton {
       width:auto;
       height:42px;
@@ -144,6 +145,7 @@ const UserContainer = styled.div`
    flex-direction:row;
    align-items:center;
    padding:0 10px 0 10px;
+   margin-right:45px;
    & .loginButton{
       width:100%;
       height:40px;
