@@ -52,6 +52,7 @@ const Calendar = ({
    const openViewEventModal = (eventInfo) => {
       if(auth.user.id){
          async function f(){
+            console.log(eventInfo)
             const secureInfo = await getSecureEventInfo({
                eventInfo:eventInfo,
                userid:auth.user.id
