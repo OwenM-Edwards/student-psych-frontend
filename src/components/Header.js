@@ -19,17 +19,22 @@ const Wrapper = styled.div`
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    & .logoContainer {
       width:20%;
-      max-width:202px;
+      max-width: 205px;
+      min-width:205px;
       display:flex;
       flex-direction:row;
       padding:0 0 0 5px;
-      height:49px;
-      max-height:100%;
+      height:auto;
       align-self:center;
       align-content:center;
+      z-index:3;
+      position: relative;
+      top:20px;
+      right:5px;
    }
    & .logo {
-      max-height:100%;
+      width:100%;
+      object-fit:cover;
    }
 `
 
@@ -50,7 +55,7 @@ const NavigationContainer = styled.div`
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
-      background: white;
+      background-color:${({ theme }) => theme.offwhite};
       padding: 5px;
       border-radius:5px;
       display: inline-block;
@@ -100,7 +105,7 @@ const SearchContainer = styled.div`
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
-      background: white;
+      background-color:${({ theme }) => theme.offwhite};
       padding: 5px;
       border-radius: 0 5px 5px 0;
       display: inline-block;
@@ -120,6 +125,7 @@ const SearchContainer = styled.div`
       border: 1px solid #aaa;
       box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
       border-radius: .5em;
+      background-color:${({ theme }) => theme.offwhite};
 
    }
    & .searchTerm {
@@ -129,6 +135,7 @@ const SearchContainer = styled.div`
       border-radius:5px 0 0 5px;
       outline: 0;
       border: 0;
+      background-color:${({ theme }) => theme.offwhite};
    }
 `
 const UserContainer = styled.div`
@@ -144,7 +151,7 @@ const UserContainer = styled.div`
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
-      background: white;
+      background-color:${({ theme }) => theme.offwhite};
       padding: 5px;
       border-radius:5px;
       display: inline-block;
