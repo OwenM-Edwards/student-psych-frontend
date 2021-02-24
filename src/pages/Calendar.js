@@ -40,27 +40,22 @@ const Calendar = ({
    
    // Add Event.
    const openAddEventModal = (e) => {
-      if(auth.user.id){
+      if(auth.authenticated){
          modalHandler({modalDisplay:'add', modalInfo:{ day:e.target.id, month:selectedDate.month, year:selectedDate.year }});
       }
-      else {
-         toast.dismiss();
-         toast.error('Only approved users can create new events.');
-      }
    }
+
    // View Event
    const openViewEventModal = (eventInfo) => {
-      if(auth.user.id){
+      if(auth.authenticated){
          async function f(){
             console.log(eventInfo)
             const secureInfo = await getSecureEventInfo({
                eventInfo:eventInfo,
-               userid:auth.user.id
-            })
-
-            modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+            }) 
          } 
          f(); 
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
       else{
          toast.dismiss();
@@ -183,7 +178,7 @@ const StyledMain = styled.div`
    display:flex;
    flex-direction:column;
    flex-wrap:nowrap;
-   padding:30px 30px 10px 0px;
+   padding:30px 30px 20px 0px;
    transition: all 0.2s ease-in-out;
 `
 const CalenderBoxesContainer = styled.div`
@@ -197,7 +192,7 @@ const CalenderBoxesContainer = styled.div`
 `
 const CalenderHeaderContainer = styled.div`
    width:100%;
-   min-height:3%;
+   min-height:30px;
    display:grid;
    grid-template-columns:repeat(7, 1fr);
    grid-gap:5px;
@@ -206,15 +201,17 @@ const CalenderHeaderContainer = styled.div`
 const CalenderSquareContainer  = styled.div`
    width:1fr;
    height:1fr;
-   min-width: 0
+   min-width: 0;
 `
 
 const CalenderHeader = styled.div`
    width:1fr;
+   max-width: 1fr;
    height:1fr;
    background: ${({ theme }) => theme.backgroundContrast};
    text-align: center;
    padding-top:5px;
+   font-size:1.2rem;
 `
 
 const mapStateToProps = (state) => ({ entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});

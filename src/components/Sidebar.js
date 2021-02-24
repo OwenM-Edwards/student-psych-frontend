@@ -114,7 +114,7 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
       if(!recentEntries){
          getRecentEvents();
       }
-   }, [recentEntries]);
+   }, []);
 
 
    return(

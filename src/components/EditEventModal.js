@@ -75,7 +75,6 @@ const EditEventModal = ({
          year:modalInfo.year,
          image:'',
          type:data.eventType,
-         userid:auth.user.id,
          starttime:data.eventStartTime,
          endtime:data.eventEndTime,
          entryid:modalInfo.id,

@@ -14,6 +14,8 @@ import eventDelete from './eventDelete.png';
 import add from './add.png';
 import remove from './remove.png';
 import search from './search.png';
+import profile from './profile.png';
+import closeArrow from './closeArrow.png';
 
 export {
    mindMattersLogo,
@@ -32,4 +34,6 @@ export {
    add,
    remove,
    search,
+   profile,
+   closeArrow,
 }

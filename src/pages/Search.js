@@ -23,17 +23,25 @@ const EntryHolder = styled.div`
    background-color:pink;
 `
 
-const StyledEntriesContainer = styled.ul `
+const StyledEntriesContainer = styled.div `
    width:100%;
    height:100%;
+   display:flex;
+   flex-direction:column;
+   background: ${({ theme }) => theme.backgroundContrast};
+   border-radius:3px;
+   padding:20px;
 `
-const StyledEntry = styled.li`
+const StyledEntry = styled.p`
    width:100%;
-   background-color:blue;
-   height:30px;
-   margin-bottom:5px;
-   padding:10px;
+   max-width: 70%;
+   background: ${({ theme }) => theme.backgroundLight};
+   color: ${({ theme }) => theme.contrastText};
+   height:auto;
+   margin-bottom:10px;
+   padding:10px 20px 10px 20px;
    cursor:pointer;
+   border-radius:5px;
 `
 
 const Search = ({
@@ -47,7 +55,7 @@ const Search = ({
       modalHandler
    }) => {
 
-   const {searchfield, searchterm} = useParams();
+   const {searchterm} = useParams();
 
 
    // View Event
@@ -73,7 +81,7 @@ const Search = ({
          entriesState.entries.forEach(entry => {
             sortedEntries.push(
                <StyledEntry onClick={()=>openViewEventModal(entry)} key={count}> 
-                  {entry.title}
+                  Title:{entry.title} Organisation:{entry.organisation}
                </StyledEntry>
             )
             count++;
@@ -85,11 +93,11 @@ const Search = ({
 
    useEffect(() => {
       async function search(){
-         if(!searchfield && !searchterm){
+         if(!searchterm){
             window.location = '/calendar';
          }
          else{
-            searchEntries(searchfield, searchterm);
+            searchEntries(searchterm);
          }
       }
       search();

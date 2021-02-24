@@ -2,6 +2,7 @@ import { RECEIVE_REGISTER_USER, REQUEST_REGISTER_USER } from "../actions/action-
 
 const initialState = {
    isFetching: false,
+   success:false,
 };
 
 function register(state = initialState, action) {
@@ -9,11 +10,12 @@ function register(state = initialState, action) {
       case REQUEST_REGISTER_USER:
          return {
             isFetching: true,
+            success:false,
          }
       case RECEIVE_REGISTER_USER:
          return {
             isFetching: false,
-            success: true,
+            success: action.payload,
          }
       default:
          return state;

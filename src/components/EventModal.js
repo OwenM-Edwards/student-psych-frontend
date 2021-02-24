@@ -131,7 +131,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    const modalInfo = modalState.modalInfo;
    const printDate = new Date(modalInfo.year, modalInfo.month - 1, modalInfo.day);
    const handleDelete = () => {
-      deleteEntry(secureInfo.eventinfo.id, auth.user.id);
+      deleteEntry(secureInfo.eventinfo.id);
       modalHandler(false);
    }
    

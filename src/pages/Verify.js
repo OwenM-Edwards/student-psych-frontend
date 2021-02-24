@@ -46,41 +46,29 @@ const Wrapper = styled.div`
 const Verify = ({verifyToken, tokenState}) => {
    const location = window.location.href;
    const token = location.substring(location.lastIndexOf('/') + 1);
-   if(token === 'verify'){
-      window.location = '/calendar';
-   }
-
-   
 
 
 
    useEffect(()=>{
-      if(tokenState.success){
-         window.location = '/signin';
+      // If not token in url, just route to main.
+      if(token === 'verify'){
+         window.location = '/calendar';
       }
-   }, [tokenState.success])
+      else {
+         async function verify(){
+            await verifyToken(token);
+         }
+         verify();
+      }
+   }, [])
 
 
-   const submitToken = () => {
-      verifyToken(token);
-   }
 
-   if(!tokenState.isFetching){
-      return(
-         <Wrapper>
-            <div className="buttonContainer">
-               <button className="verifyButton" onClick={submitToken}>Verify Email</button>
-            </div>
-         </Wrapper>
-      )   
-   }
-   else {
-      return(
-         <Wrapper>
-            <LoadingIcon/>
-         </Wrapper>
-      )   
-   }
+   return(
+      <Wrapper>
+         <LoadingIcon/>
+      </Wrapper>
+   )   
 }
 
 

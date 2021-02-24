@@ -23,6 +23,7 @@ import {
    MODAL_HANDLE,
    REQUEST_RECENT_ENTRIES,
    RECEIVE_RECENT_ENTRIES,
+   TOGGLE_NAV_PANEL,
 } from './action-types';
 
 import { 
@@ -36,9 +37,20 @@ import {
    editEntryAPI,
    searchEntriesAPI,
    recentEntriesAPI,
+   logoutAPI,
+   checkSessionAPI,
 } from '../../util/index';
 
 
+// Toggles the right sidebar/navpanel, toggle(true) == shown, toggle(false) == hide.
+export const toggleNavPanel = (toggle) => async (dispatch) => {
+   dispatch({
+      type: TOGGLE_NAV_PANEL,
+      payload:toggle,
+   })
+}
+
+// Gets recently added events for the left sidebar
 // Get recent events.
 export const getRecentEvents = () => async (dispatch) => {
    dispatch({
@@ -67,11 +79,11 @@ export const modalHandler = ({modalDisplay, modalInfo}) => async (dispatch) => {
 
 
 // Search entries.
-export const searchEntries = (searchfield, searchterm) => async (dispatch) => {
+export const searchEntries = (searchterm) => async (dispatch) => {
    dispatch({
       type: REQUEST_SEARCH_TERM,
    })
-   const APIData = await searchEntriesAPI(searchfield, searchterm)
+   const APIData = await searchEntriesAPI(searchterm)
    dispatch({
       type: RECEIVE_SEARCH_TERM,
       payload:APIData,
@@ -87,19 +99,23 @@ export const verifyToken = (token) => async (dispatch) => {
    const APIData = await verifyAPI(token)
    dispatch({
       type: RECEIVE_VERIFY_TOKEN,
-      payload:{
-         success:APIData,
-      }
+      payload:APIData,
    })
+   dispatch({
+      type: RECEIVE_SIGN_IN,
+      payload:APIData,
+   })
+   window.location = "/calendar";
 }
 
 // Get full event info if user is logged in.
-export const getSecureEventInfo = ({eventInfo, userid}) => async (dispatch) => {
+export const getSecureEventInfo = ({eventInfo}) => async (dispatch) => {
    const { day, month, year, id } = eventInfo;
    dispatch({
       type: REQUEST_SECURE_ENTRY,
    })
-   const APIData = await secureEventInfoAPI(day, month, year, id, userid);
+   const APIData = await secureEventInfoAPI(day, month, year, id);
+   console.log(APIData)
    dispatch({
       type: RECEIVE_SECURE_ENTRY,
       payload:  APIData,
@@ -163,23 +179,41 @@ export const editEntry = (info) =>  async (dispatch) => {
 // Sign user out.
 export const signOut = () => async (dispatch) => {
    localStorage.removeItem("user");
+   window.localStorage.removeItem("user");
+   const APIData = await logoutAPI();
    dispatch({
-      type: SIGN_OUT
+      type: SIGN_OUT,
    })
-   window.location = "/calendar"
+   dispatch({
+      type: RECEIVE_SECURE_ENTRY,
+      payload:  false,
+   })
 }
 
-// Sign user in.
-export const signIn = (info) => async (dispatch) => {
+export const checkSession = () => async (dispatch) => {
    dispatch({
       type: REQUEST_SIGN_IN
    })
-   const APIData = await authenticateAPI(info.userEmail, info.userPassword);
+   const APIData = await checkSessionAPI();
    dispatch({
       type: RECEIVE_SIGN_IN,
       payload:APIData,
    })
-   window.location = "/calendar";
+}
+
+// Sign user in.
+export const signIn = (useremail, userpassword) => async (dispatch) => {
+   dispatch({
+      type: REQUEST_SIGN_IN
+   })
+   const APIData = await authenticateAPI(useremail, userpassword);
+   dispatch({
+      type: RECEIVE_SIGN_IN,
+      payload:APIData,
+   })
+   if(APIData){
+      window.location = "/calendar";
+   }
 }
 
 // Register new user.
@@ -190,6 +224,7 @@ export const registerUser = (userEmail, userPassword, userType) => async (dispat
    const APIData = await registerAPI(userEmail, userPassword, userType)
    dispatch({
       type: RECEIVE_REGISTER_USER,
+      payload:APIData,
    })
 }
 

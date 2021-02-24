@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { signIn } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
    width:100%;
@@ -40,37 +42,41 @@ const Wrapper = styled.div`
 
 
 const SignIn = ({ signIn, auth}) => {
-   const [ userEmail, setUserEmail] = useState(false);
-   const [ userPassword, setUserPassword] = useState(false);
-   const toastId = 1
-   const handlePassword = (event) => {
-      setUserPassword(event.target.value)
+   const { register, handleSubmit, watch, errors } = useForm();
+
+   const onSubmit = (data) => {
+      console.log(data)
+      signIn(data.userEmail, data.userPassword);
    }
-   const handleEmail = (event) => {
-      setUserEmail(event.target.value) 
-   }
-   const handleSignIn = (event) => {
-      event.preventDefault();
-      signIn({userEmail, userPassword});
+
+   // If user sent to route because access token expired, send toast.
+   if(localStorage.getItem("expired")){
+      localStorage.removeItem("expired");
+      toast.dismiss();
+      toast.error('Session expired, please log back in.');
    }
    if(!auth.isFetching){
       return(
          <Wrapper>
-            <form onSubmit={handleSignIn} className="signInForm">
+            <form onSubmit={handleSubmit(onSubmit)} className="signInForm">
                <fieldset className="signInFieldset">
                   <legend>Sign In</legend>
                   <input
                      placeholder="Email"
                      className="signinInput"
-                     onChange={handleEmail} 
-                     type="email" name="email-address"  id="email-address" 
+                     type="email" 
+                     name="userEmail"  
+                     id="email-address" 
+                     ref={register({ required:true })}
                   />
                   <input 
                      placeholder="Password"
                      minLength= "6"
                      className="signinInput"
-                     onChange={handlePassword} 
-                     type="password" name="password"  id="password" 
+                     type="password" 
+                     name="userPassword"  
+                     id="password" 
+                     ref={register({ required:true })}
                   />
                   <div className="buttonContainer">
                      <input 

@@ -11,6 +11,7 @@ import token from './token';
 import searchEntries from './searchEntries';
 import modal from './modal';
 import recentEvents from './recentEvents';
+import navPanel from './navPanel';
 
 export default combineReducers({
    entries,
@@ -25,4 +26,5 @@ export default combineReducers({
    searchEntries,
    modal,
    recentEvents,
+   navPanel,
 });

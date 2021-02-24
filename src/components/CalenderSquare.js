@@ -10,7 +10,7 @@ const StyledCalDay = styled.div`
    border-radius:3px;
    transition: all 0.1s ease-in-out;
    &:hover {
-      scale:1.05;
+      scale:1.03;
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    }
    & .day{

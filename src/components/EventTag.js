@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
    width:100%;
-   max-height:46px;
+   height:auto;
    z-index:2;
-   font-size:1rem;
+   font-size:0.8rem;
    color: ${({ theme }) => theme.contrastText};
    transition: all 0.2s ease-in-out;
    opacity:0.9;

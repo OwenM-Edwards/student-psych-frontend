@@ -139,7 +139,6 @@ const AddEventModal = ({ userinfo, addEntry, addEntryState, modalState, modalHan
          year:modalInfo.year,
          image:'',
          type:data.eventType,
-         userid:userinfo.user.id,
          starttime:data.eventStartTime,
          endtime:data.eventEndTime,
          type:data.eventType,

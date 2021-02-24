@@ -2,6 +2,7 @@ import { RECEIVE_VERIFY_TOKEN, REQUEST_VERIFY_TOKEN } from "../actions/action-ty
 
 const initialState = {
    isFetching: false,
+   success: false,
 };
 
 function register(state = initialState, action) {
@@ -9,6 +10,7 @@ function register(state = initialState, action) {
       case REQUEST_VERIFY_TOKEN:
          return {
             isFetching: true,
+            success:false,
          }
       case RECEIVE_VERIFY_TOKEN:
          return {

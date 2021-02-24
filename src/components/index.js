@@ -7,6 +7,7 @@ import AddEventModal from './AddEventModal';
 import EventTag from './EventTag';
 import EditEventModal from './EditEventModal';
 import EventForm from './EventForm';
+import NavPanel from './NavPanel';
 
 export {
    Header,
@@ -18,4 +19,5 @@ export {
    EventTag,
    EditEventModal,
    EventForm,
+   NavPanel,
 }

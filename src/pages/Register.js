@@ -80,7 +80,6 @@ const Register = ({registerUser, registerState}) => {
    const { register, handleSubmit, watch, errors } = useForm();
 
    const handleRegister = (data) => {
-      console.log(data)
       if(data.userPassword !== data.userPasswordConfirm){
          toast.dismiss();
          toast.error('Passwords must match.');
@@ -91,7 +90,7 @@ const Register = ({registerUser, registerState}) => {
    }
 
    if(!registerState.isFetching){
-      if(registerState.success){
+      if(!registerState.success){
          return( 
             <Wrapper>
                <form onSubmit={handleSubmit(handleRegister)} className="registerForm">
@@ -155,16 +154,12 @@ const Register = ({registerUser, registerState}) => {
          return (
             <Wrapper>
                <div className="verifyDirectBox">
-                  <h1 className="header">Please confirm email before signing in.</h1>
-                  <Link className="buttonLink" to="/signIn"> <button  className="button">Sign In</button> </Link>
-                  <button className="button">Resend Email</button>
+                  <h1 className="header">Please confirm email to sign in. The email may take several minutes to arrive.</h1>
                </div>
 
             </Wrapper>
          )
-
       }
-      
    }
    else {
       return(

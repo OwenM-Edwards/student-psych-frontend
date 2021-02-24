@@ -1,9 +1,8 @@
 import { SIGN_OUT, REQUEST_SIGN_IN, RECEIVE_SIGN_IN } from "../actions/action-types";
 
 // const localSt =  false ;
-const localSt = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
 const initialState = {
-   user:localSt,
+   authenticated:false,
    isFetching:false,
 }
 
@@ -16,12 +15,12 @@ function authenticate(state = initialState, action) {
          }
       case RECEIVE_SIGN_IN:
          return{
-            user:action.payload,
+            authenticated:action.payload,
             isFetching:false,
          }
       case SIGN_OUT:
          return {
-            user:false,
+            authenticated:false,
             isFetching:false,
          }
       default:

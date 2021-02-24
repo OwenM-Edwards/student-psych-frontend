@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { getInitialDate, getEntries } from './redux/actions/index';
+import { getInitialDate, getEntries,checkSession } from './redux/actions/index';
 import {
   BrowserRouter as Router, 
   Route,
@@ -8,27 +8,14 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { Calendar, SignIn, Register, Verify, Search } from './pages/index';
-import { Header,LoadingIcon,Sidebar } from './components/index';
+import { Header,LoadingIcon,Sidebar, NavPanel } from './components/index';
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./components/GlobalStyle";
-import { darkTheme } from "./components/Theme"
-
-import { createBrowserHistory } from 'history';
-import ReactGA from 'react-ga';
-const history = createBrowserHistory();
-
-const trackingId = "G-2ES0TGG9ZW";
-ReactGA.initialize(trackingId);
-ReactGA.set({
-  userid: 2
-})
-history.listen(location => {
-  ReactGA.set({ page: location.pathname }); // Update the user's current page
-  ReactGA.pageview(location.pathname); // Record a pageview for the given page
-});
+import { darkTheme } from "./components/Theme";
+import { checkToken } from "./util/index";
 
 const Wrapper = styled.div`
   min-width:100%;
@@ -50,8 +37,8 @@ const Wrapper = styled.div`
   }
 `
 
+const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, getEntries, auth, entries, selectedDate,checkSession}) => {
 
-const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, getEntries, auth, entries, selectedDate}) => {
   useEffect(() => {
     async function start(){
       if(!selectedDate){
@@ -64,6 +51,11 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
     start();
   }, [selectedDate,addEntryState.isFetching,deleteEntryState.isFetching,editEntryState.isFetching]);
 
+  // Check if user session if valid.
+  useEffect(()=>{
+    checkSession();
+    console.log(auth)
+  }, [])
 
 
   return (
@@ -71,10 +63,15 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
       <GlobalStyles/>
       <Router>
         <Wrapper>
-          <ToastContainer/>
+
+          <ToastContainer
+            position="bottom-right"
+          />
           <div className="header">
             <Header/>
           </div>
+          
+          <NavPanel/>
 
           <Switch>
             <Route path="/maintenance">
@@ -82,22 +79,27 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
             </Route>
 
             <Route path="/signin">
-              {(auth.user.id)
+              {(auth.authenticated)
                 ? <Redirect to="/calendar"/>
                 : <SignIn/>
               }
             </Route>
 
             <Route path="/register">
-              {(auth.user.id)
+              {(auth.authenticated)
                 ? <Redirect to="/calendar"/>
                 : <Register/>
               }
             </Route>
 
-            <Route path="/verify" component={Verify}/>
+            <Route path="/verify">
+              {(auth.authenticated)
+                ? <Redirect to="/calendar"/>
+                : <Verify/>
+              }
+            </Route>
 
-            <Route path="/search/:searchfield/:searchterm">
+            <Route path="/search/:searchterm">
                 <div className="main"> <Sidebar/><Search/> </div> 
             </Route>
 
@@ -116,4 +118,4 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
 
 
 const mapStateToProps = (state) => ({ deleteEntryState:state.deleteEntry,editEntryState:state.editEntry,addEntryState:state.addEntry, selectedDate:state.selectedDate.selectedDate, entries:state.entries, auth:state.authenticate });
-export default connect(mapStateToProps, {getInitialDate, getEntries})(App);
+export default connect(mapStateToProps, {getInitialDate, getEntries,checkSession})(App);

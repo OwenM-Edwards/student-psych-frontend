@@ -1,23 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from "styled-components";
-import { selectDate,signOut,clearEntries,searchEntries,getInitialDate } from '../redux/actions/index';
+import { selectDate,signOut,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import Select from 'react-select';
 import { toast } from "react-toastify";
-import {mindMattersLogo, leftIconDarkMode, rightIconDarkMode} from "../assets/index.js";
+import { mindMattersLogo, leftIconDarkMode, rightIconDarkMode } from "../assets/index.js";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {search} from '../assets/index';
+import { search, profile } from '../assets/index';
 
 const Wrapper = styled.div`
    width:100%;
-   height:50px;
+   height:70px;
    display:flex;
    flex-direction:row;
    flex-wrap:nowrap;
    background: ${({ theme }) => theme.backgroundContrast};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   padding:10px 0 10px 0;
    & .logoContainer {
       width:20%;
       max-width: 205px;
@@ -148,6 +149,7 @@ const UserContainer = styled.div`
    align-items:center;
    padding:0 10px 0 10px;
    margin-right:45px;
+   justify-content:flex-end;
    & .loginButton{
       width:100%;
       height:40px;
@@ -163,6 +165,10 @@ const UserContainer = styled.div`
       cursor:pointer;
       margin-right:2px;
    }
+   & .profileButton {
+      width:40px;
+      cursor:pointer;
+   }
 `
 
 
@@ -177,6 +183,7 @@ const Header = ({
       selectDate, 
       selectedDate, 
       signOut,
+      toggleNavPanel,
    }) => {
    const [searchField, setSearchField] = useState('title');
    const [searchTerm, setSearchTerm] = useState(false);
@@ -185,16 +192,8 @@ const Header = ({
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
    const onSubmit = (data) => {
-      if(!data.searchField){
-         toast.dismiss();
-         toast.info('Please enter a search term first.');
-      }
-      else {
-         window.location = `/search/${data.searchField}/${data.searchTerm}`;
-      }
+      window.location = `/search/${data.searchTerm}`;
    }
-
-
 
 
    const returnToCurrentMonth = () => {
@@ -225,17 +224,12 @@ const Header = ({
       })
    }
 
-   const handleSignOut = () => {
-      signOut();
-   }
    const handleSignIn = () => {
       window.location = '/signin';
    }
    const handleBack = () => {
       window.location = `/calendar`;
    }
-
-
 
    return(
       <Wrapper>
@@ -277,28 +271,21 @@ const Header = ({
                   ref={register({ required:true})}
                />
                <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
-               <select
-                  name="searchField" 
-                  ref={register}
-                  className="searchField"
-               >
-                  <option value="title">Title</option>
-                  <option value="organisation">Organisation</option>
-               </select>
                
             </form>
          </SearchContainer>
 
 
          <UserContainer>
-            {(auth.user.id)
-               ? <button className="loginButton" onClick={()=>handleSignOut()}>Sign Out</button>
+            {(auth.authenticated)
+               ? <img className="profileButton" onClick={()=>toggleNavPanel(true)} src={profile}></img>
                : <button className="loginButton" onClick={()=>handleSignIn()}>Sign In</button>
             }
+            
          </UserContainer>
       </Wrapper>
    )
 }
 
 const mapStateToProps = (state) => ({ auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
-export default connect(mapStateToProps, { getInitialDate, searchEntries, clearEntries,selectDate,signOut })(Header);
+export default connect(mapStateToProps, { toggleNavPanel, getInitialDate, searchEntries, clearEntries,selectDate,signOut })(Header);
