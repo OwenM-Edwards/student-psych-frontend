@@ -16,6 +16,7 @@ import remove from './remove.png';
 import search from './search.png';
 import profile from './profile.png';
 import closeArrow from './closeArrow.png';
+import favorite from './favorite.png';
 
 export {
    mindMattersLogo,
@@ -36,4 +37,5 @@ export {
    search,
    profile,
    closeArrow,
+   favorite,
 }

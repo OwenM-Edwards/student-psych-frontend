@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import {modalHandler,deleteEntry} from '../redux/actions/index';
+import {modalHandler,deleteEntry,pinEvent} from '../redux/actions/index';
 import {
    close,
    eventDate,
@@ -13,6 +13,7 @@ import {
    eventType,
    eventEdit,
    eventDelete,
+   favorite,
 } from '../assets/index';
 
 const Wrapper = styled.div`
@@ -46,6 +47,18 @@ const Wrapper = styled.div`
          scale:0.9;
       }
    }
+   & .favouriteButton{
+      position:absolute;
+      top:50px;
+      right:75px;
+      width:25px;
+      height:25px;
+      cursor: pointer;
+      transition: all 0.2s ease 0s;
+      &:hover {
+         scale:0.9;
+      }
+   }
    & .editButton{
       position:absolute;
       top:10px;
@@ -61,7 +74,7 @@ const Wrapper = styled.div`
    & .deleteButton{
       position:absolute;
       top:10px;
-      right:40px;
+      right:42px;
       width:25px;
       height:25px;
       cursor: pointer;
@@ -126,7 +139,7 @@ const InfoWrapper = styled.div`
    height:auto;
 `
 
-const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, setModalToggle, modalState, auth }) => {
+const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDeleteEvent, setModalToggle, modalState, auth }) => {
 
    const modalInfo = modalState.modalInfo;
    const printDate = new Date(modalInfo.year, modalInfo.month - 1, modalInfo.day);
@@ -138,6 +151,10 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    // Open the edit modal.
    const handleEdit = () => {
       modalHandler({modalDisplay:'edit', modalInfo: modalState.modalInfo});
+   }
+
+   const handlePinEvent = () => {
+      pinEvent(modalInfo.id)
    }
 
    let publicLinks = [];
@@ -198,6 +215,12 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
          <Wrapper>
             {/* Close modal button */}
             <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+            {/* If logged in, show favorite button. */}
+            {(auth.authenticated)
+               ? <img onClick={handlePinEvent} className="favouriteButton" src={favorite}/>
+               : <React.Fragment/>
+            }
+
             {/* If user created event, show admin contols. */}
             {(secureInfo.owner)
             ? <React.Fragment>
@@ -209,7 +232,6 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
 
             <InfoWrapper>
                {/* Title */}
-
                {eventTitle}
                {/* Event time */}
                   <div className="eventInfoContainer">
@@ -268,4 +290,4 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
 }
 
 const mapStateToProps = (state) => ({ modalState:state.modal, secureInfo:state.secureEntry.secureInfo, auth:state.authenticate });
-export default connect(mapStateToProps,{deleteEntry,modalHandler})(EventModal);
+export default connect(mapStateToProps,{pinEvent, deleteEntry,modalHandler})(EventModal);

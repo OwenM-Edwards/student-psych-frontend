@@ -158,7 +158,6 @@ const Wrapper = styled.div`
    }
    &.currentDay{
       background-color:${({ theme }) => theme.backgroundLight};
-      opacity:0.7;
    }
    &.weekendDay{
       background: ${({ theme }) => theme.weekendDay};

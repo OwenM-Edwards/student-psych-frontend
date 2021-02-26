@@ -4,15 +4,14 @@ import Loader from 'react-loader-spinner';
 import {toggleNavPanel, signOut} from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { closeArrow } from '../assets/index';
-
+import { Link } from "react-router-dom";
 
 
 
 const Wrapper = styled.div`
    width:${props => props.theme.width};
-   height:100%;
+   height:160px;
    position: absolute;
-   height:100%;
    top:0;
    right:0;
    display:flex;
@@ -26,6 +25,7 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    z-index:5;
+   padding:${props => props.theme.padding};;
 
    & .button{      
       width:100%;
@@ -41,21 +41,26 @@ const Wrapper = styled.div`
       transition: all 0.4s ease 0s;
       cursor:pointer;
       margin-right:2px;
+      margin-top:auto;
+      margin-bottom:5px;
    }
    & .closeArrowButton{
-      width:40px;
+      width:50px;
       opacity:0.8;
       cursor:pointer;
+      justify-self:flex-start;
+      position: relative;
+      right:15px;
    }
 `
 
 const shown = {
-   width: "300px",
-   transform: "translate(-200px)",
+   width: "140px",
+   padding:'5px',
 }
 const hidden = {
    width: "0",
-   transform: "translate(200px)",
+   padding:'0px',
 }
 
 
@@ -67,12 +72,15 @@ const NavPanel = ({toggleNavPanel, navPanelState, signOut}) => {
       toggleNavPanel(false);
       signOut();
    }
+   const handleProfile = () => {
+      window.location = `/profile`;
+   }
    return (
       <ThemeProvider theme={navPanelState ? shown : hidden}>
          <Wrapper>
             <img className="closeArrowButton" onClick={()=>toggleNavPanel(false)} src={closeArrow}></img>
             <button className="button" onClick={()=>handleSignOut()}>Sign Out</button>
-            <button className="button" onClick={()=>handleSignOut()}>Manage Profile</button>
+            <Link to="/profile"><button className="button" onClick={()=>handleProfile()}>Profile</button></Link>
          </Wrapper>
       </ThemeProvider>
 

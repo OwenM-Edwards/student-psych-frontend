@@ -3,6 +3,7 @@ import SignIn from './SignIn';
 import Register from './Register';
 import Verify from './Verify';
 import Search from './Search';
+import Profile from './Profile';
 
 export {
    Calendar,
@@ -10,4 +11,5 @@ export {
    Register,
    Verify,
    Search,
+   Profile,
 }

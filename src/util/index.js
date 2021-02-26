@@ -36,6 +36,45 @@ const errorHandler = (err) => {
    } 
 }
 
+
+
+// pin/favorite events
+export const pinEventAPI = async (eventInfo) => {
+   try {
+      const pinEvent = await api.post('auth/pin', { data: {
+         eventInfo : eventInfo,
+      }})
+      if(pinEvent.data){
+         return pinEvent.data;
+      }
+      else {
+         return false;
+      }
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+// Get pinned/favorite events
+export const getPinnedEventsAPI = async () => {
+   // try {
+   //    const refreshTokenAPI = await api.post('auth/refresh', { data: {
+   //       refreshToken : refreshToken,
+   //    }})
+   //    if(refreshTokenAPI.data){
+   //       return refreshToken;
+   //    }
+   //    else {
+   //       return false;
+   //    }
+   // } catch (err){
+   //    errorHandler(err);
+   //    return false;
+   // } 
+}
+
+
 // Refresh Access Token.
 export const refreshAccessToken = async () => {
    const lcST = JSON.parse(localStorage.getItem("user"));

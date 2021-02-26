@@ -24,6 +24,8 @@ import {
    REQUEST_RECENT_ENTRIES,
    RECEIVE_RECENT_ENTRIES,
    TOGGLE_NAV_PANEL,
+   REQUEST_PIN_EVENT,
+   RECEIVE_PIN_EVENT,
 } from './action-types';
 
 import { 
@@ -39,7 +41,38 @@ import {
    recentEntriesAPI,
    logoutAPI,
    checkSessionAPI,
+   getPinnedEventsAPI,
+   pinEventAPI,
 } from '../../util/index';
+
+
+// Pin an event.
+export const pinEvent = (eventInfo) => async (dispatch) => {
+   dispatch({
+      type: REQUEST_PIN_EVENT,
+   })
+   const APIData = await pinEventAPI(eventInfo)
+   dispatch({
+      type: RECEIVE_PIN_EVENT,
+      payload:{
+         recentEntries: APIData,
+      }
+   })
+}
+
+// Get pinned events.
+export const getPinnedEvents = () => async (dispatch) => {
+   dispatch({
+      type: REQUEST_RECENT_ENTRIES,
+   })
+   const APIData = await getPinnedEventsAPI()
+   dispatch({
+      type: RECEIVE_RECENT_ENTRIES,
+      payload:{
+         recentEntries: APIData,
+      }
+   })
+}
 
 
 // Toggles the right sidebar/navpanel, toggle(true) == shown, toggle(false) == hide.
@@ -187,6 +220,7 @@ export const signOut = () => async (dispatch) => {
       type: RECEIVE_SECURE_ENTRY,
       payload:  false,
    })
+   window.location = '/calendar';
 }
 
 export const checkSession = () => async (dispatch) => {
@@ -198,6 +232,12 @@ export const checkSession = () => async (dispatch) => {
       type: RECEIVE_SIGN_IN,
       payload:APIData,
    })
+   if(APIData){
+      return true;
+   }
+   else {
+      return false;
+   }
 }
 
 // Sign user in.

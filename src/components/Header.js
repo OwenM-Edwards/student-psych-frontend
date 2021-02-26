@@ -170,7 +170,7 @@ const UserContainer = styled.div`
       margin-right:2px;
    }
    & .profileButton {
-      width:50px;
+      width:45px;
       cursor:pointer;
       opacity:0.8;
    }
@@ -247,10 +247,8 @@ const Header = ({
 
 
          {/* If at search, dont render navigation arrows. */}
-         {(window.location.pathname.includes('search'))
-            ? <React.Fragment/>
-            : 
-            <NavigationContainer>
+         {(window.location.pathname.includes('calendar'))
+            ? <NavigationContainer>
                   <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
                   <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
                   <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
@@ -267,7 +265,9 @@ const Header = ({
                      {selectedDate.year}
                      </div>
                   }
-            </NavigationContainer>
+               </NavigationContainer>
+            
+            :  <React.Fragment/> 
          }
             
 
@@ -283,7 +283,6 @@ const Header = ({
                   ref={register({ required:true})}
                />
                <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
-               
             </form>
          </SearchContainer>
 

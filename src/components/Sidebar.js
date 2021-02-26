@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { getRecentEvents,modalHandler,getSecureEventInfo } from '../redux/actions/index';
 import { connect } from 'react-redux';
@@ -56,6 +56,8 @@ const EventsContainer = styled.div`
    & .colorCodesContainer{
       display:flex;
       flex-direction:column;
+      overflow-y:hidden;
+      transition: all 0.2s ease 0s;
    }
 `
 const EventTag = styled.div`
@@ -74,6 +76,7 @@ const EventTag = styled.div`
 const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo}) => {
    let recentEvents = [];
    let capReached = false;
+   const [colorCodesToggle, setColorCodesToggle] = useState(false);
 
    const openViewEventModal = (eventInfo) => {
       if(auth.authenticated){
@@ -92,9 +95,12 @@ const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureE
       }
    }
 
-   const toggleColorCodes = () => {
-      
-   }
+   const colorCodeStyleShown = {
+      height: '100%',
+   };
+   const colorCodeStyleHidden = {
+      height: '0px',
+   };
 
 
    const genRecentEvents = () => {
@@ -160,8 +166,8 @@ const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureE
          </EventsContainer>
 
          <EventsContainer>
-            <h2 onClick={()=>toggleColorCodes()} className="recentEventHeader">Colour Codes:</h2>
-            <div className="colorCodesContainer">
+            <h2 onClick={()=>(colorCodesToggle) ? setColorCodesToggle(false) : setColorCodesToggle(true) } className="recentEventHeader">Colour Codes:</h2>
+            <div style={(colorCodesToggle) ? colorCodeStyleShown : colorCodeStyleHidden} className="colorCodesContainer">
                <p className="colorCode red">Careers Event</p>
                <p className="colorCode blue">Conference</p>
                <p className="colorCode purple">Special Interest Talk</p>
