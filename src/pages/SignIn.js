@@ -45,7 +45,6 @@ const SignIn = ({ signIn, auth}) => {
    const { register, handleSubmit, watch, errors } = useForm();
 
    const onSubmit = (data) => {
-      console.log(data)
       signIn(data.userEmail, data.userPassword);
    }
 
