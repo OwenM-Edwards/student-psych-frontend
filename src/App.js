@@ -1,21 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { checkSession } from './redux/actions/index';
-import {
-  BrowserRouter as Router, 
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
 import styled from "styled-components";
-import { Calendar, SignIn, Register, Verify, Search } from './pages/index';
-import { Header,LoadingIcon,Sidebar, NavPanel } from './components/index';
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./components/GlobalStyle";
 import { darkTheme } from "./components/Theme";
-import { checkToken } from "./util/index";
+import AppRouter from './AppRouter';
 
 const Wrapper = styled.div`
   min-width:100%;
@@ -38,75 +30,51 @@ const Wrapper = styled.div`
   }
 `
 
-const App = ({ auth, checkSession}) => {
+const App = ({checkSession}) => {
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
   // Check if user session if valid.
   useEffect(()=>{
-    checkSession();
-  }, [])
+    const fetchAuth = async () => {
+      const result = await checkSession();
+      setIsAuthenticated(result);
+      setLoading(false);
+    }
+    fetchAuth();
+  }, []);
+  
 
 
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <GlobalStyles/>
-      <Router>
+  if(loading){
+    return(
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyles/>
         <Wrapper>
-
           <ToastContainer
             position="bottom-right"
           />
-          <div className="header">
-            <Header/>
-          </div>
-          
-          <NavPanel/>
-
-          <Switch>
-            <Route path="/maintenance">
-              <div>main</div>
-            </Route>
-
-            <Route path="/signin">
-              {(auth.authenticated)
-                ? <Redirect to="/calendar"/>
-                : <SignIn/>
-              }
-            </Route>
-
-            <Route path="/register">
-              {(auth.authenticated)
-                ? <Redirect to="/calendar"/>
-                : <Register/>
-              }
-            </Route>
-
-            <Route path="/verify">
-              {(auth.authenticated)
-                ? <Redirect to="/calendar"/>
-                : <Verify/>
-              }
-            </Route>
-
-            <Route path="/search/:searchterm">
-                <div className="main"> <Sidebar/><Search/> </div> 
-            </Route>
-
-            <Route path="/calendar/:month/:year">
-                <div className="main"> <Sidebar/><Calendar/> </div> 
-            </Route>
-            <Route path="/calendar">
-                <div className="main"> <Sidebar/><Calendar/> </div> 
-            </Route>
-
-            <Route exact path="/">
-              <Redirect to="/calendar"/>
-            </Route>
-          </Switch>
+          Loading
         </Wrapper>
-      </Router>
-    </ThemeProvider>
-  );
+
+      </ThemeProvider>
+    )
+  }
+  else {
+    return(
+      <ThemeProvider theme={darkTheme}>
+        <GlobalStyles/>
+        <Wrapper>
+          <ToastContainer
+            position="bottom-right"
+          />
+          <AppRouter authenticated={isAuthenticated}/>
+        </Wrapper>
+
+      </ThemeProvider>
+    )
+  }
 }
 
 
