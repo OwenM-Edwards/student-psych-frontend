@@ -31,7 +31,6 @@ const errorHandler = (err) => {
       }
    }
    else {
-      console.log('triggered boy')
       toast.dismiss();
       toast.error(err.response.data);
    } 
@@ -46,11 +45,9 @@ export const refreshAccessToken = async () => {
          refreshToken : refreshToken,
       }})
       if(refreshTokenAPI.data){
-         console.log('yas')
          return refreshToken;
       }
       else {
-         console.log('noh')
          return false;
       }
    } catch (err){
