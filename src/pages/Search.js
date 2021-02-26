@@ -1,39 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getSecureEventInfo,deleteEntry, editEntry,searchEntries,modalHandler } from "../redux/actions/index";
-import { Link } from "react-router-dom";
-import { LoadingIcon, EditEventModal, CalenderSquare, Sidebar, EventModal, AddEventModal } from '../components/index';
+import { LoadingIcon, EditEventModal, EventModal, AddEventModal } from '../components/index';
 import { toast } from "react-toastify";
 const Wrapper = styled.div`
    width:100%;
    height:100%;
    display:flex;
-   padding:50px;
+   padding:50px 50px 20px 50px;
    justify-content:center;
+
    & .frosted{
       box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
       filter: blur(2px);
    }
 `
-const EntryHolder = styled.div`
-   width:100px;
-   height:20px;
-   background-color:pink;
-`
 
 const StyledEntriesContainer = styled.div `
    width:100%;
+   max-width: 1400px;
    height:100%;
    display:flex;
    flex-direction:column;
    background: ${({ theme }) => theme.backgroundContrast};
    border-radius:3px;
    padding:20px;
+   overflow-y:scroll;
+   
+
 `
 const StyledEntry = styled.p`
-   width:100%;
+   min-width:100%;
    max-width: 70%;
    background: ${({ theme }) => theme.backgroundLight};
    color: ${({ theme }) => theme.contrastText};
@@ -42,6 +41,10 @@ const StyledEntry = styled.p`
    padding:10px 20px 10px 20px;
    cursor:pointer;
    border-radius:5px;
+   transition: all 0.1s ease-in-out;
+   &:hover {
+      scale:0.99;
+   }
 `
 
 const Search = ({
@@ -60,17 +63,20 @@ const Search = ({
 
    // View Event
    const openViewEventModal = (eventInfo) => {
-      if(auth.user.id){
-         getSecureEventInfo({
-            eventInfo:eventInfo,
-            userid:auth.user.id
-         })
+      if(auth.authenticated){
+         async function f(){
+            await getSecureEventInfo({
+               eventInfo:eventInfo,
+            }) 
+         } 
+         f(); 
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
       else{
          toast.dismiss();
          toast.info('Please login to view full event.');
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
-      modalHandler({modalDisplay:'view', modalInfo: eventInfo});
    }
 
 
