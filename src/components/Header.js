@@ -9,10 +9,11 @@ import { mindMattersLogo, leftIconDarkMode, rightIconDarkMode } from "../assets/
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { search, profile } from '../assets/index';
+import { useHistory } from 'react-router-dom';
 
 const Wrapper = styled.div`
    width:100%;
-   height:70px;
+   height:100%;
    display:flex;
    flex-direction:row;
    flex-wrap:nowrap;
@@ -20,9 +21,8 @@ const Wrapper = styled.div`
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    padding:10px 0 10px 0;
    & .logoContainer {
-      width:20%;
-      max-width: 205px;
-      min-width:205px;
+      width:190px;
+      max-width: 190px;
       display:flex;
       flex-direction:row;
       padding:0 0 0 5px;
@@ -37,6 +37,7 @@ const Wrapper = styled.div`
    & .logo {
       width:100%;
       object-fit:cover;
+      cursor:pointer;
    }
 `
 
@@ -92,7 +93,10 @@ const SearchContainer = styled.div`
    display:flex;
    & .icon {
       display:inline;
-      height:40px;
+      width:100%;
+      max-width: 100%;
+      max-height:100%;
+      object-fit: contain;
    }
    & .searchForm {
       width:100%;
@@ -166,8 +170,9 @@ const UserContainer = styled.div`
       margin-right:2px;
    }
    & .profileButton {
-      width:40px;
+      width:50px;
       cursor:pointer;
+      opacity:0.8;
    }
 `
 
@@ -191,6 +196,7 @@ const Header = ({
    const printDate = new Date(selectedDate.year, selectedDate.month - 1);
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
+   const history = useHistory();
    const onSubmit = (data) => {
       window.location = `/search/${data.searchTerm}`;
    }
@@ -205,6 +211,7 @@ const Header = ({
          year: currentDate.getFullYear(),
          totalDaysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
       })
+      history.push(`/calendar/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
    }
 
    const changeMonth = (val) => {
@@ -222,6 +229,7 @@ const Header = ({
          year: changedDate.getFullYear(),
          totalDaysInMonth: new Date(changedDate.getFullYear(), changedDate.getMonth() + 1, 0).getDate(),
       })
+      history.push(`/calendar/${changedDate.getMonth()+1}/${changedDate.getFullYear()}`);
    }
 
    const handleSignIn = () => {
@@ -233,33 +241,37 @@ const Header = ({
 
    return(
       <Wrapper>
-         <Link className="logoContainer" to="/calendar"> 
+         <div onClick={()=>returnToCurrentMonth()}className="logoContainer"> 
             <img className="logo" src={mindMattersLogo}/>
-         </Link>
+         </div>
 
-         {/* If at calender, render cal month navigation */}
-         {(location.pathname === '/calendar')
-            ? <NavigationContainer>
-               <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
-               <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
-               <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
-               
 
-               <div className="printMonth">
-                  {printDate.toLocaleString('default', { month: 'long' })}
-               </div>
-               <div className="printYear">
-                  {selectedDate.year}
-               </div>
+         {/* If at search, dont render navigation arrows. */}
+         {(window.location.pathname.includes('search'))
+            ? <React.Fragment/>
+            : 
+            <NavigationContainer>
+                  <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
+                  <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
+                  <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
+                  
 
-               
-               {(window.location.pathname.includes('search'))
-                  ? <button onClick={()=>handleBack()}>Back</button>
-                  : <div></div>
-               }
+                  <div className="printMonth">
+                     {printDate.toLocaleString('default', { month: 'long' })}
+                  </div>
+                  
+                  {(window.location.pathname.includes('search'))
+                     ? <React.Fragment/>
+                     : 
+                     <div className="printYear">
+                     {selectedDate.year}
+                     </div>
+                  }
             </NavigationContainer>
-            : <React.Fragment/>
          }
+            
+
+         
 
          <SearchContainer>
             <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
@@ -281,7 +293,6 @@ const Header = ({
                ? <img className="profileButton" onClick={()=>toggleNavPanel(true)} src={profile}></img>
                : <button className="loginButton" onClick={()=>handleSignIn()}>Sign In</button>
             }
-            
          </UserContainer>
       </Wrapper>
    )
