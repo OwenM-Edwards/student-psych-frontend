@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Loader from 'react-loader-spinner';
 import {toggleNavPanel, signOut} from '../redux/actions/index';
 import { connect } from 'react-redux';
+import { closeArrow } from '../assets/index';
 
 
 
@@ -41,6 +42,11 @@ const Wrapper = styled.div`
       cursor:pointer;
       margin-right:2px;
    }
+   & .closeArrowButton{
+      width:40px;
+      opacity:0.8;
+      cursor:pointer;
+   }
 `
 
 const shown = {
@@ -56,7 +62,6 @@ const hidden = {
 const NavPanel = ({toggleNavPanel, navPanelState, signOut}) => {
 
    useEffect(() => {
-      console.log(navPanelState)
    }, [navPanelState]);
    const handleSignOut = () => {
       toggleNavPanel(false);
@@ -65,8 +70,9 @@ const NavPanel = ({toggleNavPanel, navPanelState, signOut}) => {
    return (
       <ThemeProvider theme={navPanelState ? shown : hidden}>
          <Wrapper>
-            <button className="button" onClick={()=>toggleNavPanel(false)}>false</button>
+            <img className="closeArrowButton" onClick={()=>toggleNavPanel(false)} src={closeArrow}></img>
             <button className="button" onClick={()=>handleSignOut()}>Sign Out</button>
+            <button className="button" onClick={()=>handleSignOut()}>Manage Profile</button>
          </Wrapper>
       </ThemeProvider>
 
