@@ -1,22 +1,23 @@
 import React, {useEffect} from 'react';
 import styled from "styled-components";
-import { getRecentEvents } from '../redux/actions/index';
+import { getRecentEvents,modalHandler,getSecureEventInfo } from '../redux/actions/index';
 import { connect } from 'react-redux';
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:20%;
-   max-width: 200px;
-   min-width:200px;
+   max-width: 190px;
+   min-width:190px;
    height:100%;
    z-index:2;
    background: ${({ theme }) => theme.backgroundContrast};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    text-align:center;
-   padding-top:8%;
    display:flex;
    flex-direction:column;
    justify-content:space-between;
    align-content:space-between;
+   padding-top:8%;
 `
 const EventsContainer = styled.div`
    width:100%;
@@ -52,6 +53,10 @@ const EventsContainer = styled.div`
    & .green {
       background: ${({ theme }) => theme.green};
    }
+   & .colorCodesContainer{
+      display:flex;
+      flex-direction:column;
+   }
 `
 const EventTag = styled.div`
    opacity:0.9;
@@ -62,11 +67,36 @@ const EventTag = styled.div`
    border-radius:3px;
    margin: 0 5px 5px 5px;
    cursor: pointer;
+   overflow:hidden;
 `
 
-const Sidebar = ({getRecentEvents, recentEntries}) => {
+
+const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo}) => {
    let recentEvents = [];
    let capReached = false;
+
+   const openViewEventModal = (eventInfo) => {
+      if(auth.authenticated){
+         async function f(){
+            await getSecureEventInfo({
+               eventInfo:eventInfo,
+            }) 
+         } 
+         f(); 
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+      }
+      else{
+         toast.dismiss();
+         toast.info('Please login to view full event.');
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+      }
+   }
+
+   const toggleColorCodes = () => {
+      
+   }
+
+
    const genRecentEvents = () => {
       let counter = 0;
       if(recentEntries && capReached !== true){
@@ -75,27 +105,27 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
                switch(entry.type){
                   case 'Careers event':
                      recentEvents.push(
-                        <EventTag className="red" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="red" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Conference':
                      recentEvents.push(
-                        <EventTag className="blue" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="blue" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Special interest talk':
                      recentEvents.push(
-                        <EventTag className="purple" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="purple" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Revision':
                      recentEvents.push(
-                        <EventTag className="green" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="green" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Other':
                      recentEvents.push(
-                        <EventTag className="orange" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="orange" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                }
@@ -130,12 +160,14 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
          </EventsContainer>
 
          <EventsContainer>
-            <h2 className="recentEventHeader">Colour Codes:</h2>
-            <p className="colorCode red">Careers Event</p>
-            <p className="colorCode blue">Conference</p>
-            <p className="colorCode purple">Special Interest Talk</p>
-            <p className="colorCode green">Revision or Training</p>
-            <p className="colorCode orange">Other</p>
+            <h2 onClick={()=>toggleColorCodes()} className="recentEventHeader">Colour Codes:</h2>
+            <div className="colorCodesContainer">
+               <p className="colorCode red">Careers Event</p>
+               <p className="colorCode blue">Conference</p>
+               <p className="colorCode purple">Special Interest Talk</p>
+               <p className="colorCode green">Revision or Training</p>
+               <p className="colorCode orange">Other</p>
+            </div>
          </EventsContainer>
       </Wrapper>
    )
@@ -143,5 +175,5 @@ const Sidebar = ({getRecentEvents, recentEntries}) => {
 
 
 
-const mapStateToProps = (state) => ({ recentEntries:state.recentEvents.recentEntries });
-export default connect(mapStateToProps, { getRecentEvents })(Sidebar);
+const mapStateToProps = (state) => ({ auth:state.authenticate, recentEntries:state.recentEvents.recentEntries });
+export default connect(mapStateToProps, { getSecureEventInfo, modalHandler, getRecentEvents })(Sidebar);
