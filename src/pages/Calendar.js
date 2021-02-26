@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { EditEventModal, CalenderSquare, EventModal, AddEventModal } from '../components/index';
-import { modalHandler, getSecureEventInfo, getEntries,getInitialDate } from '../redux/actions/index';
+import { EditEventModal, CalenderSquare, EventModal, AddEventModal,OverflowEventsModal } from '../components/index';
+import { modalHandler, getSecureEventInfo, getEntries,getInitialDate,selectDate,clearEntries } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+
 
 const Calendar = ({ 
       auth, 
@@ -12,17 +15,64 @@ const Calendar = ({
       modalHandler,
       modalState, 
       entries,
+      selectDate,
+      editEntryState,
+      deleteEntryState,
+      addEntryState,
+      getInitialDate,
+      getEntries,
+      clearEntries,
    }) => {
    const [ boxes, setBoxes ] = useState([]);
    const [ headers, setHeaders ] = useState([]);
    let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+   const history = useHistory();
+   const {month, year} = useParams();
+   let button = '';
 
+
+   useEffect(() => {
+      async function start(){
+         await getInitialDate();
+      }
+      if(month && !selectedDate){
+         let urlDate = new Date(year, month);
+         let currentDay = false;
+         if(urlDate.getMonth() === new Date().getMonth() +1){
+            currentDay = new Date().getDate();
+         }
+         else {
+            currentDay = urlDate.getDate();
+         }
+         selectDate({
+            day: currentDay,
+            month: urlDate.getMonth(), 
+            year: urlDate.getFullYear(),
+            totalDaysInMonth: new Date(urlDate.getFullYear(), urlDate.getMonth(), 0).getDate(),
+         })
+      }
+      else if(!month && !selectedDate){
+         clearEntries();
+         let currentDate = new Date();
+         selectDate({
+            day: currentDate.getDate(),
+            month: currentDate.getMonth() + 1, 
+            year: currentDate.getFullYear(),
+            totalDaysInMonth: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
+         })
+         history.push(`/calendar/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
+      }
+      else {
+         getEntries(selectedDate.month, selectedDate.year);
+      }
+
+   }, [selectedDate,addEntryState.isFetching,deleteEntryState.isFetching,editEntryState.isFetching]);
 
    useEffect(() => {
       genDayHeaders();
       genBoxes();
    }, [auth, selectedDate, entries]);
-   
+
 
    const genDayHeaders = () => {
       let tempHeaders = [];
@@ -49,8 +99,7 @@ const Calendar = ({
    const openViewEventModal = (eventInfo) => {
       if(auth.authenticated){
          async function f(){
-            console.log(eventInfo)
-            const secureInfo = await getSecureEventInfo({
+            await getSecureEventInfo({
                eventInfo:eventInfo,
             }) 
          } 
@@ -68,6 +117,7 @@ const Calendar = ({
          modalHandler(false);
       }
    }
+   
 
    const genBoxes = () => {
       let precedingMonthCheck = new Date(selectedDate.year, selectedDate.month - 1, 1);
@@ -118,6 +168,8 @@ const Calendar = ({
       setBoxes(tempBoxes);
    }
 
+
+
    return (
          <Wrapper> 
             
@@ -131,6 +183,10 @@ const Calendar = ({
             }  
             {(modalState.modalDisplay === 'edit')
                ? <EditEventModal />
+               : <React.Fragment/>
+            } 
+            {(modalState.modalDisplay === 'overflow')
+               ? <OverflowEventsModal />
                : <React.Fragment/>
             } 
 
@@ -201,7 +257,11 @@ const CalenderHeaderContainer = styled.div`
 const CalenderSquareContainer  = styled.div`
    width:1fr;
    height:1fr;
+
    min-width: 0;
+   display:flex;
+   flex-direction:column;
+   overflow:hidden;
 `
 
 const CalenderHeader = styled.div`
@@ -214,5 +274,5 @@ const CalenderHeader = styled.div`
    font-size:1.2rem;
 `
 
-const mapStateToProps = (state) => ({ entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});
-export default connect(mapStateToProps, { getInitialDate, getEntries, modalHandler, getSecureEventInfo, })(Calendar);
+const mapStateToProps = (state) => ({ deleteEntryState:state.deleteEntry,editEntryState:state.editEntry,addEntryState:state.addEntry, entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});
+export default connect(mapStateToProps, { clearEntries,selectDate, getInitialDate, getEntries, modalHandler, getSecureEventInfo, })(Calendar);
