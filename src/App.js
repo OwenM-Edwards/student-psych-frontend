@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { getInitialDate, getEntries,checkSession } from './redux/actions/index';
+import { checkSession } from './redux/actions/index';
 import {
   BrowserRouter as Router, 
   Route,
@@ -27,34 +27,23 @@ const Wrapper = styled.div`
 
   & .header {
     height:auto;
-    max-height:200px;
+    max-height:6%;
     width:100%;
   }
   & .main {
-    height:95%;
+    min-height:94%;
+    max-height:94%;
     width:100%;
     display:flex;
   }
 `
 
-const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, getEntries, auth, entries, selectedDate,checkSession}) => {
+const App = ({ auth, checkSession}) => {
 
-  useEffect(() => {
-    async function start(){
-      if(!selectedDate){
-          const initialDate = await getInitialDate();
-      }
-      if(selectedDate){
-          getEntries(selectedDate.month, selectedDate.year);
-      }
-    }
-    start();
-  }, [selectedDate,addEntryState.isFetching,deleteEntryState.isFetching,editEntryState.isFetching]);
 
   // Check if user session if valid.
   useEffect(()=>{
     checkSession();
-    console.log(auth)
   }, [])
 
 
@@ -103,9 +92,13 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
                 <div className="main"> <Sidebar/><Search/> </div> 
             </Route>
 
+            <Route path="/calendar/:month/:year">
+                <div className="main"> <Sidebar/><Calendar/> </div> 
+            </Route>
             <Route path="/calendar">
                 <div className="main"> <Sidebar/><Calendar/> </div> 
             </Route>
+
             <Route exact path="/">
               <Redirect to="/calendar"/>
             </Route>
@@ -117,5 +110,5 @@ const App = ({editEntryState,deleteEntryState,addEntryState, getInitialDate, get
 }
 
 
-const mapStateToProps = (state) => ({ deleteEntryState:state.deleteEntry,editEntryState:state.editEntry,addEntryState:state.addEntry, selectedDate:state.selectedDate.selectedDate, entries:state.entries, auth:state.authenticate });
-export default connect(mapStateToProps, {getInitialDate, getEntries,checkSession})(App);
+const mapStateToProps = (state) => ({auth:state.authenticate });
+export default connect(mapStateToProps, {checkSession})(App);
