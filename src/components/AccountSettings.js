@@ -12,7 +12,10 @@ const Wrapper = styled.div`
 `
 
 const AccountSettings = () => {
-
+   // Delete account.
+      // Confirm log in, then delete.
+   // Change password.
+      // Confirm log in, then change password.
 
 
    return(
