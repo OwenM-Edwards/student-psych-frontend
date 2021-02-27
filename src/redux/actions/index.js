@@ -26,6 +26,8 @@ import {
    TOGGLE_NAV_PANEL,
    REQUEST_PIN_EVENT,
    RECEIVE_PIN_EVENT,
+   REQUEST_POPULAR_ENTRIES,
+   RECEIVE_POPULAR_ENTRIES,
 } from './action-types';
 
 import { 
@@ -43,8 +45,24 @@ import {
    checkSessionAPI,
    getPinnedEventsAPI,
    pinEventAPI,
+   popularEntriesAPI,
 } from '../../util/index';
 
+
+
+// Get popular entries.
+export const getPopularEvents = () => async (dispatch) => {
+   dispatch({
+      type: REQUEST_POPULAR_ENTRIES,
+   })
+   const APIData = await popularEntriesAPI()
+   dispatch({
+      type: RECEIVE_POPULAR_ENTRIES,
+      payload:{
+         popularEntries: APIData,
+      }
+   })
+}
 
 // Pin an event.
 export const pinEvent = (eventInfo) => async (dispatch) => {

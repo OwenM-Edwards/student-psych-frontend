@@ -12,6 +12,7 @@ import searchEntries from './searchEntries';
 import modal from './modal';
 import recentEvents from './recentEvents';
 import navPanel from './navPanel';
+import popularEvents from './popularEvents';
 
 export default combineReducers({
    entries,
@@ -27,4 +28,5 @@ export default combineReducers({
    modal,
    recentEvents,
    navPanel,
+   popularEvents,
 });

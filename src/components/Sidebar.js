@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import { getRecentEvents,modalHandler,getSecureEventInfo } from '../redux/actions/index';
+import { getRecentEvents,modalHandler,getSecureEventInfo,getPopularEvents } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 
@@ -25,7 +25,7 @@ const EventsContainer = styled.div`
    display:flex;
    flex-direction:column;
    padding:10px;
-   & .recentEventHeader{
+   & .eventsHeader{
       font-size:1.1rem;
       margin-bottom:15px;
    }
@@ -73,9 +73,11 @@ const EventTag = styled.div`
 `
 
 
-const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo}) => {
+const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo,popularEntries }) => {
    let recentEvents = [];
-   let capReached = false;
+   let popularEvents = [];
+   let recentCapReached = false;
+   let popularCapReached = false;
    const [colorCodesToggle, setColorCodesToggle] = useState(false);
 
    const openViewEventModal = (eventInfo) => {
@@ -105,7 +107,7 @@ const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureE
 
    const genRecentEvents = () => {
       let counter = 0;
-      if(recentEntries && capReached !== true){
+      if(recentEntries && recentCapReached !== true){
          recentEntries.forEach(entry => {
             if(counter < 3){
                switch(entry.type){
@@ -135,38 +137,84 @@ const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureE
                      )
                      break;
                }
-
                counter++;
             }
             else {
-               capReached = true;
+               recentCapReached = true;
             }
          })
       }         
    }
    genRecentEvents();
 
+   const genPopularEvents = () => {
+      let counter = 0;
+      if(popularEntries && popularCapReached !== true){
+         popularEntries.forEach(entry => {
+            if(counter < 3){
+               switch(entry.type){
+                  case 'Careers event':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="red" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Conference':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="blue" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Special interest talk':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="purple" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Revision':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="green" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Other':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="orange" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+               }
+               counter++;
+            }
+            else {
+               popularCapReached = true;
+            }
+         })
+      }         
+   }
+   genPopularEvents();
+
    useEffect(() => {
       if(!recentEntries){
          getRecentEvents();
+      }
+      if(!popularEntries){
+         getPopularEvents();
       }
    }, []);
 
 
    return(
       <Wrapper>
+         {/* Popular Events */}
          <EventsContainer>
-            <h2 className="recentEventHeader">Popular Events</h2>
+            <h2 className="eventsHeader">Popular Events</h2>
+            {popularEvents}
+         </EventsContainer>
+
+         {/* Recent Events */}
+         <EventsContainer>
+            <h2 className="eventsHeader">Recent Events</h2>
             {recentEvents}
          </EventsContainer>
 
          <EventsContainer>
-            <h2 className="recentEventHeader">Recent Events</h2>
-            {recentEvents}
-         </EventsContainer>
-
-         <EventsContainer>
-            <h2 onClick={()=>(colorCodesToggle) ? setColorCodesToggle(false) : setColorCodesToggle(true) } className="recentEventHeader">Colour Codes:</h2>
+            <h2 onClick={()=>(colorCodesToggle) ? setColorCodesToggle(false) : setColorCodesToggle(true) } className="eventsHeader">Colour Codes:</h2>
             <div style={(colorCodesToggle) ? colorCodeStyleShown : colorCodeStyleHidden} className="colorCodesContainer">
                <p className="colorCode red">Careers Event</p>
                <p className="colorCode blue">Conference</p>
@@ -181,5 +229,5 @@ const Sidebar = ({getRecentEvents, recentEntries, modalHandler, auth, getSecureE
 
 
 
-const mapStateToProps = (state) => ({ auth:state.authenticate, recentEntries:state.recentEvents.recentEntries });
-export default connect(mapStateToProps, { getSecureEventInfo, modalHandler, getRecentEvents })(Sidebar);
+const mapStateToProps = (state) => ({ auth:state.authenticate, recentEntries:state.recentEvents.recentEntries, popularEntries:state.popularEvents.popularEntries });
+export default connect(mapStateToProps, { getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents })(Sidebar);

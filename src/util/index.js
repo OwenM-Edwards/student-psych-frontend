@@ -36,6 +36,30 @@ const errorHandler = (err) => {
    } 
 }
 
+// Get popular entries.
+export const popularEntriesAPI = async () => {
+   try {
+      const popularEntries = await api.get('entry/popularentries');
+      if(popularEntries.data){
+         
+         return popularEntries.data;
+      }
+      else {
+         return false;
+      }
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+
+// Register event click.
+export const registerEventClickAPI = async (eventInfo) => {
+   api.post('entry/registerclick', { data: {
+      eventInfo : eventInfo,
+   }});
+}
 
 
 // pin/favorite events

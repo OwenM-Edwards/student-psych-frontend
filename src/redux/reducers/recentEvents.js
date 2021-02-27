@@ -10,6 +10,7 @@ function recentEvents(state = initialState, action) {
       case REQUEST_RECENT_ENTRIES:
          return {
             isFetching:true,
+            recentEntries:false,
          }
       case RECEIVE_RECENT_ENTRIES:
          return {

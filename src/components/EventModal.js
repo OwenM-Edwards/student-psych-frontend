@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import {modalHandler,deleteEntry,pinEvent} from '../redux/actions/index';
+import {registerEventClickAPI} from '../util/index';
 import {
    close,
    eventDate,
@@ -124,8 +125,6 @@ const Wrapper = styled.div`
    }
 `
 
-const StyledEditingContainer = styled.div`
-`
 const SecureInfoWrapper = styled.div`
    display:flex;
    flex-direction:column;
@@ -143,6 +142,12 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
 
    const modalInfo = modalState.modalInfo;
    const printDate = new Date(modalInfo.year, modalInfo.month - 1, modalInfo.day);
+
+   // Register click
+   useEffect(() => {
+      registerEventClickAPI(modalInfo.id);
+   }, []);
+
    const handleDelete = () => {
       deleteEntry(secureInfo.eventinfo.id);
       modalHandler(false);
