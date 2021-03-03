@@ -87,10 +87,9 @@ const Calendar = ({
       setHeaders(tempHeaders);
    }
 
-   
    // Add Event.
    const openAddEventModal = (e) => {
-      if(auth.authenticated){
+      if(auth.moderator || auth.admin){
          modalHandler({modalDisplay:'add', modalInfo:{ day:e.target.id, month:selectedDate.month, year:selectedDate.year }});
       }
    }
@@ -220,7 +219,6 @@ const Wrapper = styled.div`
    width:100%;
    height:100%;
    display:flex;
-
    & .frosted{
       box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
       filter: blur(2px);
@@ -234,7 +232,7 @@ const StyledMain = styled.div`
    display:flex;
    flex-direction:column;
    flex-wrap:nowrap;
-   padding:30px 30px 20px 0px;
+   padding:30px 30px 10px 0px;
    transition: all 0.2s ease-in-out;
 `
 const CalenderBoxesContainer = styled.div`
@@ -257,7 +255,6 @@ const CalenderHeaderContainer = styled.div`
 const CalenderSquareContainer  = styled.div`
    width:1fr;
    height:1fr;
-
    min-width: 0;
    display:flex;
    flex-direction:column;
@@ -268,7 +265,7 @@ const CalenderHeader = styled.div`
    width:1fr;
    max-width: 1fr;
    height:1fr;
-   background: ${({ theme }) => theme.backgroundContrast};
+   background: ${({ theme }) => theme.primary.main};
    text-align: center;
    padding-top:5px;
    font-size:1.2rem;

@@ -1,63 +1,92 @@
 import React, {useEffect, useState} from 'react';
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { getRecentEvents,modalHandler,getSecureEventInfo,getPopularEvents } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
+import { leftIconDarkMode, } from "../assets/index.js";
+
+
 
 const Wrapper = styled.div`
-   width:20%;
-   max-width: 190px;
-   min-width:190px;
+   width:${props => props.theme.width};
+   max-width: 150px;
    height:100%;
    z-index:2;
-   background: ${({ theme }) => theme.backgroundContrast};
+   background: ${({ theme }) => theme.primary.main};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    text-align:center;
    display:flex;
    flex-direction:column;
+   padding-top:3%;
+
+   transition: width 0.2s ease-in-out;
    justify-content:space-between;
-   align-content:space-between;
-   padding-top:8%;
+
+   & .arrowContainer {
+      width:100%;
+      display:flex;
+      flex-direction:row;
+      justify-content:flex-end;
+      position: relative;
+      left:30px;
+      bottom:20px;
+
+      & img{
+         width:40px;
+         transition: all 0.2s ease-in-out;
+         transform: ${props => props.theme.transform};
+         cursor:pointer;
+         &:hover {
+            scale:0.9;
+         }
+      }
+   }
+   
 `
 const EventsContainer = styled.div`
    width:100%;
-   min-height:20%;
+   height:40%;
    display:flex;
+   opacity:${props => props.theme.opacity};
    flex-direction:column;
-   padding:10px;
+   transition: all 0.2s ease-in-out;
+   border-top:3px solid ${({ theme }) => theme.primary.dark};
+   padding-top:10px;
+   padding-right:3px;
    & .eventsHeader{
       font-size:1.1rem;
       margin-bottom:15px;
    }
    & .colorCode{
       border-radius:3px;
-      opacity:0.9;
+      opacity:0.8;
       margin-bottom:5px;
       color: ${({ theme }) => theme.contrastText};
-      padding:4px;
+      padding:5px 0 5px 0;
       width:93%;
       align-self:center;
    }
    & .red {
-      background: ${({ theme }) => theme.red};
+      background: ${({ theme }) => theme.colorCodes.red};
    }
    & .blue {
-      background: ${({ theme }) => theme.blue};
+      background: ${({ theme }) => theme.colorCodes.blue};
    }
    & .purple {
-      background: ${({ theme }) => theme.purple};
+      background: ${({ theme }) => theme.colorCodes.purple};
    }
    & .orange {
-      background: ${({ theme }) => theme.orange};
+      background: ${({ theme }) => theme.colorCodes.orange};
    }
    & .green {
-      background: ${({ theme }) => theme.green};
+      background: ${({ theme }) => theme.colorCodes.green};
    }
    & .colorCodesContainer{
       display:flex;
       flex-direction:column;
       overflow-y:hidden;
       transition: all 0.2s ease 0s;
+      justify-content:flex-end;
    }
 `
 const EventTag = styled.div`
@@ -71,6 +100,14 @@ const EventTag = styled.div`
    cursor: pointer;
    overflow:hidden;
 `
+const shown = {
+   width:"20%",
+}
+const hidden = {
+   width: "0",
+   opacity: "0",
+   transform: "rotate(180deg)",
+}
 
 
 const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo,popularEntries }) => {
@@ -79,6 +116,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
    let recentCapReached = false;
    let popularCapReached = false;
    const [colorCodesToggle, setColorCodesToggle] = useState(false);
+   const [sidebarToggle, setSidebarToggle] = useState(true);
 
    const openViewEventModal = (eventInfo) => {
       if(auth.authenticated){
@@ -96,14 +134,6 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
          modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
    }
-
-   const colorCodeStyleShown = {
-      height: '100%',
-   };
-   const colorCodeStyleHidden = {
-      height: '0px',
-   };
-
 
    const genRecentEvents = () => {
       let counter = 0;
@@ -199,31 +229,47 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
    }, []);
 
 
+   const toggleSidebar = () => {
+      if(sidebarToggle){
+         setSidebarToggle(false)
+      }
+      else {
+         setSidebarToggle(true)
+      }
+   }
+
    return(
-      <Wrapper>
-         {/* Popular Events */}
-         <EventsContainer>
-            <h2 className="eventsHeader">Popular Events</h2>
-            {popularEvents}
-         </EventsContainer>
-
-         {/* Recent Events */}
-         <EventsContainer>
-            <h2 className="eventsHeader">Recent Events</h2>
-            {recentEvents}
-         </EventsContainer>
-
-         <EventsContainer>
-            <h2 onClick={()=>(colorCodesToggle) ? setColorCodesToggle(false) : setColorCodesToggle(true) } className="eventsHeader">Colour Codes:</h2>
-            <div style={(colorCodesToggle) ? colorCodeStyleShown : colorCodeStyleHidden} className="colorCodesContainer">
-               <p className="colorCode red">Careers Event</p>
-               <p className="colorCode blue">Conference</p>
-               <p className="colorCode purple">Special Interest Talk</p>
-               <p className="colorCode green">Revision or Training</p>
-               <p className="colorCode orange">Other</p>
+      <ThemeProvider theme={sidebarToggle ? shown : hidden}>
+         <Wrapper>
+            <div className="arrowContainer">
+               <img onClick={()=>toggleSidebar()} src={leftIconDarkMode}/>
             </div>
-         </EventsContainer>
-      </Wrapper>
+            
+
+            {/* Popular Events */}
+            <EventsContainer>
+               <h2 className="eventsHeader">Popular Events</h2>
+               {popularEvents}
+            </EventsContainer>
+
+            {/* Recent Events */}
+            <EventsContainer>
+               <h2 className="eventsHeader">Recent Events</h2>
+               {recentEvents}
+            </EventsContainer>
+
+            <EventsContainer>
+               <h2 className="eventsHeader">Colour Codes:</h2>
+               <div className="colorCodesContainer">
+                  <p className="colorCode red">Careers Event</p><div className=""></div>
+                  <p className="colorCode blue">Conference</p>
+                  <p className="colorCode purple">Special Interest Talk</p>
+                  <p className="colorCode green">Revision or Training</p>
+                  <p className="colorCode orange">Other</p>
+               </div>
+            </EventsContainer>
+         </Wrapper>
+      </ThemeProvider>  
    )
 }
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { checkSession } from './redux/actions/index';
+import { checkSession} from './redux/actions/index';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,7 @@ import {ThemeProvider} from "styled-components";
 import { GlobalStyles } from "./components/GlobalStyle";
 import { darkTheme } from "./components/Theme";
 import AppRouter from './AppRouter';
+import { checkAdminAPI } from './util';
 
 const Wrapper = styled.div`
   min-width:100%;
@@ -16,38 +17,35 @@ const Wrapper = styled.div`
   display:flex;
   flex-wrap:wrap;
   margin: 0;
+  background: ${({ theme }) => theme.primary.dark};
 
   & .header {
     height:auto;
-    max-height:6%;
+    height:7%;
+    min-height:70px;
     width:100%;
   }
   & .main {
-    min-height:94%;
-    max-height:94%;
+    min-height:93%;
+    max-height:93%;
     width:100%;
     display:flex;
   }
 `
 
-const App = ({checkSession}) => {
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+const App = ({auth, checkSession}) => {
 
   // Check if user session if valid.
   useEffect(()=>{
-    const fetchAuth = async () => {
-      const result = await checkSession();
-      setIsAuthenticated(result);
-      setLoading(false);
+    if(!auth.authenticated){
+      const fetchAuth = async () => {
+        await checkSession();
+      }
+      fetchAuth();
     }
-    fetchAuth();
-  }, []);
+  },[]);
   
-
-
-  if(loading){
+  if(!auth.isFetching){
     return(
       <ThemeProvider theme={darkTheme}>
         <GlobalStyles/>
@@ -55,9 +53,8 @@ const App = ({checkSession}) => {
           <ToastContainer
             position="bottom-right"
           />
-          Loading
+          <AppRouter/>
         </Wrapper>
-
       </ThemeProvider>
     )
   }
@@ -69,9 +66,8 @@ const App = ({checkSession}) => {
           <ToastContainer
             position="bottom-right"
           />
-          <AppRouter authenticated={isAuthenticated}/>
+          loading
         </Wrapper>
-
       </ThemeProvider>
     )
   }

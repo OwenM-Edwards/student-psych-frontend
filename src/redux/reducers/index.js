@@ -13,6 +13,10 @@ import modal from './modal';
 import recentEvents from './recentEvents';
 import navPanel from './navPanel';
 import popularEvents from './popularEvents';
+import submittedEntries from './submittedEntries';
+import allUsers from './allUsers';
+import deleteUser from './deleteUser';
+import changePassword from './changePassword';
 
 export default combineReducers({
    entries,
@@ -29,4 +33,8 @@ export default combineReducers({
    recentEvents,
    navPanel,
    popularEvents,
+   submittedEntries,
+   allUsers,
+   deleteUser,
+   changePassword,
 });

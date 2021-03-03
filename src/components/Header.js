@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { selectDate,signOut,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import Select from 'react-select';
 import { toast } from "react-toastify";
-import { mindMattersLogo, leftIconDarkMode, rightIconDarkMode } from "../assets/index.js";
+import { mindMattersLogo, leftIconDarkMode, rightIconDarkMode, logo, logoFill } from "../assets/index.js";
+import { NavPanel } from './index';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { search, profile } from '../assets/index';
@@ -17,12 +18,13 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:row;
    flex-wrap:nowrap;
-   background: ${({ theme }) => theme.backgroundContrast};
+   background: ${({ theme }) => theme.primary.main};
+   color: ${({ theme }) => theme.primary.text};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    padding:10px 0 10px 0;
+   z-index:5;
    & .logoContainer {
-      width:190px;
-      max-width: 190px;
+      max-width: 200px;
       display:flex;
       flex-direction:row;
       padding:0 0 0 5px;
@@ -31,7 +33,7 @@ const Wrapper = styled.div`
       align-content:center;
       z-index:3;
       position: relative;
-      top:20px;
+      top:0px;
       right:5px;
    }
    & .logo {
@@ -88,7 +90,7 @@ const NavigationContainer = styled.div`
 `
 const SearchContainer = styled.div`
    height:100%;
-   width:20%;
+   width:40%;
    margin-left:auto;
    display:flex;
    & .icon {
@@ -147,13 +149,13 @@ const SearchContainer = styled.div`
 `
 const UserContainer = styled.div`
    height:100%;
-   width:120px;
+   width:60px;
    display:flex;
-   flex-direction:row;
+   flex-direction:column;
    align-items:center;
    padding:0 10px 0 10px;
    margin-right:45px;
-   justify-content:flex-end;
+   cursor: pointer;
    & .loginButton{
       width:100%;
       height:40px;
@@ -166,19 +168,28 @@ const UserContainer = styled.div`
       display: inline-block;
       border: none;
       transition: all 0.4s ease 0s;
-      cursor:pointer;
       margin-right:2px;
    }
    & .profileButton {
       width:45px;
-      cursor:pointer;
       opacity:0.8;
+   }
+   & .closeArrowButton {
+      position: relative;
+      bottom:15px;
+      width:40px;
+      transition: all 0.2s ease-in-out;
+      transform: ${props => props.theme.transform};
    }
 `
 
 
-
-
+const shown = {
+   transform: "rotate(90deg)",
+}
+const hidden = {
+   transform: "rotate(-90deg)",
+}
 
 
 
@@ -189,6 +200,7 @@ const Header = ({
       selectedDate, 
       signOut,
       toggleNavPanel,
+      navPanelState,
    }) => {
    const [searchField, setSearchField] = useState('title');
    const [searchTerm, setSearchTerm] = useState(false);
@@ -197,10 +209,12 @@ const Header = ({
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
    const history = useHistory();
+   
    const onSubmit = (data) => {
       window.location = `/search/${data.searchTerm}`;
    }
-
+   useEffect(()=>{
+   },[auth.authenticated]);
 
    const returnToCurrentMonth = () => {
       clearEntries();
@@ -235,67 +249,80 @@ const Header = ({
    const handleSignIn = () => {
       window.location = '/signin';
    }
-   const handleBack = () => {
-      window.location = `/calendar`;
+
+   const handleNavPanel = () => {
+      if(auth.authenticated){
+         if(navPanelState){
+            toggleNavPanel(false)
+         }
+         else {
+            toggleNavPanel(true)
+         }
+      }
    }
 
    return(
-      <Wrapper>
-         <div onClick={()=>returnToCurrentMonth()}className="logoContainer"> 
-            <img className="logo" src={mindMattersLogo}/>
-         </div>
+      <ThemeProvider theme={navPanelState ? shown : hidden}>
+         <Wrapper>
+            <NavPanel/>
+            <div onClick={()=>returnToCurrentMonth()}className="logoContainer"> 
+               <img className="logo" src={logo}/>
+            </div>
 
 
-         {/* If at search, dont render navigation arrows. */}
-         {(window.location.pathname.includes('calendar'))
-            ? <NavigationContainer>
-                  <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
-                  <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
-                  <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
-                  
+            {/* If at search, dont render navigation arrows. */}
+            {(window.location.pathname.includes('calendar'))
+               ? <NavigationContainer>
+                     <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
+                     <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
+                     <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
+                     
 
-                  <div className="printMonth">
-                     {printDate.toLocaleString('default', { month: 'long' })}
-                  </div>
-                  
-                  {(window.location.pathname.includes('search'))
-                     ? <React.Fragment/>
-                     : 
-                     <div className="printYear">
-                     {selectedDate.year}
+                     <div className="printMonth">
+                        {printDate.toLocaleString('default', { month: 'long' })}
                      </div>
-                  }
-               </NavigationContainer>
-            
-            :  <React.Fragment/> 
-         }
-            
-
-         
-
-         <SearchContainer>
-            <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
-               <input
-                  className="searchTerm"
-                  placeholder="Search events.."
-                  type="text" 
-                  name="searchTerm"
-                  ref={register({ required:true})}
-               />
-               <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
-            </form>
-         </SearchContainer>
-
-
-         <UserContainer>
-            {(auth.authenticated)
-               ? <img className="profileButton" onClick={()=>toggleNavPanel(true)} src={profile}></img>
-               : <button className="loginButton" onClick={()=>handleSignIn()}>Sign In</button>
+                     
+                     {(window.location.pathname.includes('search'))
+                        ? <React.Fragment/>
+                        : 
+                        <div className="printYear">
+                        {selectedDate.year}
+                        </div>
+                     }
+                  </NavigationContainer>
+               
+               :  <React.Fragment/> 
             }
-         </UserContainer>
-      </Wrapper>
+               
+            <SearchContainer>
+               <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
+                  <input
+                     className="searchTerm"
+                     placeholder="Search events.."
+                     type="text" 
+                     name="searchTerm"
+                     ref={register({ required:true})}
+                  />
+                  <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
+               </form>
+            </SearchContainer>
+
+
+            <UserContainer onClick={()=>handleNavPanel()} >
+               {(auth.authenticated)
+                  ? <img className="profileButton" src={profile}></img>
+                  : <Link to="/signin"><button className="loginButton">Sign In</button></Link>
+               }
+               {(auth.authenticated)
+                  ? <img className="closeArrowButton" src={leftIconDarkMode}></img>
+                  : <React.Fragment/>
+               }
+            </UserContainer>
+         </Wrapper>
+      </ThemeProvider>
    )
 }
 
-const mapStateToProps = (state) => ({ auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
+const mapStateToProps = (state) => ({ navPanelState:state.navPanel.show, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
 export default connect(mapStateToProps, { toggleNavPanel, getInitialDate, searchEntries, clearEntries,selectDate,signOut })(Header);
+

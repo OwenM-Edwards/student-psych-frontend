@@ -5,18 +5,6 @@ import {
    add,
    remove,
 } from '../assets/index';
-import {
-   close,
-   eventDate,
-   eventDescription,
-   eventLink,
-   eventOrganisation,
-   eventSecure,
-   eventTime,
-   eventType,
-   eventEdit,
-   eventDelete,
-} from '../assets/index';
 
 
 const Wrapper = styled.div`
@@ -29,7 +17,10 @@ const Wrapper = styled.div`
    word-wrap: break-word;
    color: ${({ theme }) => theme.contrastText};
    z-index:3;
-
+   & .formTitle {
+      width:100%;
+      background-color:white;
+   }
    & .formInput {
       padding:10px;
       margin-bottom:5px;
@@ -93,7 +84,9 @@ const Wrapper = styled.div`
    }
 
    & .icon {
-      width:5%;
+      width:23px;
+      position: relative;
+      bottom:2px;
       height:23px;
       justify-self:center;
       align-self:center;
@@ -105,67 +98,20 @@ const Wrapper = styled.div`
 
 const EventForm = ({handleSubmitEvent, defaultOptions}) => {
    
-   const {title, organisation, description, day, month, year, image, type, starttime, endtime} = (defaultOptions) ? defaultOptions : '';
-   
-
+   const {privatelinks, publiclinks, title, organisation, description, day, month, year, image, type, starttime, endtime} = (defaultOptions) ? defaultOptions : false;
+   let parsedPrivateLinks;
+   let parsedPublicLinks;
+   if(privatelinks){
+      parsedPrivateLinks = JSON.parse(privatelinks);
+   }
+   if(publiclinks){
+      parsedPublicLinks = JSON.parse(publiclinks);
+   }
    const { register, handleSubmit, watch, errors } = useForm();
-   const [publicCount, setPublicCount] = useState(1);
-   const [privateCount, setPrivateCount] = useState(1);
-   const [publicInfoState, setPublicInfoState] = useState(["","",""]);
-   const [privateInfoState, setPrivateInfoState] = useState(["","",""]);
    const onSubmit = (data) => {
-      // Sets the default values of the dynamically generated link inputs, to current values.
-      // This persists them in state, and if form failed validation, they wont vanish.
-      setPublicInfoState([data.PublicLinkInfo0,data.PublicLinkInfo1,data.PublicLinkInfo2])
-      setPrivateInfoState([data.PrivateLinkInfo0,data.PrivateLinkInfo1,data.PrivateLinkInfo2])
       handleSubmitEvent(data);
    }
-   const handleIncreaseLinks = (type, val) => {
-      if(type==='public'){
-         setPublicCount(val)
-      }
-      else {
-         setPrivateCount(val)
-      }
-   }
-   const handleDynamicLinks = (e) => {
-      if(e.target.placeholder === 'Public Link'){
-         let temp = publicInfoState;
-         temp[e.target.id] = e.target.value;
-         setPublicInfoState(temp);
-      }
-      else {
-         let temp = privateInfoState;
-         temp[e.target.id] = e.target.value;
-         setPrivateInfoState(temp);
-      }
-   }
-
-
-   const Link = ({type, id}) => {
-      return (
-         <React.Fragment>
-            <input
-               className="formLink" 
-               placeholder={`${type} Link`}
-               type="text" 
-               name={`${type}LinkInfo${id}`}
-               ref={register}
-               defaultValue={(type === 'Public' ? publicInfoState[id] : privateInfoState[id] )}
-               onChange={handleDynamicLinks}
-               id={id}
-            />
-            <select 
-               className="formLinkType" 
-               name={`${type}LinkType${id}`}
-               ref={register}
-            >
-               <option value="1">Option 1</option>
-               <option value="2">Option 2</option>
-            </select>
-         </React.Fragment>
-      )
-   }
+   
    return (
       <Wrapper>
          <form onSubmit={handleSubmit(onSubmit)}>
@@ -186,10 +132,10 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   className="formDescription formInput"
                   type="text"
                   defaultValue={description}
-                  placeholder="Description - 90 characters."
+                  placeholder="Description - 200 characters."
                   name="eventDescription"
                   minLength="4"
-                  maxLength="90"
+                  maxLength="200"
                   ref={register({ required:true })}
                />
                {/* Organisation */}
@@ -201,16 +147,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   maxLength="30"
                   name="eventOrganisation"
                   ref={register({ required:true })}
-               />
-               {/* Image */}
-               <input
-                  name="formInput"
-                  className="formInput"
-                  defaultValue={image}
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  id="file"
-                  ref={register()}
                />
 
                <div className="eventTimeContainer">
@@ -239,6 +175,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   name="eventType" 
                   className="formInput" 
                   ref={register}
+                  defaultValue={type}
                >
                   <option value="Careers event">Careers event</option>
                   <option value="Conference">Conference</option>
@@ -247,30 +184,118 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   <option value="Other">Other</option>
                </select>
 
-               <div className="formLinks">
-                  {/* Public Links */}
-                  {[...Array(publicCount)].map((x, i) => <Link type="Public" id={i} key={i}/> )}
-                  {(publicCount > 2)
-                     ? <React.Fragment/>
-                     : <img className="icon" onClick={()=>handleIncreaseLinks('public', publicCount + 1)} src={add}/> 
-                  }
-                  {(publicCount > 1)
-                     ? <img className="icon" onClick={()=>handleIncreaseLinks('public', publicCount - 1)} src={remove}/> 
-                     : <React.Fragment/>
-                  }
+               {/* Public Links */}
+               <div className="formLinks">   
+                  <input
+                     className="formLink" 
+                     placeholder="Public link"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[0] : ''}
+                     type="text" 
+                     name="PublicLinkInfo0"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PublicLinkType0"
+                     ref={register}
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[3] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>  
+
+                  <input
+                     className="formLink" 
+                     placeholder="Public link"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[1] : ''}
+                     type="text" 
+                     name="PublicLinkInfo1"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PublicLinkType1"
+                     ref={register}
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[4] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>
+
+                  <input
+                     className="formLink" 
+                     placeholder="Public link"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[2] : ''}
+                     type="text" 
+                     name="PublicLinkInfo2"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PublicLinkType2"
+                     ref={register}
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[5] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>
                </div>
                
+               {/* Private Links */}
                <div className="formLinks">
-                  {/* Private Links */}
-                  {[...Array(privateCount)].map((x, i) => <Link type="Private" id={i} key={i}/> )}
-                  {(privateCount > 2)
-                     ? <React.Fragment/>
-                     : <img className="icon" onClick={()=> handleIncreaseLinks('private', privateCount + 1)} src={add}/> 
-                  }
-                  {(privateCount > 1)
-                     ? <img className="icon" onClick={()=>handleIncreaseLinks('private', privateCount - 1)} src={remove}/> 
-                     : <React.Fragment/>
-                  }
+                  <input
+                     className="formLink" 
+                     placeholder="Private link"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[0] : ''}
+                     type="text" 
+                     name="PrivateLinkInfo0"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PrivateLinkType0"
+                     ref={register}
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[3] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>
+
+                  <input
+                     className="formLink" 
+                     placeholder="Private link"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[1] : ''}
+                     type="text" 
+                     name="PrivateLinkInfo1"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PrivateLinkType1"
+                     ref={register}
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[4] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>
+
+                  <input
+                     className="formLink" 
+                     placeholder="Private link"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[2] : ''}
+                     type="text" 
+                     name="PrivateLinkInfo2"
+                     ref={register}
+                  />
+                  <select 
+                     className="formLinkType" 
+                     name="PrivateLinkType2"
+                     ref={register}
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[5] : 1}
+                  >
+                     <option value="1">Option 1</option>
+                     <option value="2">Option 2</option>
+                  </select>
                </div>
 
 
@@ -284,4 +309,4 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
 }
 
 
-export default EventForm;
+export default EventForm

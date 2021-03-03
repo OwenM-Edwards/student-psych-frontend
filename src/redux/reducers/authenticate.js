@@ -2,8 +2,11 @@ import { SIGN_OUT, REQUEST_SIGN_IN, RECEIVE_SIGN_IN } from "../actions/action-ty
 
 // const localSt =  false ;
 const initialState = {
-   authenticated:false,
    isFetching:false,
+   authenticated:false,
+   moderator:false,
+   admin:false,
+
 }
 
 function authenticate(state = initialState, action) {
@@ -15,13 +18,17 @@ function authenticate(state = initialState, action) {
          }
       case RECEIVE_SIGN_IN:
          return{
-            authenticated:action.payload,
+            authenticated:action.payload.auth,
             isFetching:false,
+            moderator:action.payload.moderator,
+            admin:action.payload.admin,
          }
       case SIGN_OUT:
          return {
             authenticated:false,
             isFetching:false,
+            moderator:false,
+            admin:false,
          }
       default:
          return state;

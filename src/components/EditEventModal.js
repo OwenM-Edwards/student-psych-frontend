@@ -11,33 +11,41 @@ import {
 
 const Wrapper = styled.div`
    position:absolute;
-   top:10%;
+   top:20%;
    left:20%;
-   width:500px;
+   width:400px;
    height:auto;
-   background: ${({ theme }) => theme.backgroundLight};
+   background:${({ theme }) => theme.primary.offwhite};
    color: ${({ theme }) => theme.contrastText};
    display:flex;
    flex-direction:column;
-   padding:10px;
    z-index:2;
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    & .formTitle {
       font-size:1.6rem;
-      position: relative;
-      left:10px;
+      width:100%;
+      background-color:${({ theme }) => theme.primary.main};
+      color:${({ theme }) => theme.primary.text};
+      padding:20px;
+      border-radius:5px;
    }
-   & .closeButton{
-      position:absolute;
-      top:8px;
-      right:5px;
+   & .buttonContainer{
+      background:${({ theme }) => theme.primary.offwhite};
       width:30px;
       height:30px;
-      cursor: pointer;
-      transition: all 0.2s ease 0s;
-      &:hover {
-         scale:0.9;
+      position:absolute;
+      top:11px;
+      right:9px;
+      border-radius:5px;
+      & .closeButton{
+         width:30px;
+         height:30px;
+         cursor: pointer;
+         transition: all 0.2s ease 0s;
+         &:hover {
+            scale:0.9;
+         }
       }
    }
    & .inputForm{
@@ -56,24 +64,41 @@ const EditEventModal = ({
       modalState,
       modalHandler,
       editEntry,
+      secureInfo
    }) => {
    const modalInfo = modalState.modalInfo;
+   modalInfo.privatelinks = secureInfo.eventinfo.privatelinks;
 
    const capitalizeTrim = (string) => {
       let returnString = string[0].toUpperCase() + string.slice(1);
       
       return returnString.trim();
    }
-
+   console.log(modalInfo)
    const handleEdit = (data) => {
       editEntry({
          title:capitalizeTrim(data.eventTitle),
          description:capitalizeTrim(data.eventDescription),
          organisation:capitalizeTrim(data.eventOrganisation),
+         publiclinks:[
+            data.PublicLinkInfo0,
+            data.PublicLinkInfo1,
+            data.PublicLinkInfo2,
+            (data.PublicLinkInfo0) ? data.PublicLinkType0 : false,
+            (data.PublicLinkInfo1) ? data.PublicLinkType1 : false,
+            (data.PublicLinkInfo2) ? data.PublicLinkType2 : false,
+         ],
+         privatelinks:[
+            data.PrivateLinkInfo0,
+            data.PrivateLinkInfo1,
+            data.PrivateLinkInfo2,
+            (data.PrivateLinkInfo0) ? data.PrivateLinkType0 : false,
+            (data.PrivateLinkInfo1) ? data.PrivateLinkType1 : false,
+            (data.PrivateLinkInfo2) ? data.PrivateLinkType2 : false,
+         ],
          day:modalInfo.day,
          month:modalInfo.month,
          year:modalInfo.year,
-         image:'',
          type:data.eventType,
          starttime:data.eventStartTime,
          endtime:data.eventEndTime,
@@ -89,7 +114,10 @@ const EditEventModal = ({
          <Wrapper>
             <h1 className="formTitle">Edit Event</h1>
             {/* Close modal button */}
-            <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+            <div className="buttonContainer">
+               <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+            </div>
+            
 
             <div className="inputForm">
                <EventForm defaultOptions={modalInfo} handleSubmitEvent={handleEdit}/>
@@ -107,6 +135,6 @@ const EditEventModal = ({
    
 }
 
-const mapStateToProps = (state) => ({ modalState:state.modal, auth:state.authenticate, editEntryState: state.editEntry });
+const mapStateToProps = (state) => ({ secureInfo:state.secureEntry.secureInfo, modalState:state.modal, auth:state.authenticate, editEntryState: state.editEntry });
 
 export default connect(mapStateToProps,{modalHandler, editEntry})(EditEventModal);

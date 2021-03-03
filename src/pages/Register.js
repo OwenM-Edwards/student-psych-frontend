@@ -41,6 +41,7 @@ const Wrapper = styled.div`
       width:500px;
       height:300px;
       background-color:${({ theme }) => theme.backgroundContrast};
+      color:black;
       align-self:center;
       display:flex;
       flex-direction:column;
@@ -154,7 +155,7 @@ const Register = ({registerUser, registerState}) => {
          return (
             <Wrapper>
                <div className="verifyDirectBox">
-                  <h1 className="header">Please confirm email to sign in. The email may take several minutes to arrive.</h1>
+                  <h1 className="header">Please confirm email to sign in. The email may take several minutes to arrive. Make sure to check your spam folder.</h1>
                </div>
 
             </Wrapper>

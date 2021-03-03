@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import styled from "styled-components";
 import { connect } from 'react-redux';
-import {modalHandler,deleteEntry,pinEvent} from '../redux/actions/index';
+import {modalHandler,deleteEntry} from '../redux/actions/index';
 import {registerEventClickAPI} from '../util/index';
 import {
    close,
@@ -14,102 +14,27 @@ import {
    eventType,
    eventEdit,
    eventDelete,
-   favorite,
 } from '../assets/index';
 
 const Wrapper = styled.div`
    position:absolute;
-   top:20%;
+   box-sizing:border-box;
+   top:30%;
    left:20%;
-   width:500px;
+   width:400px;
    height:auto;
-   background: ${({ theme }) => theme.backgroundLight};
-   color: ${({ theme }) => theme.contrastText};
+   background:${({ theme }) => theme.primary.offwhite};
+   color:#2b2b2b;
    display:flex;
    flex-direction:column;
-   padding:10px;
    z-index:2;
-   border-radius:5px;
-   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   border-radius:10px;
+   box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.23);
+
    & .icon {
       width:20px;
       height:20px;
       margin-right:15px;
-   }
-   & .closeButton{
-      position:absolute;
-      top:8px;
-      right:5px;
-      width:30px;
-      height:30px;
-      cursor: pointer;
-      transition: all 0.2s ease 0s;
-      &:hover {
-         scale:0.9;
-      }
-   }
-   & .favouriteButton{
-      position:absolute;
-      top:50px;
-      right:75px;
-      width:25px;
-      height:25px;
-      cursor: pointer;
-      transition: all 0.2s ease 0s;
-      &:hover {
-         scale:0.9;
-      }
-   }
-   & .editButton{
-      position:absolute;
-      top:10px;
-      right:75px;
-      width:25px;
-      height:25px;
-      cursor: pointer;
-      transition: all 0.2s ease 0s;
-      &:hover {
-         scale:0.9;
-      }
-   }
-   & .deleteButton{
-      position:absolute;
-      top:10px;
-      right:42px;
-      width:25px;
-      height:25px;
-      cursor: pointer;
-      transition: all 0.2s ease 0s;
-      &:hover {
-         scale:0.9;
-      }
-   }
-   & .eventTitle{
-      margin-bottom:20px;
-      background-color:#323f4b;
-      border-radius:5px;
-      max-width:80%;
-      color: ${({ theme }) => theme.contrastText};
-      padding:5px;
-      font-size:1.6rem;
-      word-wrap: break-word;
-   }
-   & .career{
-      background-color:${({ theme }) => theme.red};
-      height:100%;
-
-   }
-   & .conference{
-      background-color:${({ theme }) => theme.blue};
-   }
-   & .special{
-      background-color:${({ theme }) => theme.purple};
-   }
-   & .other{
-      background-color:${({ theme }) => theme.orange};
-   }
-   & .revision{
-      background-color:${({ theme }) => theme.green};
    }
    & .eventInfoContainer{
       display:flex;
@@ -117,13 +42,97 @@ const Wrapper = styled.div`
       align-content:center;
       margin-top:15px;
       margin-left:3px;
+      & .linksContainer {
+         width:100%;
+         height:auto;
+         display:flex;
+         flex-direction:column;
+      }
    }
    & .eventDescription {
-      width:100%;
+      width:80%;
       margin-top:5px;
       height:auto;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      padding:10px;
+      border-radius:10px;
+
    }
 `
+const ButtonContainer = styled.div`
+   position: absolute;
+   top:-29px;
+   z-index:-1;
+   left:315px;
+   background-color:${({ theme }) => theme.primary.offwhite};
+   height:30px;
+   width:84px;
+   border-radius:5px 5px 0 0;
+   & .btnIcon {
+      position:absolute;
+      cursor: pointer;
+      transition: all 0.2s ease 0s;
+      width:24px;
+      height:24px;
+      &:hover {
+         scale:0.9;
+      }
+   }
+   & .closeButton{
+      top:4px;
+      right:4px;
+   }
+   & .editButton{
+      top:4px;
+      right:57px;
+   }
+   & .deleteButton{
+      top:4px;
+      right:30px;
+   }
+
+`
+const TitleContainer = styled.div`
+   & .eventTitle{
+      background-color:#323f4b;
+      border-radius:5px;
+      color: ${({ theme }) => theme.contrastText};
+      padding:20px;
+      font-size:1.3rem;
+      background-color:red;
+      width:100%;
+      word-wrap:break-word;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.23);
+      height:auto;
+      z-index:9;
+   }
+   & .career{
+      background-color:${({ theme }) => theme.colorCodes.red};
+   }
+   & .conference{
+      background-color:${({ theme }) => theme.colorCodes.blue};
+   }
+   & .special{
+      background-color:${({ theme }) => theme.colorCodes.purple};
+   }
+   & .other{
+      background-color:${({ theme }) => theme.colorCodes.orange};
+   }
+   & .revision{
+      background-color:${({ theme }) => theme.colorCodes.green};
+   }
+`
+const InfoWrapper = styled.div`
+   display:flex;
+   flex-direction:column;
+   width:100%;
+   height:auto;
+   background-color:${({ theme }) => theme.primary.offwhite};;
+   padding:0 10px 20px 10px;
+   border-radius:0 0 10px 10px;
+`
+
 
 const SecureInfoWrapper = styled.div`
    display:flex;
@@ -131,14 +140,14 @@ const SecureInfoWrapper = styled.div`
    width:100%;
    height:auto;
 `
-const InfoWrapper = styled.div`
-   display:flex;
-   flex-direction:column;
-   width:100%;
-   height:auto;
-`
 
-const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDeleteEvent, setModalToggle, modalState, auth }) => {
+
+
+
+
+
+
+const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, setModalToggle, modalState, auth }) => {
 
    const modalInfo = modalState.modalInfo;
    const printDate = new Date(modalInfo.year, modalInfo.month - 1, modalInfo.day);
@@ -158,17 +167,15 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
       modalHandler({modalDisplay:'edit', modalInfo: modalState.modalInfo});
    }
 
-   const handlePinEvent = () => {
-      pinEvent(modalInfo.id)
-   }
-
    let publicLinks = [];
    const genPublicLinks = () => {
       let count = 1;
       JSON.parse(modalInfo.publiclinks).forEach(entry => {
-         publicLinks.push(
-            <p key={count}>{entry}</p>
-         )
+         if(entry && count < 4){
+            publicLinks.push(
+               <a href={entry} key={count}>{entry}</a>
+            )
+         }
          count++;
       })
    }
@@ -179,9 +186,11 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
       let count = 1;
       if(secureInfo){
          JSON.parse(secureInfo.eventinfo.privatelinks).forEach(entry => {
-            privateLinks.push(
-               <p key={count}>{entry}</p>
-            )
+            if(entry && count < 4){
+               privateLinks.push(
+                  <a href={entry} key={count}>{entry}</a>
+               )
+            }
             count++;
          })
       }
@@ -199,59 +208,56 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
    let eventTitle = '';
    switch(modalInfo.type){
       case 'Careers event':
-         eventTitle = <h1 className="career eventTitle">{modalInfo.title}</h1>
+         eventTitle = <p className="career eventTitle">{modalInfo.title}</p>
          break;
       case 'Conference':
-         eventTitle = <h1 className="conference eventTitle">{modalInfo.title}</h1>
+         eventTitle = <p className="conference eventTitle">{modalInfo.title}</p>
          break;
       case 'Special interest talk':
-         eventTitle = <h1 className="special eventTitle">{modalInfo.title}</h1>
+         eventTitle = <p className="special eventTitle">{modalInfo.title}</p>
          break;
       case 'Revision':
-         eventTitle = <h1 className="revision eventTitle">{modalInfo.title}</h1>
+         eventTitle = <p className="revision eventTitle">{modalInfo.title}</p>
          break;
       case 'Other':
-         eventTitle = <h1 className="other eventTitle">{modalInfo.title}</h1>
+         eventTitle = <p className="other eventTitle">{modalInfo.title}</p>
          break;
    }
 
 
+
+
    return(
          <Wrapper>
-            {/* Close modal button */}
-            <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
-            {/* If logged in, show favorite button. */}
-            {(auth.authenticated)
-               ? <img onClick={handlePinEvent} className="favouriteButton" src={favorite}/>
-               : <React.Fragment/>
-            }
+            <ButtonContainer>
+               {/* Close modal button */}
+               <img onClick={()=>modalHandler(false)} className="btnIcon closeButton" src={close}/>
+               {/* If user created event, show admin contols. */}
+               {(secureInfo.owner)
+               ? <React.Fragment>
+                     <img onClick={handleEdit} className="btnIcon editButton" src={eventEdit}/>
+                     <img onClick={handleDelete} className="btnIcon deleteButton" src={eventDelete}/>
+                  </React.Fragment>
+                  : <React.Fragment/>
+               }
+            </ButtonContainer>
 
-            {/* If user created event, show admin contols. */}
-            {(secureInfo.owner)
-            ? <React.Fragment>
-                  <img onClick={handleEdit} className="editButton" src={eventEdit}/>
-                  <img onClick={handleDelete} className="deleteButton" src={eventDelete}/>
-               </React.Fragment>
-               : <React.Fragment/>
-            }
-
-            <InfoWrapper>
-               {/* Title */}
+            <TitleContainer>
                {eventTitle}
+            </TitleContainer>
+            
+            <InfoWrapper>
+               
                {/* Event time */}
-                  <div className="eventInfoContainer">
-                  <img className="icon"src={eventTime}/>
-                  <span>{modalInfo.starttime} - {modalInfo.endtime}</span>
-               </div>
-               {/* Event date */}
                <div className="eventInfoContainer">
-                  <img className="icon"src={eventDate}/>
+                  <img className="icon"src={eventTime}/>
                   {`
                      ${printDate.toLocaleString('en-us', {  weekday: 'long' })}
                      ${modalInfo.day}, 
                      ${printDate.toLocaleString('default', { month: 'long' })}, 
                      ${modalInfo.year}.
                   `}
+                  <span>{modalInfo.starttime} - {modalInfo.endtime}</span>
                </div>
                {/* Description */}
                <div className="eventInfoContainer">
@@ -268,22 +274,17 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
                   <img className="icon"src={eventType}/>
                   <span>{modalInfo.type}</span>
                </div>
-               {/* Image */}
-               <div className="eventInfoContainer">
-                  <span>Image:{modalInfo.image}</span>
-               </div>
                {/* Public Links */}
                <div className="eventInfoContainer">
                   <img className="icon"src={eventLink}/>
-                  <span>{publicLinks}</span>
+                  <div className="linksContainer">{publicLinks}</div>
                </div>    
                {/* Private Links */}
                {(secureInfo)
                   ? <SecureInfoWrapper>
                      <div className="eventInfoContainer">
                      <img className="icon"src={eventSecure}/>
-                        <img className="icon"src={eventLink}/>
-                        <span>Private Links:{privateLinks}</span>
+                        <div className="linksContainer">{privateLinks}</div>
                      </div>
                   </SecureInfoWrapper>
                   : <React.Fragment/>
@@ -295,4 +296,4 @@ const EventModal = ({ pinEvent, modalHandler, secureInfo,deleteEntry, handleDele
 }
 
 const mapStateToProps = (state) => ({ modalState:state.modal, secureInfo:state.secureEntry.secureInfo, auth:state.authenticate });
-export default connect(mapStateToProps,{pinEvent, deleteEntry,modalHandler})(EventModal);
+export default connect(mapStateToProps,{deleteEntry,modalHandler})(EventModal);

@@ -132,6 +132,7 @@ const Wrapper = styled.div`
    transition: all 0.1s ease-in-out;
    display:flex;
    flex-direction:column;
+   
    /* overflow:hidden; */
    &:hover {
       /* scale:1.03; */
@@ -139,7 +140,7 @@ const Wrapper = styled.div`
    }
    & .day{
       margin: 0 auto;
-      background: ${({ theme }) => theme.backgroundContrast};
+      background: ${({ theme }) => theme.primary.light};
       border-radius:0 0 30px 30px;
       width:40px;
       height:26px;
@@ -157,13 +158,13 @@ const Wrapper = styled.div`
       }
    }
    &.currentDay{
-      background-color:${({ theme }) => theme.backgroundLight};
+      background-color:${({ theme }) => theme.primary.light};
    }
    &.weekendDay{
-      background: ${({ theme }) => theme.weekendDay};
+      background-color:${({ theme }) => theme.primary.weekendDay};
    }
    &.weekDay{
-      background: ${({ theme }) => theme.weekDay};
+      background-color:${({ theme }) => theme.primary.weekDay};
    }
    & .showMoreButton{
       z-index:9;

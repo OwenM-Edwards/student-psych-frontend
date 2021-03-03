@@ -9,16 +9,19 @@ import styled from "styled-components";
 import { Calendar, SignIn, Register, Verify, Search, Profile } from './pages/index';
 import { Header,Sidebar, NavPanel } from './components/index';
 import "react-toastify/dist/ReactToastify.css";
+import { connect } from 'react-redux';
 
 
-const AppRouter = ({authenticated}) => {
+const AppRouter = ({auth}) => {
+
    return (
       <Router>
+         {/* <NavPanel/> */}
          <div className="header">
             <Header/>
          </div>
          
-         <NavPanel/>
+         
 
          <Switch>
             <Route path="/maintenance">
@@ -26,28 +29,28 @@ const AppRouter = ({authenticated}) => {
             </Route>
 
             <Route path="/signin">
-               {(authenticated)
+               {(auth.authenticated)
                ? <Redirect to="/calendar"/>
                : <SignIn/>
                }
             </Route>
 
             <Route path="/register">
-               {(authenticated)
+               {(auth.authenticated)
                ? <Redirect to="/calendar"/>
                : <Register/>
                }
             </Route>
 
             <Route path="/verify">
-               {(authenticated)
+               {(auth.authenticated)
                ? <Redirect to="/calendar"/>
                : <Verify/>
                }
             </Route>
 
             <Route path="/profile">
-               {(authenticated)
+               {(auth.authenticated)
                   ? <Profile/>
                   : <Redirect to="/calendar"/>
                }
@@ -74,5 +77,5 @@ const AppRouter = ({authenticated}) => {
    );
 }
 
-
-export default AppRouter;
+const mapStateToProps = (state) => ({auth:state.authenticate});
+export default connect(mapStateToProps)(AppRouter);

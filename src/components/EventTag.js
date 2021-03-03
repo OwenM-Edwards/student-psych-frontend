@@ -19,20 +19,20 @@ const Wrapper = styled.div`
       box-shadow: 0 5px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.10);
    }
    & .career{
-      background-color:${({ theme }) => theme.red};
+      background-color:${({ theme }) => theme.colorCodes.red};
       height:100%;
    }
    & .conference{
-      background-color:${({ theme }) => theme.blue};
+      background-color:${({ theme }) => theme.colorCodes.blue};
    }
    & .special{
-      background-color:${({ theme }) => theme.purple};
+      background-color:${({ theme }) => theme.colorCodes.purple};
    }
    & .other{
-      background-color:${({ theme }) => theme.orange};
+      background-color:${({ theme }) => theme.colorCodes.orange};
    }
    & .revision{
-      background-color:${({ theme }) => theme.green};
+      background-color:${({ theme }) => theme.colorCodes.green};
    }
 
 `

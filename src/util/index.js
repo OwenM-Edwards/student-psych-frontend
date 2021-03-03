@@ -14,21 +14,28 @@ const api = axios.create({
 
 
 const errorHandler = (err) => {
-   if(!err.response.data){
-      if(!err){
-         toast.dismiss();
-         toast.error('Server issues, please try again later.');
-      }
-      else if(err.response.status === 401){
-         localStorage.removeItem("user");
-         window.localStorage.removeItem("user");
-         localStorage.setItem("expired", true);
-         window.location = '/signin';
-      }
-      else if(err.response.status === 404){
-         toast.dismiss();
-         toast.error('Not found');
-      }
+   console.log(err)
+   if(!err){
+      toast.dismiss();
+      toast.error('Server issues, please try again later.');
+   }
+   else if(!err.response){
+      toast.dismiss();
+      toast.error('Server issues, please try again later.');
+   }
+   else if(!err.response.data){
+      toast.dismiss();
+      toast.error('Server issues, please try again later.');
+   }
+   else if(err.response.status === 401){
+      localStorage.removeItem("user");
+      window.localStorage.removeItem("user");
+      localStorage.setItem("expired", true);
+      window.location = '/signin';
+   }
+   else if(err.response.status === 404){
+      toast.dismiss();
+      toast.error('Not found');
    }
    else {
       toast.dismiss();
@@ -36,10 +43,89 @@ const errorHandler = (err) => {
    } 
 }
 
+// Admin delete user.
+export const deleteUserAPI = async (info) => {
+   try {
+      const deleteUser = await api.delete('admin/deleteuser', { data: {
+         userid:info,
+      }})
+      return true;
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+
+// Admin delete and ban user.
+export const banAndDeleteAPI = async (info) => {
+   try {
+      const banUser = await api.delete('admin/banuser', { data: {
+         userid:info,
+      }})
+      return true;
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+// Admin, change user type.
+export const changeUserTypeAPI = async (info) => {
+   // console.log(info)
+   try {
+      const changeUser = await api.put('admin/changeusertype', { data: {
+         newUserType:info.newType,
+         userid:info.userid,
+      }})
+      if(changeUser.data){
+         return changeUser.data;
+      }
+      else {
+         return false;
+      }
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+// Get all users for admin pane.
+export const getAllUsersAPI = async () => {
+   try {
+      const allUsers = await api.get('admin/getallusers');
+      if(allUsers.data){
+         return allUsers.data;
+      }
+      else {
+         return false;
+      }
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
+// Get submitted events.
+export const submittedEntriesAPI = async () => {
+   try {
+      const submittedEvents = await api.get('moderator/submittedevents');
+      if(submittedEvents.data){
+         return submittedEvents.data;
+      }
+      else {
+         return false;
+      }
+   } catch (err){
+      errorHandler(err);
+      return false;
+   } 
+}
+
 // Get popular entries.
 export const popularEntriesAPI = async () => {
    try {
-      const popularEntries = await api.get('entry/popularentries');
+      const popularEntries = await api.get('user/popularentries');
       if(popularEntries.data){
          
          return popularEntries.data;
@@ -56,74 +142,17 @@ export const popularEntriesAPI = async () => {
 
 // Register event click.
 export const registerEventClickAPI = async (eventInfo) => {
-   api.post('entry/registerclick', { data: {
+   api.post('user/registerclick', { data: {
       eventInfo : eventInfo,
    }});
 }
 
 
-// pin/favorite events
-export const pinEventAPI = async (eventInfo) => {
-   try {
-      const pinEvent = await api.post('auth/pin', { data: {
-         eventInfo : eventInfo,
-      }})
-      if(pinEvent.data){
-         return pinEvent.data;
-      }
-      else {
-         return false;
-      }
-   } catch (err){
-      errorHandler(err);
-      return false;
-   } 
-}
-
-// Get pinned/favorite events
-export const getPinnedEventsAPI = async () => {
-   // try {
-   //    const refreshTokenAPI = await api.post('auth/refresh', { data: {
-   //       refreshToken : refreshToken,
-   //    }})
-   //    if(refreshTokenAPI.data){
-   //       return refreshToken;
-   //    }
-   //    else {
-   //       return false;
-   //    }
-   // } catch (err){
-   //    errorHandler(err);
-   //    return false;
-   // } 
-}
-
-
-// Refresh Access Token.
-export const refreshAccessToken = async () => {
-   const lcST = JSON.parse(localStorage.getItem("user"));
-   const refreshToken = lcST.refreshToken;
-   try {
-      const refreshTokenAPI = await api.post('auth/refresh', { data: {
-         refreshToken : refreshToken,
-      }})
-      if(refreshTokenAPI.data){
-         return refreshToken;
-      }
-      else {
-         return false;
-      }
-   } catch (err){
-      errorHandler(err);
-      return false;
-   }
-}
-
 
 // Recent Entries.
 export const recentEntriesAPI = async () => {
    try {
-      const recentEntries = await api.get('entry/recent')
+      const recentEntries = await api.get('user/recent')
       if(recentEntries.data){
          return recentEntries.data;
       }
@@ -139,7 +168,7 @@ export const recentEntriesAPI = async () => {
 // Search events.
 export const searchEntriesAPI = async (searchterm) => {
    try {
-      const searchEntries = await api.get('entry/search', { params: {
+      const searchEntries = await api.get('user/search', { params: {
          searchterm : searchterm
       }})
       if(searchEntries.data){
@@ -158,7 +187,7 @@ export const searchEntriesAPI = async (searchterm) => {
 // Get events for given month & year.
 export const getEntriesAPI = async (month, year) => {
    try {
-      const getEntry = await api.get('entry/getentries', { params: {
+      const getEntry = await api.get('user/getentries', { params: {
          month : month,
          year : year
       }})
@@ -179,7 +208,7 @@ export const getEntriesAPI = async (month, year) => {
 // Add event.
 export const addEntryAPI = async (eventInfo) => {
    try {
-      const addEntry = await api.post('entry/addentry', { data: {
+      const addEntry = await api.post('moderator/addentry', { data: {
          eventInfo
       }})
       return true;
@@ -194,7 +223,7 @@ export const addEntryAPI = async (eventInfo) => {
 // Delete event.
 export const deleteEntryAPI = async (entryid) => {
    try {
-      const deleteEntry = await api.delete('entry/deleteentry', { params: {
+      const deleteEntry = await api.delete('moderator/deleteentry', { params: {
          entryid : entryid,
       }})
       return true;
@@ -208,7 +237,7 @@ export const deleteEntryAPI = async (entryid) => {
 // Edit event.
 export const editEntryAPI = async (eventInfo) => {
    try {
-      const editEntry = await api.put('entry/editentry', { data: {
+      const editEntry = await api.put('moderator/editentry', { data: {
          eventInfo
       }})
       return true;
@@ -222,7 +251,7 @@ export const editEntryAPI = async (eventInfo) => {
 // Get secured event info if logged in.
 export const secureEventInfoAPI = async ( day, month, year, id ) => {
    try {
-      const getSecureEntry = await api.get('entry/getsecureentry', { params: {
+      const getSecureEntry = await api.get('user/getsecureentry', { params: {
          day: day,
          month : month,
          year : year,
@@ -264,12 +293,24 @@ export const logoutAPI = async () => {
 // Check session.
 export const checkSessionAPI = async () => {
    try {
-      const check = await api.post('auth/checkSession');
-      return true;
-   } catch (error) {
+      const check = await api.post('user/checkSession');
+      console.log('CHECKING')
+      console.log(check)
+      if(check){
+         return check.data;
+      }
+      else {
+        return false; 
+      }
+   } catch (err) {
+      errorHandler(err);
       return false;
    }
 }
+
+
+
+
 
 // Sign user in.
 export const authenticateAPI = async ( userEmail, userPassword ) => {
@@ -279,7 +320,12 @@ export const authenticateAPI = async ( userEmail, userPassword ) => {
             "password": userPassword,
          }
       })
-      return true;
+      if(user){
+         return user.data;
+      }
+      else {
+        return false; 
+      }
    } catch (err) {
       errorHandler(err);
       return false;
@@ -303,3 +349,19 @@ export const registerAPI = async ( userEmail, userPassword, userType ) => {
 }
 
 
+// Change user password.
+export const changePasswordAPI = async (newPassword) => {
+   console.log('new pass')
+   try {
+      const newPasswordApi = await api.put('user/changepassword', { data: {
+            "newPassword": newPassword,
+         }
+      })
+      toast.dismiss();
+      toast.success('Password succesfully changed.');
+      return true;
+   } catch (err) {
+      errorHandler(err);
+      return false;
+   }
+}

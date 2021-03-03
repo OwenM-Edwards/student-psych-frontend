@@ -9,8 +9,9 @@ import EditEventModal from './EditEventModal';
 import EventForm from './EventForm';
 import NavPanel from './NavPanel';
 import OverflowEventsModal from './OverflowEventsModal';
-import PinnedEvents from './PinnedEvents';
 import AccountSettings from './AccountSettings';
+import SubmittedEvents from './SubmittedEvents';
+import AdminPanel from './AdminPanel';
 
 export {
    Header,
@@ -24,6 +25,7 @@ export {
    EventForm,
    NavPanel,
    OverflowEventsModal,
-   PinnedEvents,
    AccountSettings,
+   SubmittedEvents,
+   AdminPanel,
 }

@@ -24,10 +24,17 @@ import {
    REQUEST_RECENT_ENTRIES,
    RECEIVE_RECENT_ENTRIES,
    TOGGLE_NAV_PANEL,
-   REQUEST_PIN_EVENT,
-   RECEIVE_PIN_EVENT,
    REQUEST_POPULAR_ENTRIES,
    RECEIVE_POPULAR_ENTRIES,
+   REQUEST_SUBMITTED_ENTRIES,
+   RECEIVE_SUBMITTED_ENTRIES,
+   REQUEST_ALL_USERS,
+   RECEIVE_ALL_USERS,
+   REQUEST_CHANGE_USER_TYPE,
+   RECEIVE_CHANGE_USER_TYPE,
+   DELETE_USER,
+   CHANGE_PASSWORD,
+
 } from './action-types';
 
 import { 
@@ -43,12 +50,79 @@ import {
    recentEntriesAPI,
    logoutAPI,
    checkSessionAPI,
-   getPinnedEventsAPI,
-   pinEventAPI,
    popularEntriesAPI,
+   submittedEntriesAPI,
+   getAllUsersAPI,
+   changeUserTypeAPI,
+   banAndDeleteAPI,
+   deleteUserAPI,
+   changePasswordAPI,
 } from '../../util/index';
 
+// Admin delete user.
+export const deleteUser = (info) => async (dispatch) => {
+   dispatch({
+      type: DELETE_USER,
+      payload:true
+   })
+   const APIData = await deleteUserAPI(info);
+   dispatch({
+      type: DELETE_USER,
+      payload:false,
+   })
+}
 
+
+// Admin, ban and delete user.
+export const banAndDelete = (info) => async (dispatch) => {
+   dispatch({
+      type: DELETE_USER,
+      payload:true,
+   })
+   const APIData = await banAndDeleteAPI(info);
+   dispatch({
+      type: DELETE_USER,
+      payload:false,
+   })
+}
+
+// Admin, change user type.
+export const changeUserType = (info) => async (dispatch) => {
+   dispatch({
+      type: REQUEST_CHANGE_USER_TYPE,
+   })
+   const APIData = await changeUserTypeAPI(info);
+   dispatch({
+      type: RECEIVE_CHANGE_USER_TYPE,
+      payload:APIData,
+   })
+}
+
+
+// Get all users for admin panel.
+export const getAllUsers = () => async (dispatch) => {
+   dispatch({
+      type: REQUEST_ALL_USERS,
+   })
+   const APIData = await getAllUsersAPI();
+   dispatch({
+      type: RECEIVE_ALL_USERS,
+      payload:APIData,
+   })
+}
+
+
+// Get all submitted events.
+export const getSubmittedEvents = () => async (dispatch) => {
+   dispatch({
+      type: REQUEST_SUBMITTED_ENTRIES,
+   })
+   const APIData = await submittedEntriesAPI();
+   dispatch({
+      type: RECEIVE_SUBMITTED_ENTRIES,
+      payload:APIData,
+   })
+}
 
 // Get popular entries.
 export const getPopularEvents = () => async (dispatch) => {
@@ -60,34 +134,6 @@ export const getPopularEvents = () => async (dispatch) => {
       type: RECEIVE_POPULAR_ENTRIES,
       payload:{
          popularEntries: APIData,
-      }
-   })
-}
-
-// Pin an event.
-export const pinEvent = (eventInfo) => async (dispatch) => {
-   dispatch({
-      type: REQUEST_PIN_EVENT,
-   })
-   const APIData = await pinEventAPI(eventInfo)
-   dispatch({
-      type: RECEIVE_PIN_EVENT,
-      payload:{
-         recentEntries: APIData,
-      }
-   })
-}
-
-// Get pinned events.
-export const getPinnedEvents = () => async (dispatch) => {
-   dispatch({
-      type: REQUEST_RECENT_ENTRIES,
-   })
-   const APIData = await getPinnedEventsAPI()
-   dispatch({
-      type: RECEIVE_RECENT_ENTRIES,
-      payload:{
-         recentEntries: APIData,
       }
    })
 }
@@ -226,6 +272,7 @@ export const editEntry = (info) =>  async (dispatch) => {
    })
 }
 
+
 // Sign user out.
 export const signOut = () => async (dispatch) => {
    localStorage.removeItem("user");
@@ -241,37 +288,75 @@ export const signOut = () => async (dispatch) => {
    window.location = '/calendar';
 }
 
+
+// Check if has valid session.
 export const checkSession = () => async (dispatch) => {
    dispatch({
       type: REQUEST_SIGN_IN
    })
    const APIData = await checkSessionAPI();
-   dispatch({
-      type: RECEIVE_SIGN_IN,
-      payload:APIData,
-   })
    if(APIData){
-      return true;
+      console.log('checking success')
+      console.log(APIData)
+      dispatch({
+         type: RECEIVE_SIGN_IN,
+         payload:{
+            auth:APIData.auth,
+            moderator:APIData.user.moderator,
+            admin:APIData.user.admin,
+         }
+      })
    }
    else {
-      return false;
+      dispatch({
+         type: RECEIVE_SIGN_IN,
+         payload:{
+            auth:false,
+            moderator:false,
+            admin:false,
+         }
+      })
    }
+
 }
+
+
+
 
 // Sign user in.
 export const signIn = (useremail, userpassword) => async (dispatch) => {
+   localStorage.removeItem("user");
+   window.localStorage.removeItem("user");
    dispatch({
       type: REQUEST_SIGN_IN
    })
    const APIData = await authenticateAPI(useremail, userpassword);
-   dispatch({
-      type: RECEIVE_SIGN_IN,
-      payload:APIData,
-   })
    if(APIData){
-      window.location = "/calendar";
+      console.log('sign in success')
+      console.log(APIData)
+      dispatch({
+         type: RECEIVE_SIGN_IN,
+         payload:{
+            auth:APIData.auth,
+            moderator:APIData.user.moderator,
+            admin:APIData.user.admin,
+         }
+      })
    }
+   else {
+      console.log('sign in fail')
+      dispatch({
+         type: RECEIVE_SIGN_IN,
+         payload:{
+            auth:false,
+            moderator:false,
+            admin:false,
+         }
+      })
+   }
+   // window.location = "/calendar";
 }
+
 
 // Register new user.
 export const registerUser = (userEmail, userPassword, userType) => async (dispatch) => {
@@ -309,5 +394,18 @@ export const selectDate = (info) => async (dispatch) => {
       payload:{
          selectedDate: info
       }
+   })
+}
+
+
+export const changePassword = (newPassword) => async (dispatch) => {
+   dispatch({
+      type: CHANGE_PASSWORD,
+      payload:true,
+   })
+   const APIData = await changePasswordAPI(newPassword)
+   dispatch({
+      type: CHANGE_PASSWORD,
+      payload:false,
    })
 }
