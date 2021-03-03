@@ -17,6 +17,8 @@ import search from './search.png';
 import profile from './profile.png';
 import closeArrow from './closeArrow.png';
 import favorite from './favorite.png';
+import logo from './logo.png';
+import logoFill from './logoFill.png';
 
 export {
    mindMattersLogo,
@@ -38,4 +40,6 @@ export {
    profile,
    closeArrow,
    favorite,
+   logo,
+   logoFill,
 }
