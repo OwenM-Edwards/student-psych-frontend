@@ -36,7 +36,7 @@ const Wrapper = styled.div`
       font-size:1.6rem;
       width:100%;
       background-color:${({ theme }) => theme.primary.main};
-      color:${({ theme }) => theme.primary.text};
+      color: ${({ theme }) => theme.primary.light};
       padding:20px;
       border-radius:5px;
    }
