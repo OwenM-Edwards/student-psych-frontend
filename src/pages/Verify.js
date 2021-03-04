@@ -55,10 +55,6 @@ const Verify = ({verifyToken, tokenState}) => {
          toast.dismiss();
          toast.success('Account created, please login.');
       }
-      // If not token in url, just route to main.
-      if(token === 'verify'){
-         window.location = '/calendar';
-      }
       else {
          async function verify(){
             await verifyToken(token);
