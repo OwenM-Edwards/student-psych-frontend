@@ -13,7 +13,7 @@ const Wrapper = styled.div`
    height:${props => props.theme.height};
    position: absolute;
    top:7%;
-   right:15px;
+   right:23px;
    display:flex;
    align-items:center;
    align-content:center;
@@ -25,6 +25,9 @@ const Wrapper = styled.div`
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    display:flex;
    flex-direction:column;
+   @media (max-width: 900px) {
+      right:0px;
+   }
    & .link {
       width:90%;
       align-self:center;
