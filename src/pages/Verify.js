@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { verifyToken } from "../redux/actions/index";
 import { Link } from "react-router-dom";
 import { LoadingIcon } from '../components/index';
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
@@ -50,6 +51,10 @@ const Verify = ({verifyToken, tokenState}) => {
 
 
    useEffect(()=>{
+      if(tokenState.success){
+         toast.dismiss();
+         toast.success('Account created, please login.');
+      }
       // If not token in url, just route to main.
       if(token === 'verify'){
          window.location = '/calendar';
@@ -58,17 +63,33 @@ const Verify = ({verifyToken, tokenState}) => {
          async function verify(){
             await verifyToken(token);
          }
-         verify();
+         if(!tokenState.isFetching || tokenState.success){
+            verify();
+         }
       }
    }, [])
 
+   console.log(tokenState)
 
 
-   return(
-      <Wrapper>
-         <LoadingIcon/>
-      </Wrapper>
-   )   
+   if(tokenState.isFetching){
+      return(
+         <Wrapper>
+            <LoadingIcon/>
+         </Wrapper>
+      )  
+   }
+   else {
+      return(
+         <Wrapper>
+            {(tokenState.success
+               ? <Link to="/signin"><button>Success</button></Link>
+               : <Link to="/register"><button>Try again</button></Link>
+            )}
+         </Wrapper>
+      )   
+   }
+
 }
 
 

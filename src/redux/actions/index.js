@@ -198,11 +198,6 @@ export const verifyToken = (token) => async (dispatch) => {
       type: RECEIVE_VERIFY_TOKEN,
       payload:APIData,
    })
-   dispatch({
-      type: RECEIVE_SIGN_IN,
-      payload:APIData,
-   })
-   window.location = "/calendar";
 }
 
 // Get full event info if user is logged in.
