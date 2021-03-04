@@ -69,13 +69,12 @@ const Wrapper = styled.div`
 `
 const ButtonContainer = styled.div`
    position: absolute;
-   top:-29px;
-   z-index:-1;
-   left:315px;
+   top:5px;
+   left:310px;
    background-color:${({ theme }) => theme.primary.offWhite};
    height:30px;
    width:84px;
-   border-radius:5px 5px 0 0;
+   border-radius:5px;
    @media (max-width: 700px) {
       left:0;
    }
@@ -109,11 +108,12 @@ const TitleContainer = styled.div`
       border-radius:5px;
       color: ${({ theme }) => theme.contrastText};
       padding:20px;
+      padding-top:40px;
       font-size:1.3rem;
       background-color:red;
       width:100%;
       word-wrap:break-word;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.23);
+      box-shadow: 0 5px 5px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.40);
       height:auto;
       z-index:9;
    }
