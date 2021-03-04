@@ -53,8 +53,6 @@ const CalenderSquare = ({
       );
    }
 
-
-
    // Preceding day
    if(type==='preceding'){
       return(
@@ -63,7 +61,12 @@ const CalenderSquare = ({
       )
    }
    // Selected day
-   else if(currentDate.getMonth() + 1 === selectedDate.month && calSquareDay == selectedDate.day){
+   else if(
+      currentDate.getMonth() + 1 === selectedDate.month && 
+      calSquareDay == currentDate.getDate() && 
+      currentDate.getFullYear() === selectedDate.year
+
+   ){
       return(
          <Wrapper className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
             <p className="day">{calSquareDay}</p>
