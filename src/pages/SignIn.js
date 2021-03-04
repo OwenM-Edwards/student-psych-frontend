@@ -43,6 +43,27 @@ const Wrapper = styled.div`
       margin: 0 auto;
    }
 `
+const InfoContainer = styled.div`
+   background-color:${({ theme }) => theme.primary.main};
+   color:${({ theme }) => theme.primary.offWhite};
+   width:20%;
+   height:300px;
+   position: relative;
+   top:5px;
+   align-self:center;
+   justify-content:center;
+   border-radius:5px;
+   padding:20px;
+   & h2 {
+      margin-bottom:20px;
+   }
+   & p {
+      margin-bottom:10px;
+   }
+   & a {
+      color:${({ theme }) => theme.primary.light};
+   }
+`
 
 
 const SignIn = ({ signIn, auth}) => {
@@ -98,6 +119,11 @@ const SignIn = ({ signIn, auth}) => {
                   </Link>
                </fieldset>
             </form>
+            <InfoContainer>
+               <h2>Information</h2>
+               <p>We currently only accept .ac.uk and .nhs email domains for sign up. If you are part of a psychiatry or mental helath society and would like your email domains added to the approved list, please contact us at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
+               <p>Additionally, if you would like to register yourself as an event organiser and add your own events, please get in touch at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
+            </InfoContainer>
          </Wrapper>
       )   
    }
