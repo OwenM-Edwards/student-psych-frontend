@@ -119,8 +119,9 @@ const SearchContainer = styled.div`
    display:flex;
    overflow:hidden;
    @media (max-width: 900px) {
-      width:0;
+      width:0%;
    }
+   
    & .icon {
       display:inline;
       width:100%;
@@ -154,19 +155,6 @@ const SearchContainer = styled.div`
       margin-right:5px;
       align-self:center;
    }
-   & .searchField {
-      width:30%;
-
-      height:42px;
-      padding: .6em 1.4em .5em .8em;
-      box-sizing: border-box;
-      margin: 0;
-      border: 1px solid #aaa;
-      box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-      border-radius: .5em;
-      background-color:${({ theme }) => theme.primary.offWhite};
-
-   }
    & .searchTerm {
       width:70%;
       max-width:300px ;
@@ -176,8 +164,28 @@ const SearchContainer = styled.div`
       outline: 0;
       border: 0;
       background-color:${({ theme }) => theme.primary.offWhite};
+      
    }
 `
+const MobileSearchContainer = styled.div`
+   width:500px;
+   height:30px;
+   align-self:center;
+   background-color:white;
+   display:flex;
+   border-radius:10px;
+   cursor: pointer;
+   @media (max-width: 900px) {
+      width:0;
+   }
+   & img {
+      width:100%;
+      max-width: 100%;
+      max-height:100%;
+      object-fit: contain;
+   }
+`
+
 const UserContainer = styled.div`
    height:100%;
    width:80px;
@@ -251,13 +259,10 @@ const Header = ({
       auth, 
       selectDate, 
       selectedDate, 
-      signOut,
       toggleNavPanel,
       navPanelState,
    }) => {
-   const [searchField, setSearchField] = useState('title');
-   const [searchTerm, setSearchTerm] = useState(false);
-   const location = useLocation();
+
    const printDate = new Date(selectedDate.year, selectedDate.month - 1);
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
@@ -359,6 +364,10 @@ const Header = ({
                   <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
                </form>
             </SearchContainer>
+
+            <MobileSearchContainer>
+               <img src={search}/>
+            </MobileSearchContainer>
 
 
             <UserContainer onClick={()=>handleNavPanel()} >
