@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getSecureEventInfo,deleteEntry, editEntry,searchEntries,modalHandler } from "../redux/actions/index";
 import { LoadingIcon, EditEventModal, EventModal, AddEventModal } from '../components/index';
 import { toast } from "react-toastify";
+import { useHistory } from 'react-router-dom';
 const Wrapper = styled.div`
    width:100%;
    height:100%;
@@ -59,7 +60,7 @@ const Search = ({
    }) => {
 
    const {searchterm} = useParams();
-
+   const history = useHistory();
 
    // View Event
    const openViewEventModal = (eventInfo) => {
@@ -100,7 +101,7 @@ const Search = ({
    useEffect(() => {
       async function search(){
          if(!searchterm){
-            window.location = '/calendar';
+            history.push('/calendar');
          }
          else{
             searchEntries(searchterm);
