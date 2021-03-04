@@ -8,7 +8,7 @@ const Wrapper = styled.div`
    font-size:0.8rem;
    color: ${({ theme }) => theme.contrastText};
    transition: all 0.2s ease-in-out;
-   opacity:0.9;
+   opacity:1;
    & .tag {
       padding:5px;
       overflow:hidden;
@@ -19,20 +19,20 @@ const Wrapper = styled.div`
       box-shadow: 0 5px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.10);
    }
    & .career{
-      background-color:${({ theme }) => theme.colorCodes.red};
+      background-color:${({ theme }) => theme.colorCodes.careers};
       height:100%;
    }
    & .conference{
-      background-color:${({ theme }) => theme.colorCodes.blue};
+      background-color:${({ theme }) => theme.colorCodes.conference};
    }
    & .special{
-      background-color:${({ theme }) => theme.colorCodes.purple};
+      background-color:${({ theme }) => theme.colorCodes.special};
    }
    & .other{
-      background-color:${({ theme }) => theme.colorCodes.orange};
+      background-color:${({ theme }) => theme.colorCodes.other};
    }
    & .revision{
-      background-color:${({ theme }) => theme.colorCodes.green};
+      background-color:${({ theme }) => theme.colorCodes.revision};
    }
 
 `

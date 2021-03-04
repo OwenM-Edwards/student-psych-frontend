@@ -168,7 +168,7 @@ const SearchContainer = styled.div`
    }
 `
 const MobileSearchContainer = styled.div`
-   width:500px;
+   width:0px;
    height:30px;
    align-self:center;
    background-color:white;

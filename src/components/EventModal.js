@@ -117,20 +117,20 @@ const TitleContainer = styled.div`
       height:auto;
       z-index:9;
    }
-   & .career{
-      background-color:${({ theme }) => theme.colorCodes.red};
+   & .careers{
+      background-color:${({ theme }) => theme.colorCodes.careers};
    }
    & .conference{
-      background-color:${({ theme }) => theme.colorCodes.blue};
+      background-color:${({ theme }) => theme.colorCodes.conference};
    }
    & .special{
-      background-color:${({ theme }) => theme.colorCodes.purple};
+      background-color:${({ theme }) => theme.colorCodes.special};
    }
    & .other{
-      background-color:${({ theme }) => theme.colorCodes.orange};
+      background-color:${({ theme }) => theme.colorCodes.other};
    }
    & .revision{
-      background-color:${({ theme }) => theme.colorCodes.green};
+      background-color:${({ theme }) => theme.colorCodes.revision};
    }
 `
 const InfoWrapper = styled.div`
@@ -218,7 +218,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    let eventTitle = '';
    switch(modalInfo.type){
       case 'Careers event':
-         eventTitle = <p className="career eventTitle">{modalInfo.title}</p>
+         eventTitle = <p className="careers eventTitle">{modalInfo.title}</p>
          break;
       case 'Conference':
          eventTitle = <p className="conference eventTitle">{modalInfo.title}</p>

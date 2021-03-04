@@ -66,20 +66,20 @@ const EventsContainer = styled.div`
       width:93%;
       align-self:center;
    }
-   & .red {
-      background: ${({ theme }) => theme.colorCodes.red};
+   & .careers {
+      background: ${({ theme }) => theme.colorCodes.careers};
    }
-   & .blue {
-      background: ${({ theme }) => theme.colorCodes.blue};
+   & .conference {
+      background: ${({ theme }) => theme.colorCodes.conference};
    }
-   & .purple {
-      background: ${({ theme }) => theme.colorCodes.purple};
+   & .special {
+      background: ${({ theme }) => theme.colorCodes.special};
    }
-   & .orange {
-      background: ${({ theme }) => theme.colorCodes.orange};
+   & .revision {
+      background: ${({ theme }) => theme.colorCodes.revision};
    }
-   & .green {
-      background: ${({ theme }) => theme.colorCodes.green};
+   & .other {
+      background: ${({ theme }) => theme.colorCodes.other};
    }
    & .colorCodesContainer{
       display:flex;
@@ -144,27 +144,27 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
                switch(entry.type){
                   case 'Careers event':
                      recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="red" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Conference':
                      recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="blue" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Special interest talk':
                      recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="purple" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Revision':
                      recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="green" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Other':
                      recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="orange" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                }
@@ -186,27 +186,27 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
                switch(entry.type){
                   case 'Careers event':
                      popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="red" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Conference':
                      popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="blue" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Special interest talk':
                      popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="purple" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Revision':
                      popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="green" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                   case 'Other':
                      popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="orange" key={counter}>{entry.title}</EventTag>
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
                      )
                      break;
                }

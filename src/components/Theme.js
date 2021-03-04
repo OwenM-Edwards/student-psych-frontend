@@ -14,11 +14,11 @@ export const darkTheme = {
    
 
    colorCodes: {
-      green: '#AED581',
-      red: '#FF8A80',
-      blue: '#82B1FF',
-      orange: '#FFCC80',
-      purple: '#B388FF',
+      careers: '#7ba7ee',
+      conference: '#ffadc9',
+      special: '#ec837c',
+      revision: '#0a7775',
+      other: '#E0C879',
    },
    primary: {
       main: '#1f2933',

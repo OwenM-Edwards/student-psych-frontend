@@ -37,8 +37,6 @@ const CalenderSquare = ({
    }
    sortEntries();
 
-
-
    const handleShowMore = (e) => {
       e.stopPropagation();
       modalHandler(
@@ -70,7 +68,13 @@ const CalenderSquare = ({
       return(
          <Wrapper className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
             <p className="day">{calSquareDay}</p>
-            {eventTags}
+            <EventTagsContainer>
+               {eventTags}
+            </EventTagsContainer>
+            {(eventTags.length >= 3)
+               ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
+               : <React.Fragment></React.Fragment>
+            }
          </Wrapper>
       )
    }
@@ -79,7 +83,13 @@ const CalenderSquare = ({
       return(
          <Wrapper className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
             <p className="day">{calSquareDay}</p>
-            {eventTags}
+            <EventTagsContainer>
+               {eventTags}
+            </EventTagsContainer>
+            {(eventTags.length >= 3)
+               ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
+               : <React.Fragment></React.Fragment>
+            }
          </Wrapper>
       )
    }
@@ -92,7 +102,7 @@ const CalenderSquare = ({
                {eventTags}
             </EventTagsContainer>
 
-            {(eventTags.length > 2)
+            {(eventTags.length >= 3)
                ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
                : <React.Fragment></React.Fragment>
             }
@@ -132,6 +142,7 @@ const Wrapper = styled.div`
    transition: all 0.1s ease-in-out;
    display:flex;
    flex-direction:column;
+   overflow:hidden;
 
    &:hover {
       /* scale:1.03; */
@@ -171,11 +182,11 @@ const Wrapper = styled.div`
    & .showMoreButton{
       z-index:9;
       width:auto;
-      height:42px;
-      color: ${({ theme }) => theme.primary.offBlack};
+      height:25px;
+      color: #f3f3f3;
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
+      background-color:${({ theme }) => theme.primary.main};
       padding: 5px 10px 5px 10px;
       border-radius:5px;
       display: inline-block;
