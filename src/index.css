@@ -18,6 +18,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+body, input, textarea, button, select {
+  font-family: 'Ubuntu', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   width:100%;
   height:100%;

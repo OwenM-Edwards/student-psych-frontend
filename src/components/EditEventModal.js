@@ -15,13 +15,20 @@ const Wrapper = styled.div`
    left:20%;
    width:400px;
    height:auto;
-   background:${({ theme }) => theme.primary.offwhite};
+   background:${({ theme }) => theme.primary.offWhite};
    color: ${({ theme }) => theme.contrastText};
    display:flex;
    flex-direction:column;
    z-index:2;
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   @media (max-width: 700px) {
+      top:0%;
+      left:0%;
+      width:100%;
+      height:auto;
+      z-index:5;
+   }
    & .formTitle {
       font-size:1.6rem;
       width:100%;
@@ -31,7 +38,7 @@ const Wrapper = styled.div`
       border-radius:5px;
    }
    & .buttonContainer{
-      background:${({ theme }) => theme.primary.offwhite};
+      background:${({ theme }) => theme.primary.offWhite};
       width:30px;
       height:30px;
       position:absolute;

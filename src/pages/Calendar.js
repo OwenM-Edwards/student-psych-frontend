@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 
-
 const Calendar = ({ 
       auth, 
       selectedDate, 
@@ -25,7 +24,7 @@ const Calendar = ({
    }) => {
    const [ boxes, setBoxes ] = useState([]);
    const [ headers, setHeaders ] = useState([]);
-   let dayStrings = ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+   let dayStrings = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
    const history = useHistory();
    const {month, year} = useParams();
    let button = '';
@@ -234,6 +233,9 @@ const StyledMain = styled.div`
    flex-wrap:nowrap;
    padding:30px 30px 10px 0px;
    transition: all 0.2s ease-in-out;
+   @media (max-width: 900px) {
+      padding:5px 5px 20px 5px;
+   }
 `
 const CalenderBoxesContainer = styled.div`
    width:100%;
@@ -243,6 +245,9 @@ const CalenderBoxesContainer = styled.div`
    grid-auto-rows: 1fr;
    grid-gap:5px;
    padding:5px 0 20px 30px;
+   @media (max-width: 900px) {
+      padding:0px;
+   }
 `
 const CalenderHeaderContainer = styled.div`
    width:100%;
@@ -251,6 +256,9 @@ const CalenderHeaderContainer = styled.div`
    grid-template-columns:repeat(7, 1fr);
    grid-gap:5px;
    padding-left:30px;
+   @media (max-width: 900px) {
+      padding:0px;
+   }
 `
 const CalenderSquareContainer  = styled.div`
    width:1fr;
@@ -264,11 +272,17 @@ const CalenderSquareContainer  = styled.div`
 const CalenderHeader = styled.div`
    width:1fr;
    max-width: 1fr;
+   min-width:1fr;
    height:1fr;
-   background: ${({ theme }) => theme.primary.main};
+   background: #1f2933;
    text-align: center;
    padding-top:5px;
+   color:white;
    font-size:1.2rem;
+   overflow:hidden;
+   @media (max-width: 900px) {
+    font-size: 1rem;
+   }
 `
 
 const mapStateToProps = (state) => ({ deleteEntryState:state.deleteEntry,editEntryState:state.editEntry,addEntryState:state.addEntry, entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});

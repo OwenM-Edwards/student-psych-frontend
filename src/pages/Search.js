@@ -11,7 +11,7 @@ const Wrapper = styled.div`
    display:flex;
    padding:50px 50px 20px 50px;
    justify-content:center;
-
+   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    & .frosted{
       box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
       filter: blur(2px);
@@ -24,7 +24,7 @@ const StyledEntriesContainer = styled.div `
    height:100%;
    display:flex;
    flex-direction:column;
-   background: ${({ theme }) => theme.backgroundContrast};
+   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    border-radius:3px;
    padding:20px;
    overflow-y:scroll;

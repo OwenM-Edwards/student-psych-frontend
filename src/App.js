@@ -17,13 +17,14 @@ const Wrapper = styled.div`
   display:flex;
   flex-wrap:wrap;
   margin: 0;
-  background: ${({ theme }) => theme.primary.dark};
+  background: #7b8794;
 
   & .header {
     height:auto;
     height:7%;
     min-height:70px;
     width:100%;
+    z-index:3;
   }
   & .main {
     min-height:93%;

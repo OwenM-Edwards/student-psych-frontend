@@ -87,9 +87,6 @@ const SubmittedEvents = (
                   <li>{entry.month} </li> 
                   <li>{entry.year} </li> 
                   <li>{entry.organisation} </li> 
-
-                  <InputContainer>
-                  </InputContainer>
                </EntryTag>
             )
             count++;
@@ -97,7 +94,7 @@ const SubmittedEvents = (
       }
    }
    sortEvents();
-   
+   console.log(sortedEntries)
    return(
       <Wrapper>
          {(modalState.modalDisplay === 'view')
@@ -114,7 +111,7 @@ const SubmittedEvents = (
          } 
          {(sortedEntries.length < 1)
             ? <p>Nothing here yet</p>
-            : {sortedEntries}
+            : sortedEntries
          }
       </Wrapper>
    )  

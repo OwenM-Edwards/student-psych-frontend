@@ -22,11 +22,15 @@ const Wrapper = styled.div`
       justify-content:center;
       max-width:600px;
       border-radius:5px;
+      @media (max-width: 900px) {
+         width:100%;
+      }
    }
    & .registerFieldset {
       display:flex;
       flex-direction:column;
       padding:10px;
+      border-radius:10px;
    }
    & .buttonContainer {
       margin: 10px auto 0;

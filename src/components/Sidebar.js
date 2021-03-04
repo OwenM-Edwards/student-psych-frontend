@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { getRecentEvents,modalHandler,getSecureEventInfo,getPopularEvents } from '../redux/actions/index';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
-import { leftIconDarkMode, } from "../assets/index.js";
+import { menu } from "../assets/index.js";
 
 
 
@@ -11,28 +11,29 @@ const Wrapper = styled.div`
    width:${props => props.theme.width};
    max-width: 150px;
    height:100%;
-   z-index:2;
-   background: ${({ theme }) => theme.primary.main};
-   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   z-index:0;
+   background:#1f2933;
+   /* box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); */
    text-align:center;
    display:flex;
    flex-direction:column;
-   padding-top:3%;
-
    transition: width 0.2s ease-in-out;
    justify-content:space-between;
+   
+   @media (max-width: 900px) {
+      width:0px;
+      overflow:hidden;
+   }
 
    & .arrowContainer {
       width:100%;
       display:flex;
       flex-direction:row;
-      justify-content:flex-end;
-      position: relative;
-      left:30px;
-      bottom:20px;
-
+      justify-content:${props => props.theme.justifyContent};
+      justify-self:flex-start;
+      transition: all 0.2s ease-in-out;
       & img{
-         width:40px;
+         width:30px;
          transition: all 0.2s ease-in-out;
          transform: ${props => props.theme.transform};
          cursor:pointer;
@@ -50,7 +51,6 @@ const EventsContainer = styled.div`
    opacity:${props => props.theme.opacity};
    flex-direction:column;
    transition: all 0.2s ease-in-out;
-   border-top:3px solid ${({ theme }) => theme.primary.dark};
    padding-top:10px;
    padding-right:3px;
    & .eventsHeader{
@@ -87,6 +87,7 @@ const EventsContainer = styled.div`
       overflow-y:hidden;
       transition: all 0.2s ease 0s;
       justify-content:flex-end;
+      display:none;
    }
 `
 const EventTag = styled.div`
@@ -102,11 +103,13 @@ const EventTag = styled.div`
 `
 const shown = {
    width:"20%",
+   justifyContent:"flex-start",
 }
 const hidden = {
-   width: "0",
+   width: "30px",
    opacity: "0",
    transform: "rotate(180deg)",
+   justifyContent:"flex-end",
 }
 
 
@@ -242,7 +245,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       <ThemeProvider theme={sidebarToggle ? shown : hidden}>
          <Wrapper>
             <div className="arrowContainer">
-               <img onClick={()=>toggleSidebar()} src={leftIconDarkMode}/>
+               <img onClick={()=>toggleSidebar()} src={menu}/>
             </div>
             
 
@@ -258,7 +261,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
                {recentEvents}
             </EventsContainer>
 
-            <EventsContainer>
+            {/* <EventsContainer>
                <h2 className="eventsHeader">Colour Codes:</h2>
                <div className="colorCodesContainer">
                   <p className="colorCode red">Careers Event</p><div className=""></div>
@@ -267,7 +270,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
                   <p className="colorCode green">Revision or Training</p>
                   <p className="colorCode orange">Other</p>
                </div>
-            </EventsContainer>
+            </EventsContainer> */}
          </Wrapper>
       </ThemeProvider>  
    )

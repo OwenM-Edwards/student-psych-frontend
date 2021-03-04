@@ -115,14 +115,11 @@ export default connect(mapStateToProps, {modalHandler})(CalenderSquare);
 
 
 const EventTagsContainer = styled.div`
-
    max-height:100%;
    text-align:center;
-
    border-radius:3px;
    overflow:hidden;
 `
-
 
 const Wrapper = styled.div`
    height:100%;
@@ -132,25 +129,23 @@ const Wrapper = styled.div`
    transition: all 0.1s ease-in-out;
    display:flex;
    flex-direction:column;
-   
-   /* overflow:hidden; */
+
    &:hover {
       /* scale:1.03; */
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    }
    & .day{
       margin: 0 auto;
-      background: ${({ theme }) => theme.primary.light};
       border-radius:0 0 30px 30px;
       width:40px;
       height:26px;
       text-align:center;
       padding:2px 2px 2px 2px;
       margin-bottom:10px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.2);
    }
    &.precedingDay{
-      background: ${({ theme }) => theme.currentDay};
+      background: ${({ theme }) => theme.primary.currentDay};
       opacity:0.05;
       &:hover {
          scale:1;
@@ -158,22 +153,26 @@ const Wrapper = styled.div`
       }
    }
    &.currentDay{
-      background-color:${({ theme }) => theme.primary.light};
+      background-color:${({ theme }) => theme.primary.currentDay};
+      color:${({ theme }) => theme.primary.offBlack};
+      background-color: #1ddecb;
+      
    }
    &.weekendDay{
       background-color:${({ theme }) => theme.primary.weekendDay};
    }
    &.weekDay{
       background-color:${({ theme }) => theme.primary.weekDay};
+      
    }
    & .showMoreButton{
       z-index:9;
       width:auto;
       height:42px;
-      color: #2b2b2b;
+      color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
       padding: 5px 10px 5px 10px;
       border-radius:5px;
       display: inline-block;

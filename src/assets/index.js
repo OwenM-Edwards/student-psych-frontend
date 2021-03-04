@@ -19,6 +19,7 @@ import closeArrow from './closeArrow.png';
 import favorite from './favorite.png';
 import logo from './logo.png';
 import logoFill from './logoFill.png';
+import menu from './menu.png';
 
 export {
    mindMattersLogo,
@@ -42,4 +43,5 @@ export {
    favorite,
    logo,
    logoFill,
+   menu,
 }

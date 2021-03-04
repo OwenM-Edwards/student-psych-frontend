@@ -18,13 +18,14 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:row;
    flex-wrap:nowrap;
-   background: ${({ theme }) => theme.primary.main};
-   color: ${({ theme }) => theme.primary.text};
+   background-color:${({ theme }) => theme.primary.main};
+   color: ${({ theme }) => theme.primary.contrastText};
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    padding:10px 0 10px 0;
+   z-index:4;
    z-index:5;
    & .logoContainer {
-      max-width: 200px;
+      max-width: 180px;
       display:flex;
       flex-direction:row;
       padding:0 0 0 5px;
@@ -35,6 +36,7 @@ const Wrapper = styled.div`
       position: relative;
       top:0px;
       right:5px;
+      
    }
    & .logo {
       width:100%;
@@ -47,19 +49,28 @@ const NavigationContainer = styled.div`
    height:100%;
    width:30%;
    max-width:300px ;
+   min-width:300px;
    display:flex;
    flex-direction:row;
    align-items:center;
-   justify-content:space-around;
+   justify-content:flex-start;
    padding:0 10px 0 10px;
    margin-right:auto;
+   @media (max-width: 900px) {
+      padding:0;
+      width:20%;
+      max-width:200px ;
+      min-width:200px;
+      font-size:0.7rem;
+   }
+   
    & .todayButton {
       width:auto;
-      height:42px;
-      color: #2b2b2b;
+      height:32px;
+      color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
       padding: 5px 10px 5px 10px;
       border-radius:5px;
       display: inline-block;
@@ -67,7 +78,12 @@ const NavigationContainer = styled.div`
       transition: all 0.2s ease 0s;
       cursor:pointer;
       &:hover {
-         scale:0.9;
+         background-color:${({ theme }) => theme.primary.light};
+      }
+      @media (max-width: 900px) {
+         padding:5px;
+         font-size:0.7rem;
+         height:32px;
       }
    }
    & .printMonth{
@@ -79,6 +95,9 @@ const NavigationContainer = styled.div`
       &:hover {
          scale:0.9;
       }
+      @media (max-width: 900px) {
+         height:60%;
+      }
    }
    & .rightArrow{
       height:100%;
@@ -86,13 +105,21 @@ const NavigationContainer = styled.div`
       &:hover {
          scale:0.9;
       }
+      @media (max-width: 900px) {
+         height:60%;
+      }
    }
 `
 const SearchContainer = styled.div`
    height:100%;
    width:40%;
+   max-width:330px ;
    margin-left:auto;
    display:flex;
+   overflow:hidden;
+   @media (max-width: 900px) {
+      width:0;
+   }
    & .icon {
       display:inline;
       width:100%;
@@ -110,11 +137,12 @@ const SearchContainer = styled.div`
    }
    & .searchButton{
       width:14%;
+      max-width:50px ;
       height:42px;
-      color: #2b2b2b;
+      color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
       padding-top:2px;
       border-radius: 0 5px 5px 0;
       display: inline-block;
@@ -127,6 +155,7 @@ const SearchContainer = styled.div`
    }
    & .searchField {
       width:30%;
+
       height:42px;
       padding: .6em 1.4em .5em .8em;
       box-sizing: border-box;
@@ -134,51 +163,74 @@ const SearchContainer = styled.div`
       border: 1px solid #aaa;
       box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
       border-radius: .5em;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
 
    }
    & .searchTerm {
       width:70%;
+      max-width:300px ;
       height:42px;
       padding-left:15px;
       border-radius:5px 0 0 5px;
       outline: 0;
       border: 0;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
    }
 `
 const UserContainer = styled.div`
    height:100%;
-   width:60px;
+   width:80px;
    display:flex;
    flex-direction:column;
    align-items:center;
    padding:0 10px 0 10px;
    margin-right:45px;
-   cursor: pointer;
+
+   @media (max-width: 900px) {
+      padding:5px 0px 0px 0px;
+      margin-right:0;
+   }
+   & .loginButtonContainer {
+      align-self:center;
+      justify-self:center;
+      height:100%;
+      width:100%;
+      display:flex;
+      align-items:center;
+      text-decoration: none;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      color:${({ theme }) => theme.primary.offBlack};
+   }
    & .loginButton{
       width:100%;
-      height:40px;
-      color: #2b2b2b;
+      height:80%;
+      color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
       padding: 5px;
-      border-radius:5px;
-      display: inline-block;
+      border-radius:10px;
       border: none;
       transition: all 0.4s ease 0s;
-      margin-right:2px;
+      cursor: pointer;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
+      }
    }
    & .profileButton {
       width:45px;
       opacity:0.8;
+      cursor: pointer;
+      @media (max-width: 900px) {
+         width:30px;
+      }
    }
    & .closeArrowButton {
       position: relative;
       bottom:15px;
       width:40px;
       transition: all 0.2s ease-in-out;
+      cursor: pointer;
       transform: ${props => props.theme.transform};
    }
 `
@@ -311,7 +363,7 @@ const Header = ({
             <UserContainer onClick={()=>handleNavPanel()} >
                {(auth.authenticated)
                   ? <img className="profileButton" src={profile}></img>
-                  : <Link to="/signin"><button className="loginButton">Sign In</button></Link>
+                  : <Link className="loginButtonContainer" to="/signin"><button className="loginButton">Sign In</button></Link>
                }
                {(auth.authenticated)
                   ? <img className="closeArrowButton" src={leftIconDarkMode}></img>

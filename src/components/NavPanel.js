@@ -15,25 +15,29 @@ const Wrapper = styled.div`
    top:7%;
    right:15px;
    display:flex;
+   align-items:center;
    align-content:center;
    justify-content:center;
    transition: height 0.2s ease-in-out;
    background-color:yellow;
    overflow:hidden;
-   background: ${({ theme }) => theme.primary.main};
+   background: #1f2933;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    display:flex;
    flex-direction:column;
-   z-index:4;
-   padding:${props => props.theme.padding};
-
+   & .link {
+      width:90%;
+      align-self:center;
+      margin-bottom:5px;
+   }
    & .button{      
-      width:100%;
-      height:40px;
+      width:70%;
+      height:30px;
+      align-self:center;
       color: #2b2b2b;
       text-transform: uppercase;
       text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
+      background-color:${({ theme }) => theme.primary.offWhite};
       padding: 5px;
       border-radius:5px;
       display: inline-block;
@@ -42,6 +46,15 @@ const Wrapper = styled.div`
       cursor:pointer;
       margin-top:auto;
       margin-bottom:5px;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
+      }
+   }
+   & .signOut{
+      width:90%;
+   }
+   & .profile{
+      width:100%;
    }
 `
 
@@ -51,7 +64,7 @@ const shown = {
 }
 const hidden = {
    height: "0%",
-   padding: "0",
+   padding: "10px",
 }
 
 
@@ -64,8 +77,8 @@ const NavPanel = ({toggleNavPanel, navPanelState, signOut}) => {
    return (
       <ThemeProvider theme={navPanelState ? shown : hidden}>
          <Wrapper>
-            <button className="button" onClick={()=>handleSignOut()}>Sign Out</button>
-            <Link to="/profile"><button onClick={()=>toggleNavPanel(false)} className="button" >Profile</button></Link>
+            <button className="signOut button" onClick={()=>handleSignOut()}>Sign Out</button>
+            <Link className="link" to="/profile"><button onClick={()=>toggleNavPanel(false)} className="profile button" >Profile</button></Link>
          </Wrapper>
       </ThemeProvider>
    )   

@@ -23,13 +23,20 @@ const Wrapper = styled.div`
    left:20%;
    width:400px;
    height:auto;
-   background:${({ theme }) => theme.primary.offwhite};
+   background:${({ theme }) => theme.primary.offWhite};
    color:#2b2b2b;
    display:flex;
    flex-direction:column;
    z-index:2;
    border-radius:10px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.23);
+   @media (max-width: 700px) {
+      top:20%;
+      left:0%;
+      width:100%;
+      height:auto;
+      z-index:5;
+   }
 
    & .icon {
       width:20px;
@@ -65,10 +72,13 @@ const ButtonContainer = styled.div`
    top:-29px;
    z-index:-1;
    left:315px;
-   background-color:${({ theme }) => theme.primary.offwhite};
+   background-color:${({ theme }) => theme.primary.offWhite};
    height:30px;
    width:84px;
    border-radius:5px 5px 0 0;
+   @media (max-width: 700px) {
+      left:0;
+   }
    & .btnIcon {
       position:absolute;
       cursor: pointer;
