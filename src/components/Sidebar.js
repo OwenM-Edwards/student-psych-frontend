@@ -29,7 +29,7 @@ const Wrapper = styled.div`
       width:100%;
       display:flex;
       flex-direction:row;
-      justify-content:${props => props.theme.justifyContent};
+      justify-content:flex-end;
       justify-self:flex-start;
       transition: all 0.2s ease-in-out;
       & img{
@@ -103,13 +103,11 @@ const EventTag = styled.div`
 `
 const shown = {
    width:"20%",
-   justifyContent:"flex-start",
 }
 const hidden = {
    width: "30px",
    opacity: "0",
    transform: "rotate(180deg)",
-   justifyContent:"flex-end",
 }
 
 
