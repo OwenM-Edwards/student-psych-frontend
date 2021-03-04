@@ -34,6 +34,7 @@ import {
    RECEIVE_CHANGE_USER_TYPE,
    DELETE_USER,
    CHANGE_PASSWORD,
+   DELETE_OWN_ACCOUNT,
 
 } from './action-types';
 
@@ -57,7 +58,22 @@ import {
    banAndDeleteAPI,
    deleteUserAPI,
    changePasswordAPI,
+   deleteSelfAPI,
 } from '../../util/index';
+
+// Delete own account.
+export const deleteOwnAccount = () => async (dispatch) => {
+   dispatch({
+      type: DELETE_OWN_ACCOUNT,
+      payload:true
+   })
+   const APIData = await deleteSelfAPI();
+   dispatch({
+      type: DELETE_OWN_ACCOUNT,
+      payload:false,
+   })
+}
+
 
 // Admin delete user.
 export const deleteUser = (info) => async (dispatch) => {

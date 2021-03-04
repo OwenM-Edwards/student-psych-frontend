@@ -4,8 +4,8 @@ import {signOut} from '../redux/actions/index';
 
 const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
 const api = axios.create({
-   // baseURL: 'http://localhost:3000/',
-   baseURL: 'https://student-psych-api.herokuapp.com/',
+   baseURL: 'http://localhost:3000/',
+   // baseURL: 'https://student-psych-api.herokuapp.com/',
    // headers: {
    //   token: `${token.id}`, 
    // },
@@ -351,7 +351,6 @@ export const registerAPI = async ( userEmail, userPassword, userType ) => {
 
 // Change user password.
 export const changePasswordAPI = async (newPassword) => {
-   console.log('new pass')
    try {
       const newPasswordApi = await api.put('user/changepassword', { data: {
             "newPassword": newPassword,
@@ -359,6 +358,17 @@ export const changePasswordAPI = async (newPassword) => {
       })
       toast.dismiss();
       toast.success('Password succesfully changed.');
+      return true;
+   } catch (err) {
+      errorHandler(err);
+      return false;
+   }
+}
+
+// Delete own account.
+export const deleteSelfAPI = async () => {
+   try {
+      const deleteSelf = await api.delete('user/deleteaccount')
       return true;
    } catch (err) {
       errorHandler(err);
