@@ -66,16 +66,17 @@ const NavigationContainer = styled.div`
    
    & .todayButton {
       width:auto;
-      height:32px;
+      height:42px;
       color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
       background-color:${({ theme }) => theme.primary.offWhite};
       padding: 5px 10px 5px 10px;
-      border-radius:5px;
+      border-radius:10px;
       display: inline-block;
       border: none;
       transition: all 0.2s ease 0s;
+      outline: none;
       cursor:pointer;
       &:hover {
          background-color:${({ theme }) => theme.primary.light};
@@ -263,7 +264,7 @@ const Header = ({
    const history = useHistory();
    
    const onSubmit = (data) => {
-      window.location = `/search/${data.searchTerm}`;
+      history.push(`/search/${data.searchTerm}`);
    }
    useEffect(()=>{
    },[auth.authenticated]);
@@ -299,7 +300,7 @@ const Header = ({
    }
 
    const handleSignIn = () => {
-      window.location = '/signin';
+      history.push('/signin');
    }
 
    const handleNavPanel = () => {
