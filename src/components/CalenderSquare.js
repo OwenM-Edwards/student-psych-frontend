@@ -51,6 +51,8 @@ const CalenderSquare = ({
       );
    }
 
+
+   let boxDayType = '';
    // Preceding day
    if(type==='preceding'){
       return(
@@ -58,50 +60,22 @@ const CalenderSquare = ({
          </Wrapper>
       )
    }
-   // Selected day
-   else if(
-      currentDate.getMonth() + 1 === selectedDate.month && 
-      calSquareDay == currentDate.getDate() && 
-      currentDate.getFullYear() === selectedDate.year
-
-   ){
+   else { 
+      if( currentDate.getMonth() + 1 === selectedDate.month &&  calSquareDay == currentDate.getDate() &&  currentDate.getFullYear() === selectedDate.year){
+         boxDayType = 'currentDay';
+      } 
+      else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0){
+         boxDayType = 'weekendDay';
+      }
+      else{
+         boxDayType = 'weekDay';
+      }
       return(
-         <Wrapper className="currentDay" id={calSquareDay} onClick={openAddEventModal}>
+         <Wrapper className={boxDayType} id={calSquareDay} onClick={openAddEventModal}>
             <p className="day">{calSquareDay}</p>
             <EventTagsContainer>
                {eventTags}
             </EventTagsContainer>
-            {(eventTags.length >= 3)
-               ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
-               : <React.Fragment></React.Fragment>
-            }
-         </Wrapper>
-      )
-   }
-   // Weekend
-   else if(weekendCheck.getDay() === 6 || weekendCheck.getDay() === 0){
-      return(
-         <Wrapper className="weekendDay" id={calSquareDay} onClick={openAddEventModal}>
-            <p className="day">{calSquareDay}</p>
-            <EventTagsContainer>
-               {eventTags}
-            </EventTagsContainer>
-            {(eventTags.length >= 3)
-               ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
-               : <React.Fragment></React.Fragment>
-            }
-         </Wrapper>
-      )
-   }
-   // Normal day
-   else{
-      return(
-         <Wrapper className="weekDay" id={calSquareDay} onClick={openAddEventModal}>
-            <p className="day">{calSquareDay}</p>
-            <EventTagsContainer>
-               {eventTags}
-            </EventTagsContainer>
-
             {(eventTags.length >= 3)
                ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
                : <React.Fragment></React.Fragment>
@@ -118,15 +92,6 @@ export default connect(mapStateToProps, {modalHandler})(CalenderSquare);
 
 
 
-
-
-
-
-
-
-
-
-
 const EventTagsContainer = styled.div`
    max-height:100%;
    text-align:center;
@@ -136,7 +101,6 @@ const EventTagsContainer = styled.div`
 
 const Wrapper = styled.div`
    height:100%;
-   max-height:100%;
    text-align:center;
    border-radius:3px;
    transition: all 0.1s ease-in-out;
@@ -194,5 +158,8 @@ const Wrapper = styled.div`
       transition: all 0.2s ease 0s;
       cursor:pointer;
       font-size:0.8rem;
+      @media (max-width: 900px) {
+         font-size:0.5rem;
+      }
    }
 `
