@@ -1,13 +1,5 @@
-// ORGANISATION TYPES
-// organisation type is tied to the admins org type in database.
-//
-// 
-// POULARITY BASED OFF OF CLICKS, NOt ATTENDING/INTERESTED.
-// HIDE THE SIDEBAR
-// 
-// EDIT EVENT RESETS TYPE
-// LINKS DONT WORK
-// JWT REFRESH TOKEN
-//
-// MOBILE UI
 
+// Change event date in edit modal.
+// Mobile cookies.
+// Resize view all box (and style).
+// View all scroll bar.
