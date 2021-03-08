@@ -12,6 +12,8 @@ import OverflowEventsModal from './OverflowEventsModal';
 import AccountSettings from './AccountSettings';
 import SubmittedEvents from './SubmittedEvents';
 import AdminPanel from './AdminPanel';
+import MobileMenuIcon from './MobileMenuIcon';
+import MobileMenu from './MobileMenu';
 
 export {
    Header,
@@ -28,4 +30,6 @@ export {
    AccountSettings,
    SubmittedEvents,
    AdminPanel,
+   MobileMenuIcon,
+   MobileMenu,
 }

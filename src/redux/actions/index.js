@@ -35,6 +35,8 @@ import {
    DELETE_USER,
    CHANGE_PASSWORD,
    DELETE_OWN_ACCOUNT,
+   MOBILE_MENU_TOGGLE,
+   SERVER_CHECK,
 
 } from './action-types';
 
@@ -59,6 +61,7 @@ import {
    deleteUserAPI,
    changePasswordAPI,
    deleteSelfAPI,
+   serverCheckAPI,
 } from '../../util/index';
 
 // Delete own account.
@@ -418,5 +421,35 @@ export const changePassword = (newPassword) => async (dispatch) => {
    dispatch({
       type: CHANGE_PASSWORD,
       payload:false,
+   })
+}
+
+
+
+export const toggleMobileMenu = (state) => async (dispatch) => {
+   dispatch({
+      type: MOBILE_MENU_TOGGLE,
+      payload:state,
+   })
+} 
+
+
+
+export const serverCheck = () => async (dispatch) => {
+   dispatch({
+      type: SERVER_CHECK,
+      payload:{
+         status:'pending',
+         fetching:true,
+      }
+   })
+   const APIData = await serverCheckAPI();
+   console.log(APIData)
+   dispatch({
+      type: SERVER_CHECK,
+      payload:{
+         status:APIData,
+         fetching:false,
+      }
    })
 }

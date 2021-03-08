@@ -16,14 +16,11 @@ const SpinnerContainer = styled.div`
 
 // Pass type as prop, types can be found at https://www.npmjs.com/package/react-loader-spinner
 // If no type provided, defaults to BallTriangle.
-const LoadingIcon = ({type}) => {
-
-   const spinnerColor = "#db8722";
-
+const LoadingIcon = () => {
    return(
       <Wrapper>
          <SpinnerContainer>
-            <Loader type={(type) ? type : "BallTriangle"} color={spinnerColor} height={100} width={100} />
+            <Loader type="TailSpin" color="#0bcc8b" height={100} width={100} />
          </SpinnerContainer>
       </Wrapper>
    )

@@ -9,19 +9,22 @@ import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
    width:100%;
-   height:100%;
-   display:flex;
-   justify-content:center;
+   max-height:100%;
 
+   display:flex;
+   flex-direction:column;
+   justify-content:flex-start;
 
    & .signInForm {
       padding:20px;
+      height:auto;
       background-color:${props => props.theme.backgroundLgtColor};
       color:${props => props.theme.fontColor};
       align-self:center;
       width:50%;
       justify-content:center;
       max-width:600px;
+      align-self:center;
       border-radius:5px;
       @media (max-width: 900px) {
          width:100%;
@@ -46,14 +49,15 @@ const Wrapper = styled.div`
 const InfoContainer = styled.div`
    background-color:${({ theme }) => theme.primary.main};
    color:${({ theme }) => theme.primary.offWhite};
-   width:20%;
-   height:300px;
+   width:90%;
+   height:auto;
    position: relative;
    top:5px;
    align-self:center;
    justify-content:center;
    border-radius:5px;
    padding:20px;
+   max-width:560px;
    & h2 {
       margin-bottom:20px;
    }

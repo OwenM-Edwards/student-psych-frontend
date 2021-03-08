@@ -9,11 +9,13 @@ import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
-   height:90%;
+   max-height:100%;
    display:flex;
-   justify-content:center;
+   flex-direction:column;
+   justify-content:flex-start;
 
    & .registerForm {
+      height:auto;
       padding:20px;
       background-color:${props => props.theme.backgroundLgtColor};
       color:${props => props.theme.fontColor};
@@ -83,7 +85,7 @@ const Wrapper = styled.div`
 const InfoContainer = styled.div`
    background-color:${({ theme }) => theme.primary.main};
    color:${({ theme }) => theme.primary.offWhite};
-   width:20%;
+   width:90%;
    height:300px;
    position: relative;
    top:5px;
@@ -91,6 +93,7 @@ const InfoContainer = styled.div`
    justify-content:center;
    border-radius:5px;
    padding:20px;
+   max-width:560px;
    & h2 {
       margin-bottom:20px;
    }

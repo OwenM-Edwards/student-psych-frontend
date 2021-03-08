@@ -7,22 +7,39 @@ import {
 } from "react-router-dom";
 import styled from "styled-components";
 import { Calendar, SignIn, Register, Verify, Search, Profile } from './pages/index';
-import { Header,Sidebar, NavPanel } from './components/index';
+import { Header,Sidebar, NavPanel, MobileMenu } from './components/index';
 import "react-toastify/dist/ReactToastify.css";
 import { connect } from 'react-redux';
 
+
+
+const HeaderContainer = styled.div`
+   height:7%;
+   min-height:70px;
+   width:100%;
+   z-index:3;
+   overflow:hidden;
+`
+const MainContainer = styled.div`
+   height:93%;
+   min-height:560px;
+   max-height:93%;
+   width:100%;
+   display:flex;
+   overflow:hidden;
+`
 
 const AppRouter = ({auth}) => {
 
    return (
       <Router>
          {/* <NavPanel/> */}
-         <div className="header">
+         <HeaderContainer>
             <Header/>
-         </div>
-         
-         
+         </HeaderContainer>
 
+         <MobileMenu/>
+         
          <Switch>
             <Route path="/maintenance">
                <div>main</div>
@@ -57,15 +74,15 @@ const AppRouter = ({auth}) => {
             </Route>
 
             <Route path="/search/:searchterm">
-               <div className="main"> <Sidebar/><Search/> </div> 
+               <MainContainer> <Sidebar/><Search/> </MainContainer> 
             </Route>
 
             <Route path="/calendar/:month/:year">
-               <div className="main"> <Sidebar/><Calendar/> </div> 
+               <MainContainer> <Sidebar/><Calendar/> </MainContainer> 
             </Route>
 
             <Route path="/calendar">
-               <div className="main"> <Sidebar/><Calendar/> </div> 
+               <MainContainer> <Sidebar/><Calendar/> </MainContainer> 
             </Route>
 
             <Route exact path="/">

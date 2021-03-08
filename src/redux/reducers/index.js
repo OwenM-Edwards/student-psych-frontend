@@ -17,6 +17,8 @@ import submittedEntries from './submittedEntries';
 import allUsers from './allUsers';
 import deleteUser from './deleteUser';
 import changePassword from './changePassword';
+import mobileMenuToggle from './mobileMenuToggle';
+import serverStatus from './serverStatus';
 
 export default combineReducers({
    entries,
@@ -37,4 +39,6 @@ export default combineReducers({
    allUsers,
    deleteUser,
    changePassword,
+   mobileMenuToggle,
+   serverStatus,
 });

@@ -1,16 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import styled, { ThemeProvider } from "styled-components";
 import { selectDate,signOut,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom'
-import Select from 'react-select';
 import { toast } from "react-toastify";
-import { mindMattersLogo, leftIconDarkMode, rightIconDarkMode, logo, logoFill } from "../assets/index.js";
+import { search, profile, mindMattersLogo, leftIconDarkMode, rightIconDarkMode, logo, logoFill } from "../assets/index.js";
 import { NavPanel } from './index';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { search, profile } from '../assets/index';
 import { useHistory } from 'react-router-dom';
+import { MobileMenuIcon} from './index';
 
 const Wrapper = styled.div`
    width:100%;
@@ -120,6 +118,7 @@ const SearchContainer = styled.div`
    overflow:hidden;
    @media (max-width: 900px) {
       width:0%;
+      
    }
    
    & .icon {
@@ -167,24 +166,6 @@ const SearchContainer = styled.div`
       
    }
 `
-const MobileSearchContainer = styled.div`
-   width:0px;
-   height:30px;
-   align-self:center;
-   background-color:white;
-   display:flex;
-   border-radius:10px;
-   cursor: pointer;
-   @media (max-width: 900px) {
-      width:0;
-   }
-   & img {
-      width:100%;
-      max-width: 100%;
-      max-height:100%;
-      object-fit: contain;
-   }
-`
 
 const UserContainer = styled.div`
    height:100%;
@@ -198,6 +179,8 @@ const UserContainer = styled.div`
    @media (max-width: 900px) {
       padding:5px 0px 0px 0px;
       margin-right:0;
+      width:0;
+      display:none;
    }
    & .loginButtonContainer {
       align-self:center;
@@ -241,6 +224,15 @@ const UserContainer = styled.div`
       transition: all 0.2s ease-in-out;
       cursor: pointer;
       transform: ${props => props.theme.transform};
+   }
+`
+
+const MobileMenuIconContainer = styled.div`
+   width:50px;
+   display:none;
+   margin-right:10px;
+   @media (max-width: 900px) {
+      display:block;
    }
 `
 
@@ -365,9 +357,9 @@ const Header = ({
                </form>
             </SearchContainer>
 
-            <MobileSearchContainer>
-               <img src={search}/>
-            </MobileSearchContainer>
+            <MobileMenuIconContainer>
+               <MobileMenuIcon/>
+            </MobileMenuIconContainer>
 
 
             <UserContainer onClick={()=>handleNavPanel()} >
@@ -379,6 +371,7 @@ const Header = ({
                   ? <img className="closeArrowButton" src={leftIconDarkMode}></img>
                   : <React.Fragment/>
                }
+               
             </UserContainer>
          </Wrapper>
       </ThemeProvider>

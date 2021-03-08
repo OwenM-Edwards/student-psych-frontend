@@ -6,9 +6,6 @@ const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage
 const api = axios.create({
    // baseURL: 'http://localhost:3000/',
    baseURL: 'https://student-psych-api.herokuapp.com/',
-   // headers: {
-   //   token: `${token.id}`, 
-   // },
    withCredentials: true,
 }); 
 
@@ -41,6 +38,19 @@ const errorHandler = (err) => {
       toast.dismiss();
       toast.error(err.response.data);
    } 
+}
+
+// Check if server is up
+export const serverCheckAPI = async () => {
+   try {
+      const serverCheck = await api.get('');
+      console.log('TEEEEEEEEEEEEEEEEEEEST')
+      console.log(serverCheck)
+      return true;
+   } catch (err) {
+      console.log('TEEEEEEEEEEEEEEEEEEEST')
+      return false;
+   }
 }
 
 // Admin delete user.

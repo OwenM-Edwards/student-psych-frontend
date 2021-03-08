@@ -144,9 +144,10 @@ const Wrapper = styled.div`
       
    }
    & .showMoreButton{
-      z-index:9;
+      z-index:3;
       width:auto;
       height:25px;
+      min-height:25px;
       color: #f3f3f3;
       text-transform: uppercase;
       text-decoration: none;
