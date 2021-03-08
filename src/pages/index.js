@@ -4,6 +4,7 @@ import Register from './Register';
 import Verify from './Verify';
 import Search from './Search';
 import Profile from './Profile';
+import Maintenance from './Maintenance';
 
 export {
    Calendar,
@@ -12,4 +13,5 @@ export {
    Verify,
    Search,
    Profile,
+   Maintenance,
 }
