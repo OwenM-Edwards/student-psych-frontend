@@ -65,7 +65,6 @@ const Verify = ({verifyToken, tokenState}) => {
       }
    }, [])
 
-   console.log(tokenState)
 
 
    if(tokenState.isFetching){
