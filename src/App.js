@@ -9,6 +9,7 @@ import { GlobalStyles } from "./components/GlobalStyle";
 import { darkTheme } from "./components/Theme";
 import AppRouter from './AppRouter';
 import { LoadingIcon } from './components/index';
+import { Maintenance } from './pages/index';
 
 const Wrapper = styled.div`
   min-width:100%;
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
   @media (max-height: 560px) {
     overflow-y:scroll;
   }
-  position:relative
+  position:relative;
 `
 const LoadingWrapper = styled.div`
   min-width:100%;
@@ -33,30 +34,22 @@ const LoadingWrapper = styled.div`
   display:flex;
   justify-content:center;
   align-items:center;
-  
-
 `
 
 const App = ({serverCheck, auth, checkSession, serverStatus}) => {
-  // Check if server is up
-  useEffect(()=> {
-    const checkServer = async () => {
-      await serverCheck();
-    }
-    if(serverStatus !== true){
-      checkServer();
-    }
-  }, []);
-
+  
+  // Check if server is ok, then
   // Check if user session if valid.
   useEffect(()=>{
-    if(serverStatus.status === true && !auth.authenticated){
-      const fetchAuth = async () => {
-        await checkSession();
+    const initialLoad = async () => {
+      const checkServer = await serverCheck();
+      if(checkServer){
+        checkSession();
       }
-      fetchAuth();
     }
+    initialLoad();
   },[]);
+
 
   // Server is down, show maintenance page.
   if(!serverStatus.status){
@@ -67,7 +60,7 @@ const App = ({serverCheck, auth, checkSession, serverStatus}) => {
           <ToastContainer
             position="bottom-right"
           />
-          <p>Server Down</p>
+          <Maintenance/>
         </Wrapper>
       </ThemeProvider>
     )
