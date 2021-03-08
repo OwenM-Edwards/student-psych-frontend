@@ -81,7 +81,6 @@ const EditEventModal = ({
       
       return returnString.trim();
    }
-   console.log(modalInfo)
    const handleEdit = (data) => {
       editEntry({
          title:capitalizeTrim(data.eventTitle),
