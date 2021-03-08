@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
-import {signOut} from '../redux/actions/index';
 
-const token = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")) : false ;
 const api = axios.create({
    // baseURL: 'http://localhost:3000/',
    baseURL: 'https://student-psych-api.herokuapp.com/',
@@ -11,7 +9,6 @@ const api = axios.create({
 
 
 const errorHandler = (err) => {
-   console.log(err)
    if(!err){
       toast.dismiss();
       toast.error('Server issues, please try again later.');
@@ -44,11 +41,8 @@ const errorHandler = (err) => {
 export const serverCheckAPI = async () => {
    try {
       const serverCheck = await api.get('');
-      console.log('TEEEEEEEEEEEEEEEEEEEST')
-      console.log(serverCheck)
       return true;
    } catch (err) {
-      console.log('TEEEEEEEEEEEEEEEEEEEST')
       return false;
    }
 }
@@ -82,7 +76,6 @@ export const banAndDeleteAPI = async (info) => {
 
 // Admin, change user type.
 export const changeUserTypeAPI = async (info) => {
-   // console.log(info)
    try {
       const changeUser = await api.put('admin/changeusertype', { data: {
          newUserType:info.newType,
@@ -304,8 +297,6 @@ export const logoutAPI = async () => {
 export const checkSessionAPI = async () => {
    try {
       const check = await api.post('user/checkSession');
-      console.log('CHECKING')
-      console.log(check)
       if(check){
          return check.data;
       }
