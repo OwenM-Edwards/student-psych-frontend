@@ -58,9 +58,9 @@ const MobileMenuIcon = ({toggleMobileMenu, mobileMenuState}) => {
    return(
       <ThemeProvider theme={mobileMenuState ? clicked : notClicked}>
          <Wrapper onClick={()=>handleMobileMenuToggle()}>
-            <span class="closed-span"></span>
-            <span class="closed-span"></span>
-            <span class="closed-span"></span>
+            <span className="closed-span"></span>
+            <span className="closed-span"></span>
+            <span className="closed-span"></span>
          </Wrapper>
       </ThemeProvider>
    )

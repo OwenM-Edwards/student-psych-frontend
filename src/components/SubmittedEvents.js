@@ -94,7 +94,6 @@ const SubmittedEvents = (
       }
    }
    sortEvents();
-   console.log(sortedEntries)
    return(
       <Wrapper>
          {(modalState.modalDisplay === 'view')

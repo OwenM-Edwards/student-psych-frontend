@@ -5,9 +5,9 @@ import { useHistory } from 'react-router-dom';
 import { search } from "../assets/index.js";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-import { signOut } from '../redux/actions/index';
+import { signOut, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents  } from '../redux/actions/index';
 import styled, { ThemeProvider } from "styled-components";
-
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    height:auto;
@@ -94,7 +94,7 @@ const UserContainer = styled.div`
    flex-direction:column;
    align-items:center;
    padding:0 10px 0 10px;
-   margin-bottom:20px;
+   margin-top:20px;
 
    @media (max-width: 900px) {
       padding:5px 0px 0px 0px;
@@ -110,6 +110,7 @@ const UserContainer = styled.div`
       text-decoration: none;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       color:${({ theme }) => theme.primary.offBlack};
+
    }
    & .loginButton{
       width:100%;
@@ -127,12 +128,37 @@ const UserContainer = styled.div`
          background-color:${({ theme }) => theme.primary.light};
       }
    }
-   & .profileButton {
-      width:45px;
-      opacity:0.8;
+   & .signOutButton{
+      width:100%;
+      height:40px;
+      color: ${({ theme }) => theme.primary.offBlack};
+      text-transform: uppercase;
+      text-decoration: none;
+      background-color:${({ theme }) => theme.primary.offWhite};
+      padding: 5px;
+      border-radius:10px;
+      border: none;
+      transition: all 0.4s ease 0s;
       cursor: pointer;
-      @media (max-width: 900px) {
-         width:30px;
+      margin-bottom:10px;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
+      }
+   }
+   & .profileButton {
+      width:100%;
+      height:40px;
+      color: ${({ theme }) => theme.primary.offBlack};
+      text-transform: uppercase;
+      text-decoration: none;
+      background-color:${({ theme }) => theme.primary.offWhite};
+      padding: 5px;
+      border-radius:10px;
+      border: none;
+      transition: all 0.4s ease 0s;
+      cursor: pointer;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
       }
    }
    & .closeArrowButton {
@@ -202,39 +228,142 @@ const EventsContainer = styled.div`
       justify-content:flex-end;
    }
 `
+const EventTag = styled.div`
+   opacity:0.9;
+   width:100%;
+   background-color:${({ theme }) => theme.backgroundLight};
+   color: ${({ theme }) => theme.contrastText};
+   padding:5px 0 5px 0;
+   border-radius:3px;
+   margin-bottom:5px;
+   cursor: pointer;
+   overflow:hidden;
+`
 
-
-const MobileMenu = ({auth, mobileMenuState}) => {
+const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuState, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents }) => {
    const { register, handleSubmit, watch, errors } = useForm();
    const history = useHistory();
+   let recentEvents = [];
+   let popularEvents = [];
+   let recentCapReached = false;
+   let popularCapReached = false;
 
    const onSubmit = (data) => {
       history.push(`/search/${data.searchTerm}`);
    }
 
    const handleSignOut = () => {
+      toggleMobileMenu(false); 
       signOut();
    }
 
    useEffect(()=>{
-      console.log(mobileMenuState)
    },[mobileMenuState]);
 
+   const openViewEventModal = (eventInfo) => {
+      if(auth.authenticated){
+         async function f(){
+            await getSecureEventInfo({
+               eventInfo:eventInfo,
+            }) 
+         } 
+         f(); 
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+      }
+      else{
+         toast.dismiss();
+         toast.info('Please login to view full event.');
+         modalHandler({modalDisplay:'view', modalInfo: eventInfo});
+      }
+   }
+
+   const genRecentEvents = () => {
+      let counter = 0;
+      if(recentEntries && recentCapReached !== true){
+         recentEntries.forEach(entry => {
+            if(counter < 3){
+               switch(entry.type){
+                  case 'Careers event':
+                     recentEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Conference':
+                     recentEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Special interest talk':
+                     recentEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Revision':
+                     recentEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Other':
+                     recentEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+               }
+               counter++;
+            }
+            else {
+               recentCapReached = true;
+            }
+         })
+      }         
+   }
+   genRecentEvents();
+
+   const genPopularEvents = () => {
+      let counter = 0;
+      if(popularEntries && popularCapReached !== true){
+         popularEntries.forEach(entry => {
+            if(counter < 3){
+               switch(entry.type){
+                  case 'Careers event':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Conference':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Special interest talk':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Revision':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+                  case 'Other':
+                     popularEvents.push(
+                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
+                     )
+                     break;
+               }
+               counter++;
+            }
+            else {
+               popularCapReached = true;
+            }
+         })
+      }         
+   }
+   genPopularEvents();
 
    return(
       <ThemeProvider theme={mobileMenuState ? shown : hidden}>
          <Wrapper>
-            <UserContainer >
-               {(auth.authenticated)
-                  ? <button className="signOut button" onClick={()=>handleSignOut()}>Sign Out</button>
-                  : <Link className="loginButtonContainer" to="/signin"><button className="loginButton">Sign In</button></Link>
-               }
-               {(auth.authenticated)
-                  ? <Link className="link" to="/profile"><button className="profile button" >Profile</button></Link>
-                  : <React.Fragment/>
-               }
-            </UserContainer>
-
             <SearchContainer>
                <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
                   <input
@@ -247,7 +376,17 @@ const MobileMenu = ({auth, mobileMenuState}) => {
                   <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
                </form>
             </SearchContainer>
+            {/* Popular Events */}
+            <EventsContainer>
+               <h2 className="eventsHeader">Popular Events</h2>
+               {popularEvents}
+            </EventsContainer>
 
+            {/* Recent Events */}
+            <EventsContainer>
+               <h2 className="eventsHeader">Recent Events</h2>
+               {recentEvents}
+            </EventsContainer>
             <EventsContainer>
                <h2 className="eventsHeader">Colour Codes:</h2>
                <div className="colorCodesContainer">
@@ -258,15 +397,23 @@ const MobileMenu = ({auth, mobileMenuState}) => {
                   <p className="colorCode other">Other</p>
                </div>
             </EventsContainer>
-   
 
-   
+            <UserContainer >
+               {(auth.authenticated)
+                  ? <button className="signOutButton button" onClick={()=>handleSignOut()}>Sign Out</button>
+                  : <Link onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/signin"><button className="loginButton">Sign In</button></Link>
+               }
+               {(auth.authenticated)
+                  ? <Link  onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/profile"><button className="profileButton" >Profile</button></Link>
+                  : <React.Fragment/>
+               }
+            </UserContainer>
          </Wrapper>
       </ThemeProvider>
    )
 }
 
 
-const mapStateToProps = (state) => ({ mobileMenuState:state.mobileMenuToggle.shown, navPanelState:state.navPanel.show, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
-export default connect(mapStateToProps, { signOut })(MobileMenu);
+const mapStateToProps = (state) => ({recentEntries:state.recentEvents.recentEntries, popularEntries:state.popularEvents.popularEntries, mobileMenuState:state.mobileMenuToggle.shown, navPanelState:state.navPanel.show, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
+export default connect(mapStateToProps, { getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents ,toggleMobileMenu, signOut })(MobileMenu);
 
