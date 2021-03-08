@@ -175,7 +175,7 @@ const EventsContainer = styled.div`
       opacity:0.8;
       margin-bottom:5px;
       color: ${({ theme }) => theme.contrastText};
-      padding:5px 0 5px 0;
+      padding:5px 0 5px 5px;
       width:100%;
       align-self:center;
    }

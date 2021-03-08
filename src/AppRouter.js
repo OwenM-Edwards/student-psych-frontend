@@ -18,7 +18,6 @@ const HeaderContainer = styled.div`
    min-height:70px;
    width:100%;
    z-index:3;
-   overflow:hidden;
 `
 const MainContainer = styled.div`
    height:93%;

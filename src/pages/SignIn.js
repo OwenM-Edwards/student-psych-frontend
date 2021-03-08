@@ -21,7 +21,7 @@ const Wrapper = styled.div`
       background-color:${props => props.theme.backgroundLgtColor};
       color:${props => props.theme.fontColor};
       align-self:center;
-      width:50%;
+      width:90%;
       justify-content:center;
       max-width:600px;
       align-self:center;

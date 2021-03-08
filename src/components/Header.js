@@ -18,10 +18,11 @@ const Wrapper = styled.div`
    flex-wrap:nowrap;
    background-color:${({ theme }) => theme.primary.main};
    color: ${({ theme }) => theme.primary.contrastText};
-   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
    padding:10px 0 10px 0;
-   z-index:4;
-   z-index:5;
+   position: relative;
+   z-index: 10;
    & .logoContainer {
       max-width: 180px;
       display:flex;
@@ -190,7 +191,7 @@ const UserContainer = styled.div`
       display:flex;
       align-items:center;
       text-decoration: none;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      /* box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); */
       color:${({ theme }) => theme.primary.offBlack};
    }
    & .loginButton{
