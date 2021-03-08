@@ -81,7 +81,6 @@ const AddEventModal = ({ addEntry, addEntryState, modalState, modalHandler }) =>
    }
    
    const handleSubmitEvent = (data) => {
-      console.log(data)
       addEntry({
          title:capitalizeTrim(data.eventTitle),
          description:capitalizeTrim(data.eventDescription),
