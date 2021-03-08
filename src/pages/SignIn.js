@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 const Wrapper = styled.div`
    width:100%;
    max-height:100%;
-
    display:flex;
    flex-direction:column;
    justify-content:flex-start;
@@ -18,32 +17,72 @@ const Wrapper = styled.div`
    & .signInForm {
       padding:20px;
       height:auto;
-      background-color:${props => props.theme.backgroundLgtColor};
+      background-color:${({ theme }) => theme.primary.main};
       color:${props => props.theme.fontColor};
       align-self:center;
       width:90%;
       justify-content:center;
-      max-width:600px;
+      max-width:560px;
       align-self:center;
-      border-radius:5px;
-      @media (max-width: 900px) {
-         width:100%;
-      }
+      border-radius:5px 5px 0 0;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
    }
    & .signInFieldset {
       display:flex;
+      justify-content:center;
       flex-direction:column;
       padding:10px;
+      padding-top:20px;
       border-radius:10px;
+      border:0px;
+      text-align:center;
+      font-size:1.2rem;
+      
+      & p {
+         margin-top:30px;
+      }
+      & span {
+         font-weight:bold;
+         color:${({ theme }) => theme.primary.light};
+         cursor: pointer;
+      }
+      & .registerContainer {
+         align-self:center;
+         width:100%;
+         color:${({ theme }) => theme.primary.offWhite};
+         text-decoration:none;
+         font-size:1.1rem;
+      }
    }
+
    & .buttonContainer {
       margin: 10px auto 0;
       width:100%;
+      display:flex;
+      justify-content:center;
    }
    & .signinInput {
       padding:10px;
       width:100%;
       margin: 0 auto;
+      background-color:${({ theme }) => theme.primary.offWhite};
+      border-radius:5px;
+      margin-bottom:10px;
+      outline: none;
+      border:0px;
+   }
+   & .signinButton {
+      padding:10px;
+      width:100%;
+      justify-self:center;
+      margin: 0 auto;
+      background-color:#2f3e4d;
+      border-radius:5px;
+      color:${({ theme }) => theme.primary.light};
+      border:0px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      font-size:1.1rem;
+      cursor: pointer;
    }
 `
 const InfoContainer = styled.div`
@@ -51,11 +90,9 @@ const InfoContainer = styled.div`
    color:${({ theme }) => theme.primary.offWhite};
    width:90%;
    height:auto;
-   position: relative;
-   top:5px;
    align-self:center;
    justify-content:center;
-   border-radius:5px;
+   border-radius:0 0 5px 5px;
    padding:20px;
    max-width:560px;
    & h2 {
@@ -110,23 +147,19 @@ const SignIn = ({ signIn, auth}) => {
                      <input 
                         type="submit" 
                         value="Sign in" 
-                        className="signinInput" 
+                        className="signinButton" 
                      />
                   </div>
                   
-                  <Link className="buttonContainer" to="/register">
-                     <input                           
-                        type="button" 
-                        value="Register"
-                        className="signinInput" 
-                     />
+                  <Link className="registerContainer" to="/register">
+                     <p>Dont have an account? <span>Sign up</span></p>
                   </Link>
                </fieldset>
             </form>
             <InfoContainer>
-               <h2>Information</h2>
-               <p>We currently only accept .ac.uk and .nhs email domains for sign up. If you are part of a psychiatry or mental helath society and would like your email domains added to the approved list, please contact us at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
-               <p>Additionally, if you would like to register yourself as an event organiser and add your own events, please get in touch at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
+               <p> We currently only accept .ac.uk and .nhs email domains. If you are part of a psychiatry or mental health society and would like your domain to be added to the list, please contact us.</p>
+               <p>Event organiser? You’ll need to be approved by our admins before you can add your events. </p>
+               <p> Get in touch with us via: <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
             </InfoContainer>
          </Wrapper>
       )   

@@ -15,70 +15,74 @@ const Wrapper = styled.div`
    justify-content:flex-start;
 
    & .registerForm {
-      height:auto;
       padding:20px;
-      background-color:${props => props.theme.backgroundLgtColor};
+      height:auto;
+      background-color:${({ theme }) => theme.primary.main};
       color:${props => props.theme.fontColor};
       align-self:center;
       width:90%;
       justify-content:center;
-      max-width:600px;
-      border-radius:5px;
-      @media (max-width: 900px) {
-         width:100%;
-      }
+      max-width:560px;
+      align-self:center;
+      border-radius:5px 5px 0 0;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
    }
    & .registerFieldset {
       display:flex;
+      justify-content:center;
       flex-direction:column;
       padding:10px;
+      padding-top:20px;
       border-radius:10px;
+      border:0px;
+      text-align:center;
+      font-size:1.2rem;
+      
+      & p {
+         margin-top:30px;
+      }
+      & span {
+         font-weight:bold;
+         color:${({ theme }) => theme.primary.light};
+         cursor: pointer;
+      }
+      & .signInContainer {
+         align-self:center;
+         width:100%;
+         color:${({ theme }) => theme.primary.offWhite};
+         text-decoration:none;
+         font-size:1.1rem;
+      }
    }
+
    & .buttonContainer {
       margin: 10px auto 0;
       width:100%;
+      display:flex;
+      justify-content:center;
    }
    & .registerInput {
       padding:10px;
       width:100%;
-      margin: 2px auto;
-   }
-   & .verifyDirectBox{
-      width:500px;
-      height:300px;
-      background-color:${({ theme }) => theme.backgroundContrast};
-      color:black;
-      align-self:center;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
+      margin: 0 auto;
+      background-color:${({ theme }) => theme.primary.offWhite};
       border-radius:5px;
-      padding:50px;
-      & .header {
-         font-size:1.5rem;
-         text-align:center;
-         margin-bottom:10px;
-      }
-      & .buttonLink {
-         justify-self:center;
-         align-self:center;
-      }
-      & .button {
-         width:100px;
-         height:42px;
-         color: #2b2b2b;
-         text-transform: uppercase;
-         text-decoration: none;
-         background-color:${({ theme }) => theme.offwhite};
-         padding: 5px 10px 5px 10px;
-         border-radius:5px;
-         border: none;
-         transition: all 0.2s ease 0s;
-         cursor:pointer;
-         margin:10px 0 10px 0;
-         justify-self:center;
-         align-self:center;
-      }
+      margin-bottom:10px;
+      border:0px;
+      outline: none;
+   }
+   & .registerButton {
+      padding:10px;
+      width:100%;
+      justify-self:center;
+      margin: 0 auto;
+      background-color:#2f3e4d;
+      border-radius:5px;
+      color:${({ theme }) => theme.primary.light};
+      border:0px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      font-size:1.1rem;
+      cursor: pointer;
    }
 `
 
@@ -86,12 +90,10 @@ const InfoContainer = styled.div`
    background-color:${({ theme }) => theme.primary.main};
    color:${({ theme }) => theme.primary.offWhite};
    width:90%;
-   height:300px;
-   position: relative;
-   top:5px;
+   height:auto;
    align-self:center;
    justify-content:center;
-   border-radius:5px;
+   border-radius:0 0 5px 5px;
    padding:20px;
    max-width:560px;
    & h2 {
@@ -162,25 +164,21 @@ const Register = ({registerUser, registerState}) => {
    
                      <div className="buttonContainer">
                         <input 
-                           className="registerInput" 
+                           className="registerButton" 
                            type="submit" 
                            value="Register" 
                         />
                      </div>
    
-                     <Link className="buttonContainer" to="/signIn"> 
-                        <input
-                           type="button" 
-                           value="Sign In"
-                           className="registerInput" 
-                        />
+                     <Link className="signInContainer" to="/signIn">
+                        <p>Already have an account? <span>Sign in</span></p>
                      </Link>
                   </fieldset>
                </form>
                <InfoContainer>
-                  <h2>Information</h2>
-                  <p>We currently only accept .ac.uk and .nhs email domains for sign up. If you are part of a psychiatry or mental helath society and would like your email domains added to the approved list, please contact us at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
-                  <p>Additionally, if you would like to register yourself as an event organiser and add your own events, please get in touch at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
+                  <p> We currently only accept .ac.uk and .nhs email domains. If you are part of a psychiatry or mental health society and would like your domain to be added to the list, please contact us.</p>
+                  <p>Event organiser? You’ll need to be approved by our admins before you can add your events. </p>
+                  <p> Get in touch with us via: <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
                </InfoContainer>
             </Wrapper>
          ) 
