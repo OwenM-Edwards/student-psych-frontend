@@ -55,6 +55,9 @@ const Wrapper = styled.div`
          display:flex;
          flex-direction:column;
       }
+      & span {
+         margin-right:10px;
+      }
    }
    & .eventDescription {
       width:80%;
@@ -71,7 +74,6 @@ const ButtonContainer = styled.div`
    position: absolute;
    top:5px;
    left:310px;
-   background-color:${({ theme }) => theme.primary.offWhite};
    height:30px;
    width:84px;
    border-radius:5px;
@@ -261,13 +263,14 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                {/* Event time */}
                <div className="eventInfoContainer">
                   <img className="icon"src={eventTime}/>
+                  <span>{modalInfo.starttime} - {modalInfo.endtime}</span>
                   {`
                      ${printDate.toLocaleString('en-us', {  weekday: 'long' })}
                      ${modalInfo.day}, 
                      ${printDate.toLocaleString('default', { month: 'long' })}, 
-                     ${modalInfo.year}.
+                     ${modalInfo.year}
                   `}
-                  <span>{modalInfo.starttime} - {modalInfo.endtime}</span>
+                  
                </div>
                {/* Description */}
                <div className="eventInfoContainer">

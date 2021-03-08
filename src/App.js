@@ -23,6 +23,9 @@ const Wrapper = styled.div`
   @media (max-height: 560px) {
     overflow-y:scroll;
   }
+  @media (min-height: 560px) {
+    overflow-y:hidden;
+  }
   position:relative;
 `
 const LoadingWrapper = styled.div`

@@ -14,6 +14,7 @@ const Wrapper = styled.div`
    top:20%;
    left:20%;
    width:400px;
+   min-width:325px;
    height:auto;
    background:${({ theme }) => theme.primary.offWhite};
    color: ${({ theme }) => theme.contrastText};
