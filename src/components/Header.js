@@ -18,8 +18,7 @@ const Wrapper = styled.div`
    flex-wrap:nowrap;
    background-color:${({ theme }) => theme.primary.main};
    color: ${({ theme }) => theme.primary.contrastText};
-         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
    padding:10px 0 10px 0;
    position: relative;
    z-index: 10;
