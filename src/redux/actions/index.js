@@ -310,8 +310,6 @@ export const checkSession = () => async (dispatch) => {
    })
    const APIData = await checkSessionAPI();
    if(APIData){
-      console.log('checking success')
-      console.log(APIData)
       dispatch({
          type: RECEIVE_SIGN_IN,
          payload:{
@@ -346,8 +344,6 @@ export const signIn = (useremail, userpassword) => async (dispatch) => {
    })
    const APIData = await authenticateAPI(useremail, userpassword);
    if(APIData){
-      console.log('sign in success')
-      console.log(APIData)
       dispatch({
          type: RECEIVE_SIGN_IN,
          payload:{
@@ -358,7 +354,6 @@ export const signIn = (useremail, userpassword) => async (dispatch) => {
       })
    }
    else {
-      console.log('sign in fail')
       dispatch({
          type: RECEIVE_SIGN_IN,
          payload:{
@@ -444,7 +439,6 @@ export const serverCheck = () => async (dispatch) => {
       }
    })
    const APIData = await serverCheckAPI();
-   console.log(APIData)
    dispatch({
       type: SERVER_CHECK,
       payload:{
@@ -452,4 +446,5 @@ export const serverCheck = () => async (dispatch) => {
          fetching:false,
       }
    })
+   return APIData;
 }
