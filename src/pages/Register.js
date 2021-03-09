@@ -13,7 +13,14 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    justify-content:flex-start;
-
+   & .verifyDirectBox {
+      width:600px;
+      background-color:${({ theme }) => theme.primary.main};
+      padding:40px;
+      justify-self:center;
+      align-self:center;
+      border-radius:10px;
+   }
    & .registerForm {
       padding:20px;
       height:auto;
