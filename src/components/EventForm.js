@@ -34,12 +34,12 @@ const Wrapper = styled.div`
       margin-top:10px;
    }
    & .eventTimeContainer{
-      width:50%;
+      width:100%;
       align-self:flex-start;
       display:flex;  
    }
    & .formTime{
-         width:50%;
+         width:100%;
          height:100%;
       }
    & .formDescription{
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
       margin-top:10px;
    }
    & .formLink {
-      width:40%;
+      width:100%;
       padding:5px;
       height:30px;
       margin-bottom:5px;
@@ -194,15 +194,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo0"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PublicLinkType0"
-                     ref={register}
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[3] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>  
 
                   <input
                      className="formLink" 
@@ -212,15 +203,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo1"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PublicLinkType1"
-                     ref={register}
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[4] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>
 
                   <input
                      className="formLink" 
@@ -230,15 +212,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo2"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PublicLinkType2"
-                     ref={register}
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[5] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>
                </div>
                
                {/* Private Links */}
@@ -251,15 +224,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo0"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PrivateLinkType0"
-                     ref={register}
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[3] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>
 
                   <input
                      className="formLink" 
@@ -269,15 +233,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo1"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PrivateLinkType1"
-                     ref={register}
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[4] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>
 
                   <input
                      className="formLink" 
@@ -287,15 +242,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo2"
                      ref={register}
                   />
-                  <select 
-                     className="formLinkType" 
-                     name="PrivateLinkType2"
-                     ref={register}
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[5] : 1}
-                  >
-                     <option value="1">Option 1</option>
-                     <option value="2">Option 2</option>
-                  </select>
                </div>
 
 

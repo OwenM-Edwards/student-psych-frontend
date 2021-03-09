@@ -12,8 +12,21 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    padding:30px;
-   border-radius:5px;
+   border-radius:0 0 5px 5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23); 
+   background: ${({ theme }) => theme.primary.main};
+   & h2 {
+      margin-bottom:30px;
+   }
+   & form {
+      width:100%;
+      max-width: 600px;
+      display:flex;
+      flex-direction:columm;
+   }
+   & input {
+      width:100%;
+   }
 `
 
 const DeleteModal = styled.div`
@@ -21,7 +34,6 @@ const DeleteModal = styled.div`
    height:300px;
    background-color:red;
    position: absolute;
-
 `
 
 const AccountSettings = ({changePassword, changePasswordState, deleteOwnAccount}) => {
@@ -61,18 +73,13 @@ const AccountSettings = ({changePassword, changePasswordState, deleteOwnAccount}
                      maxLength="50"
                   />
                   <button>Yes</button>
-                  <button>No</button>
-
-
-
-
+                  <button onClick={()=>setDeleteModalToggle(false)}>No</button>
                </DeleteModal>
             : <React.Fragment/>
          }
          
          <h2>Account Settings.</h2>
          <form onSubmit={handleSubmit(onSubmit)}>
-            <fieldset>
                <input
                type="text"
                placeholder="New password."
@@ -91,10 +98,9 @@ const AccountSettings = ({changePassword, changePasswordState, deleteOwnAccount}
                   ref={register({ required:true })}
                />
                <input value="Change password" type="submit" />
-            </fieldset>
          </form>
 
-         <button onClick={()=>setDeleteModalToggle(true)}>Delete Account</button>
+         {/* <button onClick={()=>setDeleteModalToggle(true)}>Delete Account</button> */}
       </Wrapper>
    )  
   

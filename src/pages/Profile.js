@@ -8,10 +8,14 @@ import { AccountSettings, SubmittedEvents, AdminPanel } from '../components/inde
 const Wrapper = styled.div`
    width:100%;
    height:95%;
+   overflow:hidden;
    display:flex;
    flex-direction:column;
    padding:50px 20px 30px 20px;
    border-radius:5px;
+   @media (max-width: 900px) {
+      padding:10px;
+   }
 `
 const Main = styled.div`
    width:100%;
@@ -24,15 +28,16 @@ const Main = styled.div`
 const ButtonContainer = styled.div`
    background: ${({ theme }) => theme.primary.main};
    width:100%;
-   height:6%;
+   height:7%;
    min-height:60px;
    display:flex;
    justify-content:center;
-   padding:5px;
+   padding:10px;
    border-radius:5px 5px 0 0;
    grid-gap:10px;
    & button{
       width:30%;
+      max-width: 200px;
       height:42px;
       color: #2b2b2b;
       text-transform: uppercase;

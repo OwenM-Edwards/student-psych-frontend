@@ -7,13 +7,19 @@ import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
-   height:100%;
+   height:95%;
    display:flex;
    flex-direction:column;
    padding:30px;
-   border-radius:5px;
+   border-radius:0 0 5px 5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    overflow-y:scroll;
+   overflow-x:hidden;
+   background: ${({ theme }) => theme.primary.main};
+   @media (max-width: 900px) {
+      padding:10px;
+      height:90%;
+   }
 `
 const EntryTag = styled.div`
    width:100%;
@@ -29,13 +35,14 @@ const EntryTag = styled.div`
    cursor:pointer;
    border-radius:5px;
    margin-bottom:10px;
+   transition: all 0.2s ease-in-out;
+   &:hover {
+      background: ${({ theme }) => theme.primary.light};
+   }
    & li {
       margin-right:5px;
-      border:1px solid black;
+      
    }
-`
-const InputContainer = styled.div`
-
 `
 
 const SubmittedEvents = (

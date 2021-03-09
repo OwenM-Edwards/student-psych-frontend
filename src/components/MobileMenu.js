@@ -193,7 +193,7 @@ const EventsContainer = styled.div`
    padding-top:10px;
    padding-right:3px;
    & .eventsHeader{
-      font-size:1.1rem;
+      font-size:0.9rem;
       margin-bottom:15px;
    }
    & .colorCode{
@@ -204,6 +204,8 @@ const EventsContainer = styled.div`
       padding:5px 0 5px 5px;
       width:100%;
       align-self:center;
+      height:20px;
+      font-size:0.8rem;
    }
    & .careers {
       background: ${({ theme }) => theme.colorCodes.careers};
@@ -238,6 +240,8 @@ const EventTag = styled.div`
    margin-bottom:5px;
    cursor: pointer;
    overflow:hidden;
+   height:20px;
+   font-size:0.8rem;
 `
 
 const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuState, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents }) => {

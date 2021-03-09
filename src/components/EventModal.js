@@ -118,6 +118,7 @@ const TitleContainer = styled.div`
       box-shadow: 0 5px 5px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.40);
       height:auto;
       z-index:9;
+      margin-bottom:20px;
    }
    & .careers{
       background-color:${({ theme }) => theme.colorCodes.careers};

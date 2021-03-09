@@ -140,7 +140,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
          recentEntries.forEach(entry => {
-            if(counter < 3){
+            if(counter < 6){
                switch(entry.type){
                   case 'Careers event':
                      recentEvents.push(
@@ -182,7 +182,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
          popularEntries.forEach(entry => {
-            if(counter < 3){
+            if(counter < 6){
                switch(entry.type){
                   case 'Careers event':
                      popularEvents.push(
