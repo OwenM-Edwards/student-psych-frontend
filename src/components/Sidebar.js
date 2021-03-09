@@ -131,7 +131,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       }
       else{
          toast.dismiss();
-         toast.info('Please login to view full event.');
+         toast.info('Please login to view private event links.');
          modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
    }

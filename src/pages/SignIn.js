@@ -83,6 +83,11 @@ const Wrapper = styled.div`
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       font-size:1.1rem;
       cursor: pointer;
+      transition: all 0.2s ease 0s;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
+         color:${({ theme }) => theme.primary.offBlack};
+      }
    }
 `
 const InfoContainer = styled.div`

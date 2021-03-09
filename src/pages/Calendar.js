@@ -106,7 +106,7 @@ const Calendar = ({
       }
       else{
          toast.dismiss();
-         toast.info('Please login to view full event.');
+         toast.info('Please login to view private event links.');
          modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
    }
@@ -216,8 +216,11 @@ const Calendar = ({
 
 const Wrapper = styled.div`
    width:100%;
-   height:100%;
+   height:98%;
    display:flex;
+   @media (max-width: 900px) {
+      height:100%;
+   }
    & .frosted{
       box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
       filter: blur(2px);
