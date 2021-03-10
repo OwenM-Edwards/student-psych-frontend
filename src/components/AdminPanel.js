@@ -32,8 +32,9 @@ const UserTag = styled.ul`
    border-radius:5px;
    margin-right:5px;
    & li {
-      margin-right:5px;
-      border:1px solid black;
+      margin-right:15px;
+      padding-right:5px;
+      border-right:1px solid #2b2b2b;
    }
 `
 const InputContainer = styled.div`
