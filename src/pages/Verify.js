@@ -12,16 +12,18 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    justify-content:center;
-   background-color: ${({ theme }) => theme.background};
+   background-color: ${({ theme }) => theme.primary.offWhite};
+   
    
    & .buttonContainer {
       align-self:center;
-      background-color: ${({ theme }) => theme.backgroundContrast};
-      width:300px;
-      height:200px;
+      background-color: ${({ theme }) => theme.primary.main};
+      width:400px;
+      height:300px;
       display:flex;
       border-radius:10px;
       justify-content:center;
+      align-items:center;
    }
    & .verifyButton{
       align-self:center;
@@ -35,6 +37,7 @@ const Wrapper = styled.div`
       border-radius:5px;
       border: none;
       transition: all 0.4s ease 0s;
+      background-color: ${({ theme }) => theme.backgroundContrast};
       cursor:pointer;
       &:hover{
          scale:0.98;
@@ -67,7 +70,7 @@ const Verify = ({verifyToken, tokenState}) => {
 
 
 
-   if(tokenState.isFetching){
+   if(!tokenState.isFetching){
       return(
          <Wrapper>
             <LoadingIcon/>
@@ -77,10 +80,13 @@ const Verify = ({verifyToken, tokenState}) => {
    else {
       return(
          <Wrapper>
-            {(tokenState.success
-               ? <Link to="/signin"><button>Success</button></Link>
-               : <Link to="/register"><button>Try again</button></Link>
-            )}
+            <div className="buttonContainer">
+               {(tokenState.success
+                  ? <Link to="/signin"><button>Success</button></Link>
+                  : <Link to="/register"><button className="verifyButton">Try again</button></Link>
+               )}
+            </div>
+
          </Wrapper>
       )   
    }

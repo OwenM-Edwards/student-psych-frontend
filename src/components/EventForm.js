@@ -17,6 +17,7 @@ const Wrapper = styled.div`
    word-wrap: break-word;
    color: ${({ theme }) => theme.contrastText};
    z-index:3;
+   display:flex;
    & .formTitle {
       width:100%;
       background-color:white;
@@ -71,7 +72,7 @@ const Wrapper = styled.div`
       margin-top:10px;
    }
    & .formLink {
-      width:100%;
+      width:50%;
       padding:5px;
       height:30px;
       margin-bottom:5px;
@@ -191,7 +192,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[0] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PublicLinkInfo0"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Public link name"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[3] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PublicLinkInfo3"
                      ref={register}
                   />
 
@@ -200,7 +211,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[1] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PublicLinkInfo1"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Public link name"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[4] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PublicLinkInfo4"
                      ref={register}
                   />
 
@@ -209,7 +230,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[2] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PublicLinkInfo2"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Public link name"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[5] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PublicLinkInfo5"
                      ref={register}
                   />
                </div>
@@ -221,7 +252,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[0] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PrivateLinkInfo0"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Private link name"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[3] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PrivateLinkInfo3"
                      ref={register}
                   />
 
@@ -230,7 +271,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[1] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PrivateLinkInfo1"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Private link name"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[4] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PrivateLinkInfo4"
                      ref={register}
                   />
 
@@ -239,7 +290,17 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[2] : ''}
                      type="text" 
+                     maxLength="400"
                      name="PrivateLinkInfo2"
+                     ref={register}
+                  />
+                  <input
+                     className="formLink" 
+                     placeholder="Private link name"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[5] : ''}
+                     type="text" 
+                     maxLength="30"
+                     name="PrivateLinkInfo5"
                      ref={register}
                   />
                </div>

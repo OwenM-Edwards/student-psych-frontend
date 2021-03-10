@@ -182,11 +182,11 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
 
    let publicLinks = [];
    const genPublicLinks = () => {
-      let count = 1;
+      let count = 0;
       JSON.parse(modalInfo.publiclinks).forEach(entry => {
-         if(entry && count < 4){
+         if(entry && count < 3){
             publicLinks.push(
-               <a href={entry} key={count}>{entry}</a>
+               <a href={entry} key={count}>{JSON.parse(modalInfo.publiclinks)[count + 3]}</a>
             )
          }
          count++;
@@ -196,12 +196,12 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
 
    let privateLinks = [];
    const genPrivateLinks = () => {
-      let count = 1;
+      let count = 0;
       if(secureInfo){
          JSON.parse(secureInfo.eventinfo.privatelinks).forEach(entry => {
-            if(entry && count < 4){
+            if(entry && count < 3){
                privateLinks.push(
-                  <a href={entry} key={count}>{entry}</a>
+                  <a href={entry} key={count}>{JSON.parse(secureInfo.eventinfo.privatelinks)[count + 3]}</a>
                )
             }
             count++;

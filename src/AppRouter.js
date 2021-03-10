@@ -60,10 +60,8 @@ const AppRouter = ({auth}) => {
             </Route>
 
             <Route path="/verify">
-               {(auth.authenticated)
-               ? <Redirect to="/calendar"/>
-               : <Verify/>
-               }
+               <Verify/>
+               
             </Route>
 
             <Route path="/profile">
