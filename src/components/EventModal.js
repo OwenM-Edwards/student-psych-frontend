@@ -23,8 +23,8 @@ const Wrapper = styled.div`
    left:20%;
    width:400px;
    height:auto;
-   background:${({ theme }) => theme.primary.offWhite};
-   color:#2b2b2b;
+   background:${({ theme }) => theme.primary.main};
+   color:${({ theme }) => theme.primary.offWhite};
    display:flex;
    flex-direction:column;
    z-index:2;
@@ -54,9 +54,12 @@ const Wrapper = styled.div`
          height:auto;
          display:flex;
          flex-direction:column;
+         & a {
+            color:${({ theme }) => theme.primary.light};
+         }
       }
       & span {
-         margin-right:10px;
+         margin-right:20px;
       }
    }
    & .eventDescription {
@@ -64,10 +67,12 @@ const Wrapper = styled.div`
       margin-top:5px;
       height:auto;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-      padding:10px;
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      padding:20px;
       border-radius:10px;
-
+      position: relative;
+      left:30px;
+      margin-bottom:20px;
    }
 `
 const ButtonContainer = styled.div`
@@ -115,10 +120,10 @@ const TitleContainer = styled.div`
       background-color:red;
       width:100%;
       word-wrap:break-word;
-      box-shadow: 0 5px 5px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.40);
+      /* box-shadow: 0 5px 5px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.40); */
       height:auto;
       z-index:9;
-      margin-bottom:20px;
+      margin-bottom:5px;
    }
    & .careers{
       background-color:${({ theme }) => theme.colorCodes.careers};
@@ -186,7 +191,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
       JSON.parse(modalInfo.publiclinks).forEach(entry => {
          if(entry && count < 3){
             publicLinks.push(
-               <a href={entry} key={count}>{JSON.parse(modalInfo.publiclinks)[count + 3]}</a>
+               <a href={entry} target="_blank" key={count}>{JSON.parse(modalInfo.publiclinks)[count + 3]}</a>
             )
          }
          count++;
@@ -260,7 +265,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
             </TitleContainer>
             
             <InfoWrapper>
-               
+
                {/* Event time */}
                <div className="eventInfoContainer">
                   <img className="icon"src={eventTime}/>
@@ -271,13 +276,12 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                      ${printDate.toLocaleString('default', { month: 'long' })}, 
                      ${modalInfo.year}
                   `}
-                  
                </div>
                {/* Description */}
-               <div className="eventInfoContainer">
-                  <img className="icon"src={eventDescription}/>
+                  <div className="eventInfoContainer">
                   <p className="eventDescription">{modalInfo.description}</p>
                </div>
+               
                {/* Organisation */}
                <div className="eventInfoContainer">
                   <img className="icon"src={eventOrganisation}/>
