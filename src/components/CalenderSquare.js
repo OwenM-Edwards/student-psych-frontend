@@ -121,6 +121,10 @@ const Wrapper = styled.div`
       padding:2px 2px 2px 2px;
       margin-bottom:10px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.2);
+      -webkit-user-select: none; /* Safari */        
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
    }
    &.precedingDay{
       background: ${({ theme }) => theme.primary.currentDay};
