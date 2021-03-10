@@ -101,7 +101,8 @@ const ButtonContainer = styled.div`
    }
    & .editButton{
       top:4px;
-      right:57px;
+      right:58px;
+      scale:0.95;
    }
    & .deleteButton{
       top:4px;
@@ -112,7 +113,7 @@ const ButtonContainer = styled.div`
 const TitleContainer = styled.div`
    & .eventTitle{
       background-color:#323f4b;
-      border-radius:5px;
+      border-radius:5px 5px 0 0;
       color: ${({ theme }) => theme.contrastText};
       padding:20px;
       padding-top:40px;
@@ -120,7 +121,7 @@ const TitleContainer = styled.div`
       background-color:red;
       width:100%;
       word-wrap:break-word;
-      /* box-shadow: 0 5px 5px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.40); */
+      box-shadow: 0 2px 1px rgba(0,0,0,0.4), 0 2px 2px rgba(0,0,0,0.20);
       height:auto;
       z-index:9;
       margin-bottom:5px;
