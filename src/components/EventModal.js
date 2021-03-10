@@ -71,7 +71,6 @@ const Wrapper = styled.div`
       padding:10px;
       border-radius:10px;
       position: relative;
-
       margin-bottom:20px;
    }
 `
@@ -213,7 +212,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    }
    genPrivateLinks();
 
-
+   console.log()
    useEffect(() => {
       genPublicLinks();
       genPrivateLinks();
@@ -291,19 +290,26 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                   <span>{modalInfo.type}</span>
                </div>
                {/* Public Links */}
-               <div className="eventInfoContainer">
-                  <img className="icon"src={eventLink}/>
-                  <div className="linksContainer">{publicLinks}</div>
-               </div>    
+               {(publicLinks[0] || publicLinks[1] || publicLinks[3])
+                  ? <div className="eventInfoContainer">
+                     <img className="icon"src={eventLink}/>
+                     <div className="linksContainer">{publicLinks}</div>
+                    </div>  
+                  : <React.Fragment/>
+               }
+  
                {/* Private Links */}
                {(secureInfo)
-                  ? <SecureInfoWrapper>
-                     <div className="eventInfoContainer">
-                     <img className="icon"src={eventSecure}/>
-                        <div className="linksContainer">{privateLinks}</div>
-                     </div>
-                  </SecureInfoWrapper>
-                  : <React.Fragment/>
+                  ?  
+                  (privateLinks[0] || privateLinks[1] || privateLinks[2] )
+                     ?  <SecureInfoWrapper>
+                           <div className="eventInfoContainer">
+                           <img className="icon"src={eventSecure}/>
+                              <div className="linksContainer">{privateLinks}</div>
+                           </div>
+                        </SecureInfoWrapper>
+                     : <React.Fragment/>
+                  : <React.Fragment/> 
                }
             </InfoWrapper>
          </Wrapper>
