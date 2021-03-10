@@ -78,7 +78,7 @@ const AccountSettings = ({changePassword, changePasswordState, deleteOwnAccount}
             : <React.Fragment/>
          }
          
-         <h2>Account Settings.</h2>
+         <h2>Account Settings</h2>
          <form onSubmit={handleSubmit(onSubmit)}>
                <input
                type="text"

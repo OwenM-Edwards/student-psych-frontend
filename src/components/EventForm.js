@@ -189,15 +189,6 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                <div className="formLinks">   
                   <input
                      className="formLink" 
-                     placeholder="Public link"
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[0] : ''}
-                     type="text" 
-                     maxLength="1000"
-                     name="PublicLinkInfo0"
-                     ref={register}
-                  />
-                  <input
-                     className="formLink" 
                      placeholder="Public link name"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[3] : ''}
                      type="text" 
@@ -205,16 +196,16 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo3"
                      ref={register}
                   />
-
                   <input
                      className="formLink" 
                      placeholder="Public link"
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[1] : ''}
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[0] : ''}
                      type="text" 
                      maxLength="1000"
-                     name="PublicLinkInfo1"
+                     name="PublicLinkInfo0"
                      ref={register}
                   />
+                  
                   <input
                      className="formLink" 
                      placeholder="Public link name"
@@ -224,16 +215,16 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo4"
                      ref={register}
                   />
-
                   <input
                      className="formLink" 
                      placeholder="Public link"
-                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[2] : ''}
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[1] : ''}
                      type="text" 
                      maxLength="1000"
-                     name="PublicLinkInfo2"
+                     name="PublicLinkInfo1"
                      ref={register}
                   />
+                  
                   <input
                      className="formLink" 
                      placeholder="Public link name"
@@ -243,19 +234,20 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PublicLinkInfo5"
                      ref={register}
                   />
+                  <input
+                     className="formLink" 
+                     placeholder="Public link"
+                     defaultValue={(parsedPublicLinks) ? parsedPublicLinks[2] : ''}
+                     type="text" 
+                     maxLength="1000"
+                     name="PublicLinkInfo2"
+                     ref={register}
+                  />
+                  
                </div>
                
                {/* Private Links */}
                <div className="formLinks">
-                  <input
-                     className="formLink" 
-                     placeholder="Private link"
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[0] : ''}
-                     type="text" 
-                     maxLength="1000"
-                     name="PrivateLinkInfo0"
-                     ref={register}
-                  />
                   <input
                      className="formLink" 
                      placeholder="Private link name"
@@ -265,16 +257,16 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo3"
                      ref={register}
                   />
-
                   <input
                      className="formLink" 
                      placeholder="Private link"
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[1] : ''}
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[0] : ''}
                      type="text" 
                      maxLength="1000"
-                     name="PrivateLinkInfo1"
+                     name="PrivateLinkInfo0"
                      ref={register}
                   />
+                  
                   <input
                      className="formLink" 
                      placeholder="Private link name"
@@ -284,16 +276,16 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo4"
                      ref={register}
                   />
-
                   <input
                      className="formLink" 
                      placeholder="Private link"
-                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[2] : ''}
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[1] : ''}
                      type="text" 
                      maxLength="1000"
-                     name="PrivateLinkInfo2"
+                     name="PrivateLinkInfo1"
                      ref={register}
                   />
+                  
                   <input
                      className="formLink" 
                      placeholder="Private link name"
@@ -303,6 +295,16 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo5"
                      ref={register}
                   />
+                  <input
+                     className="formLink" 
+                     placeholder="Private link"
+                     defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[2] : ''}
+                     type="text" 
+                     maxLength="1000"
+                     name="PrivateLinkInfo2"
+                     ref={register}
+                  />
+                  
                </div>
 
 
