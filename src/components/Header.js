@@ -87,6 +87,16 @@ const NavigationContainer = styled.div`
    }
    & .printMonth{
       margin-right:5px;
+      -webkit-user-select: none; /* Safari */        
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
+   }
+   & .printYear {
+      -webkit-user-select: none; /* Safari */        
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* IE10+/Edge */
+      user-select: none; /* Standard */
    }
    & .leftArrow{
       height:100%;
@@ -336,7 +346,7 @@ const Header = ({
                         ? <React.Fragment/>
                         : 
                         <div className="printYear">
-                        {selectedDate.year}
+                           {selectedDate.year}
                         </div>
                      }
                   </NavigationContainer>
