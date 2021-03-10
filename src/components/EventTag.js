@@ -9,6 +9,10 @@ const Wrapper = styled.div`
    color: ${({ theme }) => theme.contrastText};
    transition: all 0.2s ease-in-out;
    opacity:1;
+   -webkit-user-select: none; /* Safari */        
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* IE10+/Edge */
+   user-select: none; /* Standard */
    & .tag {
       padding:5px;
       overflow:hidden;
