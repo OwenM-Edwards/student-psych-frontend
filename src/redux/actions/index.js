@@ -363,7 +363,7 @@ export const signIn = (useremail, userpassword) => async (dispatch) => {
          }
       })
    }
-   // window.location = "/calendar";
+
 }
 
 

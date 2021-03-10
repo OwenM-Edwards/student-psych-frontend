@@ -325,10 +325,13 @@ export const authenticateAPI = async ( userEmail, userPassword ) => {
          return user.data;
       }
       else {
-        return false; 
+         window.localStorage.removeItem("incorrect");
+         localStorage.setItem("incorrect", true);
+         return false; 
       }
    } catch (err) {
-      errorHandler(err);
+      window.localStorage.removeItem("incorrect");
+      localStorage.setItem("incorrect", true);
       return false;
    }
 }

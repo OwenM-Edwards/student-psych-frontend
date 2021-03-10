@@ -112,7 +112,7 @@ const InfoContainer = styled.div`
 `
 
 
-const SignIn = ({ signIn, auth}) => {
+const ChangePassword = ({ signIn, auth}) => {
    const { register, handleSubmit, watch, errors } = useForm();
 
    const onSubmit = (data) => {
@@ -135,9 +135,9 @@ const SignIn = ({ signIn, auth}) => {
          <Wrapper>
             <form onSubmit={handleSubmit(onSubmit)} className="signInForm">
                <fieldset className="signInFieldset">
-                  <legend>Sign In</legend>
+                  <legend>Change Password</legend>
                   <input
-                     placeholder="Email"
+                     placeholder="New password"
                      className="signinInput"
                      type="email" 
                      name="userEmail"  
@@ -145,7 +145,7 @@ const SignIn = ({ signIn, auth}) => {
                      ref={register({ required:true })}
                   />
                   <input 
-                     placeholder="Password"
+                     placeholder="Confirm new password"
                      minLength= "6"
                      className="signinInput"
                      type="password" 
@@ -165,9 +165,10 @@ const SignIn = ({ signIn, auth}) => {
                      <p>Dont have an account? <span>Sign up</span></p>
                   </Link>
 
-                  {/* <Link className="registerContainer" to="/changePassword">
-                     <p className="forgotPassword">Forgot your password? <span>Reset password</span></p>
-                  </Link> */}
+                  <Link className="registerContainer" to="/changePassword">
+                     <p className="forgotPassword"><span>Sign in</span></p>
+                  </Link>
+                  
                </fieldset>
             </form>
             <InfoContainer>
@@ -190,4 +191,4 @@ const SignIn = ({ signIn, auth}) => {
 
 const mapStateToProps = (state) => ({ auth:state.authenticate });
 
-export default connect(mapStateToProps, { signIn })(SignIn);
+export default connect(mapStateToProps, { signIn })(ChangePassword);

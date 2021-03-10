@@ -63,7 +63,7 @@ const Wrapper = styled.div`
       }
    }
    & .eventDescription {
-      width:88%;
+      width:100%;
       margin-top:5px;
       height:auto;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
       padding:10px;
       border-radius:10px;
       position: relative;
-      left:25px;
+
       margin-bottom:20px;
    }
 `
@@ -113,7 +113,7 @@ const TitleContainer = styled.div`
       border-radius:5px 5px 0 0;
       color: ${({ theme }) => theme.contrastText};
       padding:20px;
-      padding-top:40px;
+      padding-top:50px;
       font-size:1.3rem;
       background-color:red;
       width:100%;

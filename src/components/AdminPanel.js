@@ -115,7 +115,7 @@ const AdminPanel = ({deleteUserState, getAllUsers, allUsers, changeUserType, ban
                         </div>
                         <div>
                            <input onChange={handleUserTypeChange} defaultChecked={user.moderator && !user.admin} id={`accountModerator${count}`} data={user.id} value="moderator" name={`accountType${count}`} type="radio"/>
-                           <label htmlFor={`accountModerator${count}`}>Moderator</label>
+                           <label htmlFor={`accountModerator${count}`}>Editor</label>
                         </div>
                         <div>
                            <input onChange={handleUserTypeChange} defaultChecked={user.admin} id={`accountAdmin${count}`} data={user.id} value="admin" name={`accountType${count}`} type="radio"/>

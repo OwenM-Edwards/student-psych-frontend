@@ -20,10 +20,8 @@ const Wrapper = styled.div`
   margin: 0;
   background: #7b8794;
   overflow-x:hidden;
-  @media (max-height: 560px) {
-    overflow-y:scroll;
-  }
-  @media (min-height: 560px) {
+  overflow-y:scroll;
+  @media (min-height: 850px) {
     overflow-y:hidden;
   }
   position:relative;
