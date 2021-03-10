@@ -3,31 +3,29 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import {modalHandler} from '../redux/actions/index';
 import {
-   close,
+   closeWhite,
 } from '../assets/index';
-
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const Wrapper = styled.div`
-   width:200px;
-   height:auto;
-   max-height:500px;
+   width:300px;
+   height:250px;
    z-index:5;
    background-color:black;
    position: absolute;
-   background: ${({ theme }) => theme.backgroundLight};
-   color: ${({ theme }) => theme.contrastText};
+   background: ${({ theme }) => theme.primary.main};
+   color: ${({ theme }) => theme.primary.offWhite};
    display:flex;
    flex-direction:column;
    padding:10px;
-   padding-top:40px;
+   padding-top:15px;
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    grid-gap:10px;
-   overflow-y:scroll;
    & .closeButton{
       position:absolute;
-      top:8px;
-      right:5px;
+      top:10px;
+      right:10px;
       width:30px;
       height:30px;
       cursor: pointer;
@@ -58,10 +56,12 @@ const OverflowEventsModal = ({selectedDate, modalState, modalHandler}) => {
     };
    return (
       <Wrapper style={{top: yValue, left:xValue}}>
-         {/* Close modal button */}
-         <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+         <img onClick={()=>modalHandler(false)} className="closeButton" src={closeWhite}/>
          <p>Events for the {getOrdinalNum(modalState.modalInfo.modalDay)} of {months[modalDate.getMonth()]}</p>
-         {modalState.modalInfo.eventList}
+         <Scrollbars>
+            {/* Close modal button */}
+            {modalState.modalInfo.eventList}
+         </Scrollbars>
       </Wrapper> 
    )
 }
