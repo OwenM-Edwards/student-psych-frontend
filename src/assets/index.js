@@ -20,6 +20,7 @@ import favorite from './favorite.png';
 import logo from './logo.png';
 import logoFill from './logoFill.png';
 import menu from './menu.png';
+import closeWhite from './closeWhite.png';
 
 export {
    mindMattersLogo,
@@ -44,4 +45,5 @@ export {
    logo,
    logoFill,
    menu,
+   closeWhite,
 }
