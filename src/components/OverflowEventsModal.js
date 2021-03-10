@@ -13,6 +13,8 @@ const Wrapper = styled.div`
    z-index:5;
    background-color:black;
    position: absolute;
+   top:30%;
+   left:45%;
    background: ${({ theme }) => theme.primary.main};
    color: ${({ theme }) => theme.primary.offWhite};
    display:flex;
@@ -22,6 +24,13 @@ const Wrapper = styled.div`
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    grid-gap:10px;
+   @media (max-width: 700px) {
+      top:20%;
+      left:0%;
+      width:100%;
+      height:100%;
+      z-index:5;
+   }
    & .closeButton{
       position:absolute;
       top:10px;
@@ -55,7 +64,7 @@ const OverflowEventsModal = ({selectedDate, modalState, modalHandler}) => {
       return number + ['th', 'st', 'nd', 'rd', ''][selector];
     };
    return (
-      <Wrapper style={{top: yValue, left:xValue}}>
+      <Wrapper>
          <img onClick={()=>modalHandler(false)} className="closeButton" src={closeWhite}/>
          <p>Events for the {getOrdinalNum(modalState.modalInfo.modalDay)} of {months[modalDate.getMonth()]}</p>
          <Scrollbars>

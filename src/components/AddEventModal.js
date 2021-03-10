@@ -13,7 +13,7 @@ import {
 const Wrapper = styled.div`
    position:absolute;
    top:20%;
-   left:20%;
+   left:45%;
    width:40%;
    max-width:400px;
    min-width:325px;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
    border-radius:5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    @media (max-width: 700px) {
-      top:0%;
+      top:auto;
       left:0%;
       width:100%;
       max-width:100%;

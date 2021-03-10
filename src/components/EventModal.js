@@ -20,7 +20,7 @@ const Wrapper = styled.div`
    position:absolute;
    box-sizing:border-box;
    top:30%;
-   left:20%;
+   left:45%;
    width:400px;
    height:auto;
    background:${({ theme }) => theme.primary.main};
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
       top:20%;
       left:0%;
       width:100%;
-      height:auto;
+      height:100%;
       z-index:5;
    }
 
@@ -78,13 +78,10 @@ const Wrapper = styled.div`
 const ButtonContainer = styled.div`
    position: absolute;
    top:5px;
-   left:310px;
    height:30px;
    width:84px;
    border-radius:5px;
-   @media (max-width: 700px) {
-      left:0;
-   }
+   right:10px;
    & .btnIcon {
       position:absolute;
       cursor: pointer;
