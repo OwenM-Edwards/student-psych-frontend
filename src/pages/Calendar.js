@@ -280,13 +280,18 @@ const CalenderHeader = styled.div`
    height:1fr;
    background: #1f2933;
    text-align: center;
-   padding-top:5px;
+   padding-top:3px;
+   padding-bottom:3px;
    color:white;
    font-size:1.2rem;
    overflow:hidden;
    @media (max-width: 900px) {
     font-size: 1rem;
    }
+   -webkit-user-select: none; /* Safari */        
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* IE10+/Edge */
+   user-select: none; /* Standard */
 `
 
 const mapStateToProps = (state) => ({ deleteEntryState:state.deleteEntry,editEntryState:state.editEntry,addEntryState:state.addEntry, entries:state.entries, modalState:state.modal, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate});

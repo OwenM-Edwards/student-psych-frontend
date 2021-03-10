@@ -47,7 +47,6 @@ const Wrapper = styled.div`
 
 const OverflowEventsModal = ({selectedDate, modalState, modalHandler}) => {
    // Position of mouse click, sets modal postion to that.
-   const {xValue, yValue} = modalState.modalInfo;
    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
    const modalDate = new Date(selectedDate.year, selectedDate.month -1);
    const getOrdinalNum = (number) => {

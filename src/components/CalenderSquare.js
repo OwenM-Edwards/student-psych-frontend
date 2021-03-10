@@ -43,7 +43,6 @@ const CalenderSquare = ({
          {
             modalDisplay:'overflow', 
             modalInfo: {
-               xValue: e.pageX, yValue: e.pageY,
                eventList: eventTags,
                modalDay:calSquareDay,
             },
