@@ -97,19 +97,26 @@ const ButtonContainer = styled.div`
       right:4px;
    }
    & .editButton{
-      top:4px;
-      right:58px;
+      top:3px;
+      right:35px;
       scale:0.95;
    }
-   & .deleteButton{
-      top:4px;
-      right:30px;
-   }
-
 `
 const DeleteContainer = styled.div`
-   
-
+   position: absolute;
+   bottom:15px;
+   height:30px;
+   width:auto;
+   border-radius:5px;
+   right:0px;
+   cursor: pointer;
+      transition: all 0.2s ease 0s;
+   & img {
+      scale:0.5;
+   }
+   &:hover {
+      scale:0.9;
+   }
 `
 const TitleContainer = styled.div`
    & .eventTitle{
