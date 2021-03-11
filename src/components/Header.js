@@ -28,6 +28,7 @@ const Wrapper = styled.div`
       flex-direction:row;
       padding:0 0 0 5px;
       height:auto;
+      max-height:130%;
       align-self:center;
       align-content:center;
       z-index:3;
@@ -36,7 +37,7 @@ const Wrapper = styled.div`
       right:5px;
    }
    & .logo {
-      max-width:100%;
+      width:100%;
       max-height:100%;
       cursor:pointer;
    }
