@@ -14,6 +14,7 @@ import {
    eventType,
    eventEdit,
    eventDelete,
+   whiteEventDelete,
 } from '../assets/index';
 
 const Wrapper = styled.div`
@@ -104,6 +105,10 @@ const ButtonContainer = styled.div`
       top:4px;
       right:30px;
    }
+
+`
+const DeleteContainer = styled.div`
+   
 
 `
 const TitleContainer = styled.div`
@@ -251,11 +256,15 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                {(secureInfo.owner)
                ? <React.Fragment>
                      <img onClick={handleEdit} className="btnIcon editButton" src={eventEdit}/>
-                     <img onClick={handleDelete} className="btnIcon deleteButton" src={eventDelete}/>
+                     
                   </React.Fragment>
                   : <React.Fragment/>
                }
             </ButtonContainer>
+
+            <DeleteContainer>
+               <img onClick={handleDelete} className="btnIcon deleteButton" src={whiteEventDelete}/>
+            </DeleteContainer>
 
             <TitleContainer>
                {eventTitle}

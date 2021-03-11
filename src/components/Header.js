@@ -34,11 +34,9 @@ const Wrapper = styled.div`
       position: relative;
       top:0px;
       right:5px;
-      
    }
    & .logo {
-      width:100%;
-      object-fit:cover;
+      max-width:100%;
       cursor:pointer;
    }
 `

@@ -21,6 +21,7 @@ import logo from './logo.png';
 import logoFill from './logoFill.png';
 import menu from './menu.png';
 import closeWhite from './closeWhite.png';
+import whiteEventDelete from './whiteEventDelete.png';
 
 export {
    mindMattersLogo,
@@ -46,4 +47,5 @@ export {
    logoFill,
    menu,
    closeWhite,
+   whiteEventDelete,
 }
