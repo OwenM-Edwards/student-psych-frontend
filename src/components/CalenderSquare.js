@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import {EventTag} from './index';
 import {modalHandler} from '../redux/actions/index';
-
+import {useWindowDimensions} from '../hooks/index';
 
 
 const CalenderSquare = ({ 
@@ -19,6 +19,8 @@ const CalenderSquare = ({
    let weekendCheck = new Date(selectedDate.year, selectedDate.month - 1, calSquareDay);
    let currentDate = new Date();
    let eventTags = [];
+   const { height, width } = useWindowDimensions();
+   console.log(width)
 
 
    // Gets current entries in state, finds ones that match current date of calender square.
@@ -75,8 +77,8 @@ const CalenderSquare = ({
             <EventTagsContainer>
                {eventTags}
             </EventTagsContainer>
-            {(eventTags.length >= 3)
-               ? <button className="showMoreButton" onClick={handleShowMore}>View All ({eventTags.length})</button>
+            {(eventTags.length >= 3 || (eventTags.length > 0 && width < 500))
+               ? <button className="showMoreButton" onClick={handleShowMore}>More ({eventTags.length})</button>
                : <React.Fragment></React.Fragment>
             }
          </Wrapper>
@@ -106,6 +108,7 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    overflow:hidden;
+   justify-content:flex-start;
 
    &:hover {
       /* scale:1.03; */
@@ -161,6 +164,7 @@ const Wrapper = styled.div`
       border: none;
       transition: all 0.2s ease 0s;
       cursor:pointer;
+      margin-top:auto;
       font-size:0.8rem;
       @media (max-width: 900px) {
          font-size:0.5rem;
