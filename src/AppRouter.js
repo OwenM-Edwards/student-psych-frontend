@@ -6,7 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 import styled from "styled-components";
-import { Calendar, SignIn, Register, Verify, Search, Profile, ChangePassword } from './pages/index';
+import { Calendar, SignIn, Register, Verify, Search, Profile, ForgotPassword } from './pages/index';
 import { Header,Sidebar, NavPanel, MobileMenu } from './components/index';
 import "react-toastify/dist/ReactToastify.css";
 import { connect } from 'react-redux';
@@ -64,8 +64,11 @@ const AppRouter = ({auth}) => {
                
             </Route>
 
-            <Route path="/changePassword">
-               <ChangePassword/> 
+            <Route path="/forgotPassword/:token">
+               <ForgotPassword/> 
+            </Route>
+            <Route path="/forgotPassword">
+               <ForgotPassword/> 
             </Route>
 
             <Route path="/profile">

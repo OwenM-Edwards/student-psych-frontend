@@ -12,7 +12,6 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    justify-content:center;
-   background-color: ${({ theme }) => theme.primary.offWhite};
    
    
    & .buttonContainer {
@@ -24,8 +23,12 @@ const Wrapper = styled.div`
       border-radius:10px;
       justify-content:center;
       align-items:center;
+      padding:30px;
+      flex-direction:column;
+      text-align:center;
    }
    & .verifyButton{
+      margin-top:30px;
       align-self:center;
       width:100px;
       height:40px;
@@ -43,34 +46,29 @@ const Wrapper = styled.div`
          scale:0.98;
       }
    }
+   & a {
+      color:${({ theme }) => theme.primary.light};
+   }
 
 `
-
 
 const Verify = ({verifyToken, tokenState}) => {
    const location = window.location.href;
    const token = location.substring(location.lastIndexOf('/') + 1);
 
-
-
    useEffect(()=>{
-      if(tokenState.success){
-         toast.dismiss();
-         toast.success('Account created, please login.');
-      }
-      else {
-         async function verify(){
+      async function verify(){
+         const tokenSuccess = await tokenState.success;
+         if(!tokenSuccess && !tokenState.isFetching){
             await verifyToken(token);
          }
-         if(!tokenState.isFetching || tokenState.success){
-            verify();
-         }
       }
-   }, [])
+      verify();
+   }, [tokenState.sucess])
 
 
 
-   if(!tokenState.isFetching){
+   if(tokenState.isFetching){
       return(
          <Wrapper>
             <LoadingIcon/>
@@ -82,11 +80,20 @@ const Verify = ({verifyToken, tokenState}) => {
          <Wrapper>
             <div className="buttonContainer">
                {(tokenState.success
-                  ? <Link to="/signin"><button>Success</button></Link>
-                  : <Link to="/register"><button className="verifyButton">Try again</button></Link>
+                  ? 
+                     <div className="buttonContainer">
+                        <p>Account created, please sign in.</p>
+                        <Link to="/signin"><button className="verifyButton">Sign in</button></Link>
+                     </div>
+                     
+                  : 
+                     <div className="buttonContainer">
+                        <p>Email already registered, or there was a sever error. Please contact support at <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
+                        <Link to="/register"><button className="verifyButton">Try again</button></Link>
+                     </div>
+                     
                )}
             </div>
-
          </Wrapper>
       )   
    }

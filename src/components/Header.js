@@ -37,8 +37,8 @@ const Wrapper = styled.div`
       right:5px;
    }
    & .logo {
-      width:100%;
-      max-height:100%;
+      width:90%;
+      height:100%;
       cursor:pointer;
    }
 `

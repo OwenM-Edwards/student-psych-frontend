@@ -5,7 +5,7 @@ import Verify from './Verify';
 import Search from './Search';
 import Profile from './Profile';
 import Maintenance from './Maintenance';
-import ChangePassword from './ChangePassword';
+import ForgotPassword from './ForgotPassword';
 
 export {
    Calendar,
@@ -15,5 +15,5 @@ export {
    Search,
    Profile,
    Maintenance,
-   ChangePassword,
+   ForgotPassword,
 }

@@ -37,6 +37,35 @@ const errorHandler = (err) => {
    } 
 }
 
+// Forgot password, send email.
+export const forgotPasswordSendAPI = async (email) => {
+   try {
+      const newPasswordSend = await api.post('auth/forgotpasswordsend', { data: {
+         "email": email,
+      }});
+      return true;
+   } catch (err) {
+      errorHandler(err);
+      return false;
+   }
+}
+
+// Forgot password, change.
+export const forgotPasswordChangeAPI = async (newPassword, token) => {
+   console.log(newPassword)
+   try {
+      const newPasswordChange = await api.post('auth/forgotpasswordchange', { data: {
+         "newpassword": newPassword,
+         "token": token, 
+      }});
+      return true;
+   } catch (err) {
+      errorHandler(err);
+      return false;
+   }
+}
+
+
 // Check if server is up
 export const serverCheckAPI = async () => {
    try {

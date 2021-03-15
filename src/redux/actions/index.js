@@ -37,6 +37,8 @@ import {
    DELETE_OWN_ACCOUNT,
    MOBILE_MENU_TOGGLE,
    SERVER_CHECK,
+   FORGOT_PASSWORD_CHANGE,
+   FORGOT_PASSWORD_SEND,
 
 } from './action-types';
 
@@ -62,7 +64,51 @@ import {
    changePasswordAPI,
    deleteSelfAPI,
    serverCheckAPI,
+   forgotPasswordChangeAPI,
+   forgotPasswordSendAPI
 } from '../../util/index';
+
+
+// Forgot password, send email.
+export const forgotPasswordSend = (email) => async (dispatch) => {
+   dispatch({
+      type: FORGOT_PASSWORD_SEND,
+      payload:{
+         fetching:true,
+         success: 'pending',
+      }
+   })
+   const APIData = await forgotPasswordSendAPI(email)
+   dispatch({
+      type: FORGOT_PASSWORD_SEND,
+      payload:{
+         fetching:false,
+         success: APIData,
+      }
+   })
+}
+
+
+// Forgot password change.
+export const forgotPasswordChange = (newPassword, token) => async (dispatch) => {
+   dispatch({
+      type: FORGOT_PASSWORD_CHANGE,
+      payload:{
+         fetching:true,
+         success: 'pending',
+      }
+   })
+   const APIData = await forgotPasswordChangeAPI(newPassword, token)
+   dispatch({
+      type: FORGOT_PASSWORD_CHANGE,
+      payload:{
+         fetching:false,
+         success: APIData,
+      }
+   })
+}
+
+
 
 // Delete own account.
 export const deleteOwnAccount = () => async (dispatch) => {

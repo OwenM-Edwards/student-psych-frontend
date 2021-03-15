@@ -48,7 +48,7 @@ const Wrapper = styled.div`
       }
       & .registerContainer {
          align-self:center;
-         width:100%;
+         width:auto;
          color:${({ theme }) => theme.primary.offWhite};
          text-decoration:none;
          font-size:1.1rem;
@@ -165,9 +165,9 @@ const SignIn = ({ signIn, auth}) => {
                      <p>Dont have an account? <span>Sign up</span></p>
                   </Link>
 
-                  {/* <Link className="registerContainer" to="/changePassword">
+                  <Link className="registerContainer" to="/forgotPassword">
                      <p className="forgotPassword">Forgot your password? <span>Reset password</span></p>
-                  </Link> */}
+                  </Link>
                </fieldset>
             </form>
             <InfoContainer>

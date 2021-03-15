@@ -19,6 +19,7 @@ import deleteUser from './deleteUser';
 import changePassword from './changePassword';
 import mobileMenuToggle from './mobileMenuToggle';
 import serverStatus from './serverStatus';
+import forgotPassword from './forgotPassword';
 
 export default combineReducers({
    entries,
@@ -41,4 +42,5 @@ export default combineReducers({
    changePassword,
    mobileMenuToggle,
    serverStatus,
+   forgotPassword,
 });
