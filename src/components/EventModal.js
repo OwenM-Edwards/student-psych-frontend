@@ -269,9 +269,13 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                }
             </ButtonContainer>
 
-            <DeleteContainer>
-               <img onClick={handleDelete} className="btnIcon deleteButton" src={whiteEventDelete}/>
-            </DeleteContainer>
+            {(secureInfo.owner)
+               ? <DeleteContainer>
+                     <img onClick={handleDelete} className="btnIcon deleteButton" src={whiteEventDelete}/>
+                  </DeleteContainer>
+                  : <React.Fragment/>
+               }
+            
 
             <TitleContainer>
                {eventTitle}
