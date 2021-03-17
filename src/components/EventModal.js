@@ -224,7 +224,7 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
    }
    genPrivateLinks();
 
-   console.log()
+
    useEffect(() => {
       genPublicLinks();
       genPrivateLinks();

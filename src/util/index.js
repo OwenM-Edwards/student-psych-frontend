@@ -52,7 +52,7 @@ export const forgotPasswordSendAPI = async (email) => {
 
 // Forgot password, change.
 export const forgotPasswordChangeAPI = async (newPassword, token) => {
-   console.log(newPassword)
+
    try {
       const newPasswordChange = await api.post('auth/forgotpasswordchange', { data: {
          "newpassword": newPassword,

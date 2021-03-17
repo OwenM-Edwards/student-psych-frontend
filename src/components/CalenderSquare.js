@@ -20,7 +20,6 @@ const CalenderSquare = ({
    let currentDate = new Date();
    let eventTags = [];
    const { height, width } = useWindowDimensions();
-   console.log(width)
 
 
    // Gets current entries in state, finds ones that match current date of calender square.
@@ -77,7 +76,7 @@ const CalenderSquare = ({
             <EventTagsContainer>
                {eventTags}
             </EventTagsContainer>
-            {(eventTags.length >= 3 || (eventTags.length > 0 && width < 500))
+            {(eventTags.length >= 3 || (eventTags.length > 1 && width < 500))
                ? <button className="showMoreButton" onClick={handleShowMore}>More ({eventTags.length})</button>
                : <React.Fragment></React.Fragment>
             }

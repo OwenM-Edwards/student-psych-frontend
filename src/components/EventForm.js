@@ -201,7 +201,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[0] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PublicLinkInfo0"
                      ref={register}
                   />
@@ -220,7 +220,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[1] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PublicLinkInfo1"
                      ref={register}
                   />
@@ -239,7 +239,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Public link"
                      defaultValue={(parsedPublicLinks) ? parsedPublicLinks[2] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PublicLinkInfo2"
                      ref={register}
                   />
@@ -262,7 +262,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[0] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PrivateLinkInfo0"
                      ref={register}
                   />
@@ -281,7 +281,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[1] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PrivateLinkInfo1"
                      ref={register}
                   />
@@ -300,7 +300,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      placeholder="Private link"
                      defaultValue={(parsedPrivateLinks) ? parsedPrivateLinks[2] : ''}
                      type="text" 
-                     maxLength="1000"
+                     maxLength="2000"
                      name="PrivateLinkInfo2"
                      ref={register}
                   />

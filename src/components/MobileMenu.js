@@ -285,35 +285,38 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
          recentEntries.forEach(entry => {
-            if(counter < 3){
-               switch(entry.type){
-                  case 'Careers event':
-                     recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Conference':
-                     recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Special interest talk':
-                     recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Revision':
-                     recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Other':
-                     recentEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
+            if(counter < 5){
+               let currentDate = new Date();
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
+                  switch(entry.type){
+                     case 'Careers event':
+                        recentEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Conference':
+                        recentEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Special interest talk':
+                        recentEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Revision':
+                        recentEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Other':
+                        recentEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                  }
+                  counter++;
                }
-               counter++;
             }
             else {
                recentCapReached = true;
@@ -327,35 +330,38 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
          popularEntries.forEach(entry => {
-            if(counter < 3){
-               switch(entry.type){
-                  case 'Careers event':
-                     popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Conference':
-                     popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Special interest talk':
-                     popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Revision':
-                     popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
-                  case 'Other':
-                     popularEvents.push(
-                        <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                     )
-                     break;
+            if(counter < 5){
+               let currentDate = new Date();
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
+                  switch(entry.type){
+                     case 'Careers event':
+                        popularEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Conference':
+                        popularEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Special interest talk':
+                        popularEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Revision':
+                        popularEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                     case 'Other':
+                        popularEvents.push(
+                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
+                        )
+                        break;
+                  }
+                  counter++;
                }
-               counter++;
             }
             else {
                popularCapReached = true;

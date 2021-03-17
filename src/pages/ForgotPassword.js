@@ -139,7 +139,7 @@ const ForgotPassword = ({ forgotPasswordSend, forgotPasswordChange, forgotPasswo
       }
    },[]);
 
-   console.log(forgotPasswordSendState)
+
    if(forgotPasswordSendState.success === true){
       return (
          <Wrapper>
