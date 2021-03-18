@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import { MobileMenuIcon} from './index';
+import { useLocation } from 'react-router-dom'
 
 const Wrapper = styled.div`
    width:100%;
@@ -264,7 +265,7 @@ const Header = ({
       toggleNavPanel,
       navPanelState,
    }) => {
-
+   const location = useLocation();
    const printDate = new Date(selectedDate.year, selectedDate.month - 1);
    const { register, handleSubmit, watch, errors } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
@@ -273,8 +274,11 @@ const Header = ({
    const onSubmit = (data) => {
       history.push(`/search/${data.searchTerm}`);
    }
-   useEffect(()=>{
+   
+   useEffect(()=>{ 
    },[auth.authenticated]);
+   useEffect(()=>{
+   },[location]);
 
    const returnToCurrentMonth = () => {
       clearEntries();
