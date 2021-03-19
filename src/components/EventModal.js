@@ -73,6 +73,7 @@ const Wrapper = styled.div`
       border-radius:10px;
       position: relative;
       margin-bottom:20px;
+      word-wrap: break-word;
    }
 `
 const ButtonContainer = styled.div`
