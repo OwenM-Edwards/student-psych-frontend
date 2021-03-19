@@ -121,11 +121,11 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                <input
                   className="formInput"
                   type="text"
-                  placeholder="Title - 50 characters."
+                  placeholder="Title - 200 characters."
                   defaultValue={title}
                   name="eventTitle"
                   minLength="4"
-                  maxLength="50"
+                  maxLength="200"
                   ref={register({ required:true })}
                />
                {/* Description */}
@@ -133,10 +133,10 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   className="formDescription formInput"
                   type="text"
                   defaultValue={description}
-                  placeholder="Description - 200 characters."
+                  placeholder="Description - 600 characters."
                   name="eventDescription"
                   minLength="4"
-                  maxLength="200"
+                  maxLength="600"
                   ref={register({ required:true })}
                />
                {/* Organisation */}
