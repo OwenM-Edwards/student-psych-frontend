@@ -31,7 +31,7 @@ const Wrapper = styled.div`
    z-index:2;
    border-radius:10px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 6px 6px rgba(0,0,0,0.23);
-   @media (max-width: 700px) {
+   @media (max-width: 900px) {
       top:20%;
       left:0%;
       width:100%;
