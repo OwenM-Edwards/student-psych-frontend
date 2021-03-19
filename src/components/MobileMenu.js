@@ -192,9 +192,11 @@ const EventsContainer = styled.div`
    transition: all 0.2s ease-in-out;
    padding-top:10px;
    padding-right:3px;
+   
    & .eventsHeader{
       font-size:0.9rem;
       margin-bottom:15px;
+
    }
    & .colorCode{
       border-radius:3px;
@@ -206,6 +208,7 @@ const EventsContainer = styled.div`
       align-self:center;
       height:20px;
       font-size:0.8rem;
+      
    }
    & .careers {
       background: ${({ theme }) => theme.colorCodes.careers};
@@ -242,6 +245,9 @@ const EventTag = styled.div`
    overflow:hidden;
    height:20px;
    font-size:0.8rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 `
 
 const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuState, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents }) => {
@@ -285,7 +291,7 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
          recentEntries.forEach(entry => {
-            if(counter < 5){
+            if(counter < 3){
                let currentDate = new Date();
                if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
                   switch(entry.type){
@@ -330,7 +336,7 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
          popularEntries.forEach(entry => {
-            if(counter < 5){
+            if(counter < 3){
                let currentDate = new Date();
                if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
                   switch(entry.type){
