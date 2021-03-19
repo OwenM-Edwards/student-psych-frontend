@@ -13,18 +13,21 @@ const Wrapper = styled.div`
    -moz-user-select: none; /* Firefox */
    -ms-user-select: none; /* IE10+/Edge */
    user-select: none; /* Standard */
+
    & .tag {
-      padding:5px;
-      overflow:hidden;
-      word-wrap: break-word;
+      width:100%;
+      padding:5px 3px;
       margin-bottom:5px;
       cursor: pointer;
       border-radius:0 0 10px 10px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.05), 0 6px 6px rgba(0,0,0,0.10);
+      word-wrap: break-word;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; 
    }
    & .career{
       background-color:${({ theme }) => theme.colorCodes.careers};
-      height:100%;
    }
    & .conference{
       background-color:${({ theme }) => theme.colorCodes.conference};

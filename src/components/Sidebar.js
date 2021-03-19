@@ -18,7 +18,7 @@ const Wrapper = styled.div`
    display:flex;
    flex-direction:column;
    transition: width 0.2s ease-in-out;
-   justify-content:space-between;
+   justify-content:flex-start;
    
    @media (max-width: 900px) {
       width:0px;
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
 `
 const EventsContainer = styled.div`
    width:100%;
-   height:40%;
+   height:auto;
    display:flex;
    opacity:${props => props.theme.opacity};
    flex-direction:column;
@@ -56,6 +56,7 @@ const EventsContainer = styled.div`
    & .eventsHeader{
       font-size:1.1rem;
       margin-bottom:15px;
+      
    }
    & .colorCode{
       border-radius:3px;
@@ -95,7 +96,7 @@ const EventTag = styled.div`
    width:95%;
    background-color:${({ theme }) => theme.backgroundLight};
    color: ${({ theme }) => theme.contrastText};
-   padding:5px 0 5px 0;
+   padding:5px 3px;
    border-radius:3px;
    margin: 0 5px 5px 5px;
    cursor: pointer;
@@ -104,6 +105,9 @@ const EventTag = styled.div`
    -moz-user-select: none; /* Firefox */
    -ms-user-select: none; /* IE10+/Edge */
    user-select: none; /* Standard */
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
 `
 const shown = {
    width:"20%",
@@ -144,7 +148,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
          recentEntries.forEach(entry => {
-            if(counter < 5){
+            if(counter < 7){
                let currentDate = new Date();
                if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
                   switch(entry.type){
@@ -190,7 +194,7 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
          popularEntries.forEach(entry => {
-            if(counter < 5){
+            if(counter < 7){
                let currentDate = new Date();
                if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
                   switch(entry.type){
