@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { signOut, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents  } from '../redux/actions/index';
 import styled, { ThemeProvider } from "styled-components";
 import { toast } from "react-toastify";
+import {createEventTags} from "../helpers/index";
+import {useWindowDimensions} from '../hooks/index';
 
 const Wrapper = styled.div`
    height:auto;
@@ -257,6 +259,7 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
    let popularEvents = [];
    let recentCapReached = false;
    let popularCapReached = false;
+   const { height, width } = useWindowDimensions();
 
    const onSubmit = (data) => {
       history.push(`/search/${data.searchTerm}`);
@@ -290,38 +293,21 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
    const genRecentEvents = () => {
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
+         let currentDate = new Date();
          recentEntries.forEach(entry => {
             if(counter < 3){
-               let currentDate = new Date();
-               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
-                  switch(entry.type){
-                     case 'Careers event':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Conference':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Special interest talk':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Revision':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Other':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
+               // Check if entry not already passed.
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year ){
+                  if(currentDate.getMonth()+1 === entry.month){
+                     if(currentDate.getDate() <= entry.day){
+                        recentEvents.push(createEventTags(entry, counter, openViewEventModal));
+                        counter++;
+                     }
                   }
-                  counter++;
+                  else {
+                     recentEvents.push(createEventTags(entry, counter, openViewEventModal));
+                     counter++;
+                  }
                }
             }
             else {
@@ -335,38 +321,20 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
    const genPopularEvents = () => {
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
+         let currentDate = new Date();
          popularEntries.forEach(entry => {
             if(counter < 3){
-               let currentDate = new Date();
-               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
-                  switch(entry.type){
-                     case 'Careers event':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Conference':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Special interest talk':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Revision':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Other':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year ){
+                  if(currentDate.getMonth()+1 === entry.month){
+                     if(currentDate.getDate() <= entry.day){
+                        popularEvents.push(createEventTags(entry, counter, openViewEventModal));
+                        counter++;
+                     }
                   }
-                  counter++;
+                  else {
+                     popularEvents.push(createEventTags(entry, counter, openViewEventModal));
+                     counter++;
+                  }
                }
             }
             else {
@@ -376,6 +344,17 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
       }         
    }
    genPopularEvents();
+
+   useEffect(() => {
+      if(width <= 900){
+         if(!recentEntries){
+            getRecentEvents();
+         }
+         if(!popularEntries){
+            getPopularEvents();
+         }
+      }
+   }, []);
 
    return(
       <ThemeProvider theme={mobileMenuState ? shown : hidden}>

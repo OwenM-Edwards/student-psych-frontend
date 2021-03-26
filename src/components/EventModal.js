@@ -74,6 +74,7 @@ const Wrapper = styled.div`
       position: relative;
       margin-bottom:20px;
       word-wrap: break-word;
+      white-space: pre-line;
    }
 `
 const ButtonContainer = styled.div`
@@ -159,6 +160,7 @@ const InfoWrapper = styled.div`
    background-color:${({ theme }) => theme.primary.offwhite};;
    padding:0 10px 20px 10px;
    border-radius:0 0 10px 10px;
+
 `
 
 
@@ -330,7 +332,13 @@ const EventModal = ({ modalHandler, secureInfo,deleteEntry, handleDeleteEvent, s
                            </div>
                         </SecureInfoWrapper>
                      : <React.Fragment/>
-                  : <React.Fragment/> 
+                  :  <SecureInfoWrapper>
+                        <div className="eventInfoContainer">
+                        <img className="icon"src={eventSecure}/>
+                        <p className="privateEventNotification">Please login to view private event links.</p>
+                        </div>
+                     </SecureInfoWrapper>
+               
                }
             </InfoWrapper>
          </Wrapper>

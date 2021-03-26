@@ -4,8 +4,8 @@ import { getRecentEvents,modalHandler,getSecureEventInfo,getPopularEvents } from
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 import { menu } from "../assets/index.js";
-
-
+import {createEventTags} from "../helpers/index";
+import {useWindowDimensions} from '../hooks/index';
 
 const Wrapper = styled.div`
    width:${props => props.theme.width};
@@ -119,13 +119,14 @@ const hidden = {
 }
 
 
-const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo,popularEntries }) => {
+const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandler, auth, getSecureEventInfo, popularEntries }) => {
    let recentEvents = [];
    let popularEvents = [];
    let recentCapReached = false;
    let popularCapReached = false;
    const [colorCodesToggle, setColorCodesToggle] = useState(false);
    const [sidebarToggle, setSidebarToggle] = useState(true);
+   const { height, width } = useWindowDimensions();
 
    const openViewEventModal = (eventInfo) => {
       if(auth.authenticated){
@@ -147,40 +148,22 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
    const genRecentEvents = () => {
       let counter = 0;
       if(recentEntries && recentCapReached !== true){
+         let currentDate = new Date();
          recentEntries.forEach(entry => {
             if(counter < 7){
-               let currentDate = new Date();
-               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
-                  switch(entry.type){
-                     case 'Careers event':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Conference':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Special interest talk':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Revision':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Other':
-                        recentEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
+               // Check if entry not already passed.
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year ){
+                  if(currentDate.getMonth()+1 === entry.month){
+                     if(currentDate.getDate() <= entry.day){
+                        recentEvents.push(createEventTags(entry, counter, openViewEventModal));
+                        counter++;
+                     }
                   }
-                  counter++;
+                  else {
+                     recentEvents.push(createEventTags(entry, counter, openViewEventModal));
+                     counter++;
+                  }
                }
-               
             }
             else {
                recentCapReached = true;
@@ -188,43 +171,25 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
          })
       }         
    }
-   genRecentEvents();
+   
 
    const genPopularEvents = () => {
       let counter = 0;
       if(popularEntries && popularCapReached !== true){
+         let currentDate = new Date();
          popularEntries.forEach(entry => {
             if(counter < 7){
-               let currentDate = new Date();
-               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year){
-                  switch(entry.type){
-                     case 'Careers event':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="careers" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Conference':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="conference" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Special interest talk':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="special" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Revision':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="revision" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
-                     case 'Other':
-                        popularEvents.push(
-                           <EventTag onClick={()=>openViewEventModal(entry)} className="other" key={counter}>{entry.title}</EventTag>
-                        )
-                        break;
+               if(currentDate.getMonth() + 1 <= entry.month && currentDate.getFullYear() <= entry.year ){
+                  if(currentDate.getMonth()+1 === entry.month){
+                     if(currentDate.getDate() <= entry.day){
+                        popularEvents.push(createEventTags(entry, counter, openViewEventModal));
+                        counter++;
+                     }
                   }
-                  counter++;
+                  else {
+                     popularEvents.push(createEventTags(entry, counter, openViewEventModal));
+                     counter++;
+                  }
                }
             }
             else {
@@ -233,14 +198,17 @@ const Sidebar = ({ getPopularEvents, getRecentEvents, recentEntries, modalHandle
          })
       }         
    }
+   genRecentEvents();
    genPopularEvents();
 
    useEffect(() => {
-      if(!recentEntries){
-         getRecentEvents();
-      }
-      if(!popularEntries){
-         getPopularEvents();
+      if(width > 900){
+         if(!recentEntries){
+            getRecentEvents();
+         }
+         if(!popularEntries){
+            getPopularEvents();
+         }
       }
    }, []);
 

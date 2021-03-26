@@ -105,8 +105,6 @@ const Calendar = ({
          modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
       else{
-         toast.dismiss();
-         toast.info('Please login to view private event links.');
          modalHandler({modalDisplay:'view', modalInfo: eventInfo});
       }
    }
