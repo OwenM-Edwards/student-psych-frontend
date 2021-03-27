@@ -14,12 +14,16 @@ export const darkTheme = {
    
 
    colorCodes: {
-      careers: '#7ba7ee',
-      conference: '#ffadc9',
-      special: '#ec837c',
-      revision: '#0a7775',
-      other: '#E0C879',
+      careers: '#AC92EB',
+      conference: '#4fc1e8',
+      special: '#A0D568',
+      revision: '#FFCE54',
+      other: '#ec837c',
    },
+
+
+
+
    primary: {
       main: '#1f2933',
       light: '#1ddecb',

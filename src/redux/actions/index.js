@@ -272,6 +272,8 @@ export const getSecureEventInfo = ({eventInfo}) => async (dispatch) => {
       type: REQUEST_SECURE_ENTRY,
    })
    const APIData = await secureEventInfoAPI(day, month, year, id);
+   console.log('TESTING')
+   console.log(APIData)
    dispatch({
       type: RECEIVE_SECURE_ENTRY,
       payload:  APIData,
