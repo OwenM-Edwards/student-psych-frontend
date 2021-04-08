@@ -14,6 +14,7 @@ import SubmittedEvents from './SubmittedEvents';
 import AdminPanel from './AdminPanel';
 import MobileMenuIcon from './MobileMenuIcon';
 import MobileMenu from './MobileMenu';
+import CalNavigation from './CalNavigation';
 
 export {
    Header,
@@ -32,4 +33,5 @@ export {
    AdminPanel,
    MobileMenuIcon,
    MobileMenu,
+   CalNavigation,
 }
