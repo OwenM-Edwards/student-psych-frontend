@@ -1,31 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { checkSession, serverCheck} from './redux/actions/index';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from 'react-toastify';
 import {ThemeProvider} from "styled-components";
-import { GlobalStyles } from "./components/GlobalStyle";
-import { darkTheme } from "./components/Theme";
-import AppRouter from './AppRouter';
-import { LoadingIcon } from './components/index';
+import { theme } from "./components/Theme";
 import { Maintenance } from './pages/index';
+import AppRouter from './AppRouter';
+import { LoadingIcon, Header } from './components/index';
+
 
 const Wrapper = styled.div`
-  min-width:100%;
-  max-width: 100%;
-  height:100vh;
+  height: 100%;
+  width: 100%;
   display:flex;
-  flex-wrap:wrap;
+  flex-direction:column;
   margin: 0;
   background: #7b8794;
-  overflow-x:hidden;
-  overflow-y:scroll;
-  @media (min-height: 850px) {
-    overflow-y:hidden;
+  flex-wrap:nowrap;
+  overflow:hidden;
+
+  & .headerContainer {
+    height:7%;
+    min-height:70px;
+    width:100%;
+    z-index:3;
   }
-  position:relative;
+  & .mainContainer {
+    height:93%;
+    width:100%;
+    display:flex;
+    flex-wrap:nowrap;
+    overflow:hidden;
+  }
 `
+
 const LoadingWrapper = styled.div`
   min-width:100%;
   max-width: 100%;
@@ -55,8 +65,7 @@ const App = ({serverCheck, auth, checkSession, serverStatus}) => {
   // Server is down, show maintenance page.
   if(!serverStatus.status){
     return(
-      <ThemeProvider theme={darkTheme}>
-        <GlobalStyles/>
+      <ThemeProvider theme={theme}>
         <Wrapper>
           <ToastContainer
             position="bottom-right"
@@ -70,8 +79,7 @@ const App = ({serverCheck, auth, checkSession, serverStatus}) => {
   // Loading server check and auth info.
   else if(serverStatus.isFetching || auth.isFetching){
     return(
-      <ThemeProvider theme={darkTheme}>
-        <GlobalStyles/>
+      <ThemeProvider theme={theme}>
         <LoadingWrapper>
           <ToastContainer
             position="bottom-right"
@@ -85,13 +93,23 @@ const App = ({serverCheck, auth, checkSession, serverStatus}) => {
   // Main app.
   else {
     return(
-      <ThemeProvider theme={darkTheme}>
-        <GlobalStyles/>
+      <ThemeProvider theme={theme}>
+        
         <Wrapper>
           <ToastContainer
             position="bottom-right"
           />
-          <AppRouter/>
+
+          <div className="headerContainer">
+            <Header/>
+
+          </div>
+
+
+          <div className="mainContainer">
+            <AppRouter/>
+          </div>
+
         </Wrapper>
       </ThemeProvider>
     )
