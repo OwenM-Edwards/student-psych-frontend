@@ -1,10 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import {
-   add,
-   remove,
-} from '../assets/index';
 
 
 const Wrapper = styled.div`
@@ -96,8 +92,7 @@ const Wrapper = styled.div`
 
 // HandleSubmitEvent is the event to fire on form completion.
 // Default options, enter false if form starts empty.
-
-const EventForm = ({handleSubmitEvent, defaultOptions}) => {
+const EventForm = ({handleSubmitEvent, defaultOptions, addEntryState}) => {
    
    const {privatelinks, publiclinks, title, organisation, description, day, month, year, image, type, starttime, endtime} = (defaultOptions) ? defaultOptions : false;
    let parsedPrivateLinks;
@@ -109,10 +104,11 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
       parsedPublicLinks = JSON.parse(publiclinks);
    }
    const { register, handleSubmit, watch, errors } = useForm();
-   const onSubmit = (data) => {
-      handleSubmitEvent(data);
+
+   const onSubmit = async (data) => {
+      await handleSubmitEvent(data);
    }
-   
+
    return (
       <Wrapper>
          <form onSubmit={handleSubmit(onSubmit)}>
@@ -127,6 +123,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   minLength="4"
                   maxLength="200"
                   ref={register({ required:true })}
+                  disable={addEntryState}
                />
                {/* Description */}
                <textarea
@@ -138,6 +135,7 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                   minLength="4"
                   maxLength="600"
                   ref={register({ required:true })}
+                  disable={addEntryState}
                />
                {/* Organisation */}
                <input
@@ -304,18 +302,14 @@ const EventForm = ({handleSubmitEvent, defaultOptions}) => {
                      name="PrivateLinkInfo2"
                      ref={register}
                   />
-                  
                </div>
-
 
                {/* Submit Button */}
                <input value="Submit" className="formSubmitButton formInput" type="submit" />
             </fieldset>
          </form>
       </Wrapper>
-
    )
 }
 
-
-export default EventForm
+export default EventForm;
