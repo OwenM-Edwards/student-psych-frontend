@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import styled, { ThemeProvider } from "styled-components";
-import { selectDate,signOut,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
+import { selectDate,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { toast } from "react-toastify";
-import { search, profile, mindMattersLogo, leftIconDarkMode, rightIconDarkMode, logo, logoFill } from "../assets/index.js";
-import { NavPanel } from './index';
+import { search, profile, leftIconDarkMode, logo } from "../assets/index.js";
+import { NavPanel, MobileMenu } from './index';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import { MobileMenuIcon} from './index';
 import { useLocation } from 'react-router-dom'
+import { CalNavigation } from './index';
 
 const Wrapper = styled.div`
    width:100%;
@@ -21,21 +21,26 @@ const Wrapper = styled.div`
    color: ${({ theme }) => theme.primary.contrastText};
    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
    padding:10px 0 10px 0;
-   position: relative;
    z-index: 10;
-   & .logoContainer {
-      max-width: 180px;
-      display:flex;
-      flex-direction:row;
-      padding:0 0 0 5px;
-      height:auto;
-      max-height:130%;
-      align-self:center;
-      align-content:center;
-      z-index:3;
-      position: relative;
-      top:0px;
-      right:5px;
+   justify-content:space-between;
+`
+
+const LogoContainer = styled.div`
+   max-width: 180px;
+   display:flex;
+   flex-direction:row;
+   padding:0 0 0 5px;
+   height:auto;
+   max-height:130%;
+   align-self:center;
+   align-content:center;
+   z-index:3;
+   position: relative;
+   top:0px;
+   right:5px;
+   
+   @media (max-width: 900px) {
+      margin-right:auto;
    }
    & .logo {
       width:90%;
@@ -44,82 +49,7 @@ const Wrapper = styled.div`
    }
 `
 
-const NavigationContainer = styled.div`
-   height:100%;
-   width:30%;
-   max-width:300px ;
-   min-width:300px;
-   display:flex;
-   flex-direction:row;
-   align-items:center;
-   justify-content:flex-start;
-   padding:0 10px 0 10px;
-   margin-right:auto;
-   @media (max-width: 900px) {
-      padding:0;
-      width:20%;
-      max-width:200px ;
-      min-width:200px;
-      font-size:0.7rem;
-   }
-   
-   & .todayButton {
-      width:auto;
-      height:42px;
-      color: ${({ theme }) => theme.primary.offBlack};
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      padding: 5px 10px 5px 10px;
-      border-radius:10px;
-      display: inline-block;
-      border: none;
-      transition: all 0.2s ease 0s;
-      outline: none;
-      cursor:pointer;
-      &:hover {
-         background-color:${({ theme }) => theme.primary.light};
-      }
-      @media (max-width: 900px) {
-         padding:5px;
-         font-size:0.7rem;
-         height:32px;
-      }
-   }
-   & .printMonth{
-      margin-right:5px;
-      -webkit-user-select: none; /* Safari */        
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+/Edge */
-      user-select: none; /* Standard */
-   }
-   & .printYear {
-      -webkit-user-select: none; /* Safari */        
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+/Edge */
-      user-select: none; /* Standard */
-   }
-   & .leftArrow{
-      height:100%;
-      cursor: pointer;
-      &:hover {
-         scale:0.9;
-      }
-      @media (max-width: 900px) {
-         height:60%;
-      }
-   }
-   & .rightArrow{
-      height:100%;
-      cursor: pointer;
-      &:hover {
-         scale:0.9;
-      }
-      @media (max-width: 900px) {
-         height:60%;
-      }
-   }
-`
+
 const SearchContainer = styled.div`
    height:100%;
    width:40%;
@@ -128,8 +58,7 @@ const SearchContainer = styled.div`
    display:flex;
    overflow:hidden;
    @media (max-width: 900px) {
-      width:0%;
-      
+      display:none;
    }
    
    & .icon {
@@ -186,7 +115,7 @@ const UserContainer = styled.div`
    align-items:center;
    padding:0 10px 0 10px;
    margin-right:45px;
-
+   
    @media (max-width: 900px) {
       padding:5px 0px 0px 0px;
       margin-right:0;
@@ -239,11 +168,12 @@ const UserContainer = styled.div`
 `
 
 const MobileMenuIconContainer = styled.div`
-   width:50px;
+   width:auto;
    display:none;
-   margin-right:10px;
+   margin:0 5px 0 5px;
    @media (max-width: 900px) {
       display:block;
+      margin:0 5px 0 10px;
    }
 `
 
@@ -261,13 +191,12 @@ const Header = ({
       clearEntries,
       auth, 
       selectDate, 
-      selectedDate, 
       toggleNavPanel,
       navPanelState,
    }) => {
    const location = useLocation();
-   const printDate = new Date(selectedDate.year, selectedDate.month - 1);
-   const { register, handleSubmit, watch, errors } = useForm();
+
+   const { register, handleSubmit } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
    const history = useHistory();
    
@@ -292,28 +221,6 @@ const Header = ({
       history.push(`/calendar/${currentDate.getMonth()+1}/${currentDate.getFullYear()}`);
    }
 
-   const changeMonth = (val) => {
-      clearEntries();
-      let changedDate;
-      if(val === 'increase'){
-         changedDate = new Date(selectedDate.year, selectedDate.month, selectedDate.day)
-      }
-      else {
-         changedDate = new Date(selectedDate.year, selectedDate.month - 2, selectedDate.day)
-      }
-      selectDate({
-         day: changedDate.getDate(),
-         month: changedDate.getMonth() + 1, 
-         year: changedDate.getFullYear(),
-         totalDaysInMonth: new Date(changedDate.getFullYear(), changedDate.getMonth() + 1, 0).getDate(),
-      })
-      history.push(`/calendar/${changedDate.getMonth()+1}/${changedDate.getFullYear()}`);
-   }
-
-   const handleSignIn = () => {
-      history.push('/signin');
-   }
-
    const handleNavPanel = () => {
       if(auth.authenticated){
          if(navPanelState){
@@ -328,32 +235,21 @@ const Header = ({
    return(
       <ThemeProvider theme={navPanelState ? shown : hidden}>
          <Wrapper>
+            <MobileMenu/>
             <NavPanel/>
-            <div onClick={()=>returnToCurrentMonth()}className="logoContainer"> 
+            
+            <MobileMenuIconContainer>
+               <MobileMenuIcon/>
+            </MobileMenuIconContainer>
+
+            <LogoContainer onClick={()=>returnToCurrentMonth()}> 
                <img className="logo" src={logo}/>
-            </div>
+            </LogoContainer>
 
 
             {/* If at search, dont render navigation arrows. */}
             {(window.location.pathname.includes('calendar'))
-               ? <NavigationContainer>
-                     <img className="leftArrow" onClick={()=>changeMonth('decrease')} src={leftIconDarkMode}/>
-                     <button className="todayButton" onClick={()=>returnToCurrentMonth()}>Today</button>
-                     <img className="rightArrow" onClick={()=>changeMonth('increase')} src={rightIconDarkMode}/>
-                     
-
-                     <div className="printMonth">
-                        {printDate.toLocaleString('default', { month: 'long' })}
-                     </div>
-                     
-                     {(window.location.pathname.includes('search'))
-                        ? <React.Fragment/>
-                        : 
-                        <div className="printYear">
-                           {selectedDate.year}
-                        </div>
-                     }
-                  </NavigationContainer>
+               ? <CalNavigation/>
                
                :  <React.Fragment/> 
             }
@@ -371,9 +267,6 @@ const Header = ({
                </form>
             </SearchContainer>
 
-            <MobileMenuIconContainer>
-               <MobileMenuIcon/>
-            </MobileMenuIconContainer>
 
 
             <UserContainer onClick={()=>handleNavPanel()} >
@@ -393,5 +286,5 @@ const Header = ({
 }
 
 const mapStateToProps = (state) => ({ navPanelState:state.navPanel.show, auth:state.authenticate, selectedDate:state.selectedDate.selectedDate });
-export default connect(mapStateToProps, { toggleNavPanel, getInitialDate, searchEntries, clearEntries,selectDate,signOut })(Header);
+export default connect(mapStateToProps, { toggleNavPanel, getInitialDate, searchEntries, clearEntries,selectDate })(Header);
 
