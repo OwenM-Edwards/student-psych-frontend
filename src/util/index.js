@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 const api = axios.create({
    // baseURL: 'http://localhost:3000/',
-   baseURL: 'http://api.studentpsychiatry.co.uk/', 
+   baseURL: 'https://student-psych-api.herokuapp.com/', 
    withCredentials: true,
 }); 
 
