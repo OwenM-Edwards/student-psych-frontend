@@ -10,6 +10,17 @@ import {
    close,
 } from '../assets/index';
 
+const LoadingContainer = styled.div`
+   position:absolute;
+   width:100%;
+   max-width:400px;
+   min-width:325px;
+   height:100%;
+   z-index:3;
+   box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
+   background:${({ theme }) => theme.primary.main};
+   opacity:0.9;
+`
 const Wrapper = styled.div`
    position:absolute;
    top:20%;
@@ -28,7 +39,7 @@ const Wrapper = styled.div`
    @media (max-width: 700px) {
       top:auto;
       left:0%;
-      width:100%;
+      width:98%;
       max-width:100%;
       height:auto;
       z-index:5;
@@ -81,8 +92,8 @@ const AddEventModal = ({ addEntry, addEntryState, modalState, modalHandler }) =>
       return returnString.trim();
    }
    
-   const handleSubmitEvent = (data) => {
-      addEntry({
+   const handleSubmitEvent = async (data) => {
+      const addingEntry = await addEntry({
          title:capitalizeTrim(data.eventTitle),
          description:capitalizeTrim(data.eventDescription),
          organisation:capitalizeTrim(data.eventOrganisation),
@@ -110,35 +121,34 @@ const AddEventModal = ({ addEntry, addEntryState, modalState, modalHandler }) =>
          endtime:data.eventEndTime,
          type:data.eventType,
       });
-      modalHandler(false);
+      if(addingEntry){
+         modalHandler(false);
+      }
    }
 
 
-   if(!addEntryState.isFetching){
-      return(
-         <Wrapper>
-            <h1 className="formTitle">Add Event</h1>
-            {/* Close modal button */}
-            <div className="buttonContainer">
-               <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
-            </div>
-            
+   return(
+      <Wrapper>
+         <h1 className="formTitle">Add Event</h1>
+         {/* Close modal button */}
+         <div className="buttonContainer">
+            <img onClick={()=>modalHandler(false)} className="closeButton" src={close}/>
+         </div>
+         
 
-            {/* The Form */}
-            <div className="inputForm">
-               <EventForm handleSubmitEvent={handleSubmitEvent}/>
-            </div>
-         </Wrapper>
-      )
-   }
-   else {
-      return(
-         <Wrapper>
-            <LoadingIcon/>
-         </Wrapper>
-      )
-   }
-   
+         {/* The Form */}
+         <div className="inputForm">
+            <EventForm handleSubmitEvent={handleSubmitEvent}/>
+         </div>
+
+         {(addEntryState.isFetching)
+            ?  <LoadingContainer>
+                  <LoadingIcon/>
+               </LoadingContainer>
+            : <React.Fragment/>
+         }
+      </Wrapper>
+   )
 }
 
 const mapStateToProps = (state) => ({ modalState:state.modal, userinfo:state.authenticate, addEntryState: state.addEntry });
