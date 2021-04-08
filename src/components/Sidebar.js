@@ -19,6 +19,7 @@ const Wrapper = styled.div`
    flex-direction:column;
    transition: width 0.2s ease-in-out;
    justify-content:flex-start;
+   overflow:hidden;
    
    @media (max-width: 900px) {
       width:0px;

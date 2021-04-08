@@ -4,21 +4,21 @@ import { connect } from "react-redux";
 import {getSubmittedEvents, modalHandler,getSecureEventInfo} from "../redux/actions/index";
 import { EditEventModal, EventModal, AddEventModal } from '../components/index';
 import { toast } from "react-toastify";
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const Wrapper = styled.div`
    width:100%;
-   height:95%;
+   height:100%;
    display:flex;
    flex-direction:column;
    padding:30px;
    border-radius:0 0 5px 5px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-   overflow-y:scroll;
-   overflow-x:hidden;
+   overflow:hidden;
    background: ${({ theme }) => theme.primary.main};
    @media (max-width: 900px) {
       padding:10px;
-      height:90%;
+      height:100%;
    }
 `
 const EntryTag = styled.div`
@@ -103,22 +103,25 @@ const SubmittedEvents = (
    sortEvents();
    return(
       <Wrapper>
-         {(modalState.modalDisplay === 'view')
-            ? <EventModal/>
-            : <React.Fragment/>
-         }  
-         {(modalState.modalDisplay === 'add')
-            ? <AddEventModal />
-            : <React.Fragment/>
-         }  
-         {(modalState.modalDisplay === 'edit')
-            ? <EditEventModal />
-            : <React.Fragment/>
-         } 
-         {(sortedEntries.length < 1)
-            ? <p>Nothing here yet</p>
-            : sortedEntries
-         }
+         <Scrollbars>
+            {(modalState.modalDisplay === 'view')
+               ? <EventModal/>
+               : <React.Fragment/>
+            }  
+            {(modalState.modalDisplay === 'add')
+               ? <AddEventModal />
+               : <React.Fragment/>
+            }  
+            {(modalState.modalDisplay === 'edit')
+               ? <EditEventModal />
+               : <React.Fragment/>
+            } 
+            {(sortedEntries.length < 1)
+               ? <p>Nothing here yet</p>
+               : sortedEntries
+            }
+         </Scrollbars>
+
       </Wrapper>
    )  
   

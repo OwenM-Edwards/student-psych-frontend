@@ -7,23 +7,25 @@ import { AccountSettings, SubmittedEvents, AdminPanel } from '../components/inde
 
 const Wrapper = styled.div`
    width:100%;
-   height:95%;
-   overflow:hidden;
+   height:100%;
    display:flex;
    flex-direction:column;
    padding:50px 20px 30px 20px;
    border-radius:5px;
+   overflow:auto;
    @media (max-width: 900px) {
       padding:10px;
+   }
+   & a {
+      color:${({ theme }) => theme.primary.light};
    }
 `
 const Main = styled.div`
    width:100%;
-   height:94%;
+   height:100%;
    display:flex;
    flex-direction:column;
    flex-wrap:wrap;
-
 `
 const ButtonContainer = styled.div`
    background: ${({ theme }) => theme.primary.main};
@@ -35,20 +37,24 @@ const ButtonContainer = styled.div`
    padding:10px;
    border-radius:5px 5px 0 0;
    grid-gap:10px;
+
    & button{
-      width:30%;
-      max-width: 200px;
-      height:42px;
-      color: #2b2b2b;
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.offwhite};
-      padding: 5px 10px 5px 10px;
+      padding:10px;
+      width:100%;
+      max-width:500px;
+      justify-self:center;
+      background-color:#2f3e4d;
       border-radius:5px;
-      display: inline-block;
-      border: none;
+      color:${({ theme }) => theme.primary.light};
+      border:0px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      font-size:1.1rem;
+      cursor: pointer;
       transition: all 0.2s ease 0s;
-      cursor:pointer;
+      &:hover {
+         background-color:${({ theme }) => theme.primary.light};
+         color:${({ theme }) => theme.primary.offBlack};
+      }
    }
 `
 

@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { EditEventModal, CalenderSquare, EventModal, AddEventModal,OverflowEventsModal } from '../components/index';
 import { modalHandler, getSecureEventInfo, getEntries,getInitialDate,selectDate,clearEntries } from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const Calendar = ({ 
       auth, 
@@ -22,6 +22,7 @@ const Calendar = ({
       getEntries,
       clearEntries,
    }) => {
+      
    const [ boxes, setBoxes ] = useState([]);
    const [ headers, setHeaders ] = useState([]);
    let dayStrings = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -168,45 +169,47 @@ const Calendar = ({
 
    return (
          <Wrapper> 
-            
-            {(modalState.modalDisplay === 'view')
-               ? <EventModal draggable="true"/>
-               : <React.Fragment/>
-            }  
-            {(modalState.modalDisplay === 'add')
-               ? <AddEventModal />
-               : <React.Fragment/>
-            }  
-            {(modalState.modalDisplay === 'edit')
-               ? <EditEventModal />
-               : <React.Fragment/>
-            } 
-            {(modalState.modalDisplay === 'overflow')
-               ? <OverflowEventsModal />
-               : <React.Fragment/>
-            } 
+            <Scrollbars>
+               {(modalState.modalDisplay === 'view')
+                  ? <EventModal draggable="true"/>
+                  : <React.Fragment/>
+               }  
+               {(modalState.modalDisplay === 'add')
+                  ? <AddEventModal />
+                  : <React.Fragment/>
+               }  
+               {(modalState.modalDisplay === 'edit')
+                  ? <EditEventModal />
+                  : <React.Fragment/>
+               } 
+               {(modalState.modalDisplay === 'overflow')
+                  ? <OverflowEventsModal />
+                  : <React.Fragment/>
+               } 
 
-            {(!modalState.modalDisplay)
-               ?
-               <StyledMain>
-                  <CalenderHeaderContainer>
-                     {headers}
-                  </CalenderHeaderContainer>
-                  <CalenderBoxesContainer>
-                     {boxes}
-                  </CalenderBoxesContainer>
-               </StyledMain>
-               :
-               <StyledMain className="frosted" onClick={()=>closeModals()}>
-                  <CalenderHeaderContainer>
-                     {headers}
-                  </CalenderHeaderContainer>
-                  <CalenderBoxesContainer>
-                     {boxes}
-                  </CalenderBoxesContainer>
-               </StyledMain>
-            }
+               {(!modalState.modalDisplay)
+                  ?
+                  <StyledMain>
+                     <CalenderHeaderContainer>
+                        {headers}
+                     </CalenderHeaderContainer>
+                     <CalenderBoxesContainer>
+                        {boxes}
+                     </CalenderBoxesContainer>
+                  </StyledMain>
+                  :
+                  <StyledMain className="frosted" onClick={()=>closeModals()}>
+                     <CalenderHeaderContainer>
+                        {headers}
+                     </CalenderHeaderContainer>
+                        <CalenderBoxesContainer>
+                           {boxes}
+                        </CalenderBoxesContainer>
 
+                  
+                  </StyledMain>
+               }
+            </Scrollbars>
          </Wrapper>
    )
 }
@@ -214,42 +217,37 @@ const Calendar = ({
 
 const Wrapper = styled.div`
    width:100%;
-   height:98%;
+   height:100%;
    display:flex;
-   @media (max-width: 900px) {
-      height:100%;
-   }
+
    & .frosted{
       box-shadow: inset 0 0 500px rgba(255, 255, 255, .1);
       filter: blur(2px);
    }
+
 `
 const StyledMain = styled.div`
-   min-width:auto;
-   flex-grow:1;
+   width:100%;
+   max-width:100%;
+   min-width:300px;
    height:100%;
-   min-height:100%;
    display:flex;
    flex-direction:column;
    flex-wrap:nowrap;
-   padding:30px 30px 10px 0px;
+   padding:30px 30px 10px 30px;
    transition: all 0.2s ease-in-out;
+   min-height:500px;
    @media (max-width: 900px) {
-      padding:5px 5px 40px 5px;
+      padding:10px 25px 10px 10px;
    }
 `
 const CalenderBoxesContainer = styled.div`
    width:100%;
-   max-height:99%;
-   min-height:99%;
+   height:100%;
    display:grid;
    grid-template-columns:repeat(7, 1fr);
    grid-auto-rows: 1fr;
    grid-gap:5px;
-   padding:5px 0 20px 30px;
-   @media (max-width: 900px) {
-      padding:0px;
-   }
   
 `
 const CalenderHeaderContainer = styled.div`
@@ -257,10 +255,6 @@ const CalenderHeaderContainer = styled.div`
    display:grid;
    grid-template-columns:repeat(7, 1fr);
    grid-gap:5px;
-   padding-left:30px;
-   @media (max-width: 900px) {
-      padding:0px;
-   }
 `
 const CalenderSquareContainer  = styled.div`
    width:1fr;
@@ -268,7 +262,6 @@ const CalenderSquareContainer  = styled.div`
    min-width: 0;
    display:flex;
    flex-direction:column;
-   overflow:hidden;
 `
 
 const CalenderHeader = styled.div`
@@ -282,7 +275,6 @@ const CalenderHeader = styled.div`
    padding-bottom:3px;
    color:white;
    font-size:1.2rem;
-   overflow:hidden;
    @media (max-width: 900px) {
     font-size: 1rem;
    }

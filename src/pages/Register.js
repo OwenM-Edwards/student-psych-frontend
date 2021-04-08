@@ -9,10 +9,16 @@ import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
    width:100%;
-   max-height:100%;
+   height:auto;
+   min-height:100%;
+   overflow:auto;
    display:flex;
    flex-direction:column;
-   justify-content:flex-start;
+   justify-content:center;
+   @media (max-width: 900px) {
+      margin-top:30px;
+      justify-content:flex-start;
+   }
    & .verifyDirectBox {
       width:600px;
       background-color:${({ theme }) => theme.primary.main};
@@ -189,7 +195,7 @@ const Register = ({registerUser, registerState}) => {
                </form>
                <InfoContainer>
                   <p> We currently only accept .ac.uk and .nhs email domains. If you are part of a psychiatry or mental health society and would like your domain to be added to the list, please contact us.</p>
-                  <p>Event organiser? You’ll need to be approved by our admins before you can add your events. </p>
+                  <p>Event organiser? You’ll need to be approved by our admins before you can add your own events. </p>
                   <p> Get in touch with us via: <a href="mailto:admin@studentpsychiatry.co.uk">admin@studentpsychiatry.co.uk</a></p>
                </InfoContainer>
             </Wrapper>

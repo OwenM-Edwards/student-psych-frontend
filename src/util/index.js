@@ -2,8 +2,8 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 
 const api = axios.create({
-   // baseURL: 'http://localhost:3000/',
-   baseURL: 'https://student-psych-api.herokuapp.com/',
+   baseURL: 'http://localhost:3000/',
+   // baseURL: 'https://student-psych-api.herokuapp.com/',
    withCredentials: true,
 }); 
 
@@ -244,7 +244,6 @@ export const addEntryAPI = async (eventInfo) => {
          eventInfo
       }})
       return true;
-      
    }
    catch (err) {
       errorHandler(err);

@@ -10,10 +10,16 @@ import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
    width:100%;
-   max-height:100%;
+   height:auto;
+   min-height:100%;
+   overflow:auto;
    display:flex;
    flex-direction:column;
-   justify-content:flex-start;
+   justify-content:center;
+   @media (max-width: 900px) {
+      margin-top:30px;
+      justify-content:flex-start;
+   }
 
    & .signInForm {
       padding:20px;

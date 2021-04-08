@@ -18,15 +18,12 @@ const Wrapper = styled.div`
       background-color:${props => props.theme.background};
       border-radius: 3px;
       display: block;
-      height: 4px;
+      height: 3px;
       margin-bottom: 5px;
-      position: relative;
-      transform-origin: 4px 0px;
-      width: 33px;
+      width: 27px;
       z-index: 1;
       transition: 
-         background-color 0.3s cubic-bezier(0.77,0.2,0.05,1.0),
-         width 0.8s;
+         background-color 0.3s cubic-bezier(0.77,0.2,0.05,1.0);
       &:nth-of-type(2){
          transition-delay: 0.2s;
       }

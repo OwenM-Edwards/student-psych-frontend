@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled, { ThemeProvider } from "styled-components";
-import Loader from 'react-loader-spinner';
 import {toggleNavPanel, signOut} from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { leftIconDarkMode, } from '../assets/index';
 import { Link } from "react-router-dom";
 
 
@@ -62,7 +60,7 @@ const Wrapper = styled.div`
 `
 
 const shown = {
-   height: "120px",
+   height: "90px",
    padding: "10px",
 }
 const hidden = {

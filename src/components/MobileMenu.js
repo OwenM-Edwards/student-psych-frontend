@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import Loader from 'react-loader-spinner';
 import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import { search } from "../assets/index.js";
@@ -14,11 +13,10 @@ import {useWindowDimensions} from '../hooks/index';
 const Wrapper = styled.div`
    height:auto;
    width:40%;
-   min-width:200px;
    display:flex;
    position: absolute;
    background-color:red;
-   right:0;
+   left:0;
    top:70px;
    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
    flex-direction:column;
@@ -26,13 +24,12 @@ const Wrapper = styled.div`
    align-items:flex-start;
    background-color:${({ theme }) => theme.primary.main};
    color: ${({ theme }) => theme.primary.contrastText};
-   transition: transform 0.2s ease-in-out;
-   z-index:4;
+   transition: all 0.2s ease-in-out;
+   z-index:9;
    transform: ${props => props.theme.transform};
-   padding:10px;
-   padding-top:20px;
+   padding:20px 10px 10px 10px;
    overflow:hidden;
-
+   font-size:0.7rem;
    @media (min-width: 900px) {
       display:none;
    }
@@ -62,7 +59,7 @@ const SearchContainer = styled.div`
    & .searchButton{
       width:14%;
       max-width:50px ;
-      height:42px;
+      height:32px;
       color: ${({ theme }) => theme.primary.offBlack};
       text-transform: uppercase;
       text-decoration: none;
@@ -79,13 +76,12 @@ const SearchContainer = styled.div`
    & .searchTerm {
       width:100%;
       max-width:300px ;
-      height:42px;
+      height:32px;
       padding-left:15px;
       border-radius:5px 0 0 5px;
       outline: 0;
       border: 0;
       background-color:${({ theme }) => theme.primary.offWhite};
-      
    }
 `
 
@@ -96,7 +92,7 @@ const UserContainer = styled.div`
    flex-direction:column;
    align-items:center;
    padding:0 10px 0 10px;
-   margin-top:20px;
+   margin-bottom:20px;
 
    @media (max-width: 900px) {
       padding:5px 0px 0px 0px;
@@ -110,59 +106,27 @@ const UserContainer = styled.div`
       display:flex;
       align-items:center;
       text-decoration: none;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       color:${({ theme }) => theme.primary.offBlack};
-
    }
-   & .loginButton{
+   & .button{
+      padding:10px;
+      height:35px;
       width:100%;
-      height:40px;
-      color: ${({ theme }) => theme.primary.offBlack};
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      padding: 5px;
-      border-radius:10px;
-      border: none;
-      transition: all 0.4s ease 0s;
+      background-color:#2f3e4d;
+      border-radius:5px;
+      color:${({ theme }) => theme.primary.light};
+      border:0px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      font-size:0.8rem;
       cursor: pointer;
+      transition: all 0.2s ease 0s;
+      margin-bottom:5px;
       &:hover {
          background-color:${({ theme }) => theme.primary.light};
+         color:${({ theme }) => theme.primary.offBlack};
       }
    }
-   & .signOutButton{
-      width:100%;
-      height:40px;
-      color: ${({ theme }) => theme.primary.offBlack};
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      padding: 5px;
-      border-radius:10px;
-      border: none;
-      transition: all 0.4s ease 0s;
-      cursor: pointer;
-      margin-bottom:10px;
-      &:hover {
-         background-color:${({ theme }) => theme.primary.light};
-      }
-   }
-   & .profileButton {
-      width:100%;
-      height:40px;
-      color: ${({ theme }) => theme.primary.offBlack};
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      padding: 5px;
-      border-radius:10px;
-      border: none;
-      transition: all 0.4s ease 0s;
-      cursor: pointer;
-      &:hover {
-         background-color:${({ theme }) => theme.primary.light};
-      }
-   }
+   
    & .closeArrowButton {
       position: relative;
       bottom:15px;
@@ -174,15 +138,9 @@ const UserContainer = styled.div`
 `
 const shown = {
    transform:"translate(0%)",
-   height: "40%",
-   minHeight: "70px",
-   display: 'flex',
 }
 const hidden = {
-   transform:"translate(100%)",
-   height: "0%",
-   minHeight: "0px",
-   display:'none',
+   transform:"translate(-100%)",
 }
 
 const EventsContainer = styled.div`
@@ -196,21 +154,7 @@ const EventsContainer = styled.div`
    padding-right:3px;
    
    & .eventsHeader{
-      font-size:0.9rem;
       margin-bottom:15px;
-
-   }
-   & .colorCode{
-      border-radius:3px;
-      opacity:0.8;
-      margin-bottom:5px;
-      color: ${({ theme }) => theme.contrastText};
-      padding:5px 0 5px 5px;
-      width:100%;
-      align-self:center;
-      height:20px;
-      font-size:0.8rem;
-      
    }
    & .careers {
       background: ${({ theme }) => theme.colorCodes.careers};
@@ -227,39 +171,16 @@ const EventsContainer = styled.div`
    & .other {
       background: ${({ theme }) => theme.colorCodes.other};
    }
-   & .colorCodesContainer{
-      display:flex;
-      flex-direction:column;
-      overflow-y:hidden;
-      transition: all 0.2s ease 0s;
-      justify-content:flex-end;
-   }
-`
-const EventTag = styled.div`
-   opacity:0.9;
-   width:100%;
-   background-color:${({ theme }) => theme.backgroundLight};
-   color: ${({ theme }) => theme.contrastText};
-   padding:5px 0 5px 0;
-   border-radius:3px;
-   margin-bottom:5px;
-   cursor: pointer;
-   overflow:hidden;
-   height:20px;
-   font-size:0.8rem;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
 `
 
 const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuState, toggleMobileMenu, getPopularEvents, getSecureEventInfo, modalHandler, getRecentEvents }) => {
-   const { register, handleSubmit, watch, errors } = useForm();
+   const { register, handleSubmit } = useForm();
    const history = useHistory();
    let recentEvents = [];
    let popularEvents = [];
    let recentCapReached = false;
    let popularCapReached = false;
-   const { height, width } = useWindowDimensions();
+   const { width } = useWindowDimensions();
 
    const onSubmit = (data) => {
       history.push(`/search/${data.searchTerm}`);
@@ -359,6 +280,16 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
    return(
       <ThemeProvider theme={mobileMenuState ? shown : hidden}>
          <Wrapper>
+            <UserContainer >
+               {(auth.authenticated)
+                  ? <button className="button" onClick={()=>handleSignOut()}>Sign Out</button>
+                  : <Link onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/signin"><button className="button">Sign In</button></Link>
+               }
+               {(auth.authenticated)
+                  ? <Link  onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/profile"><button className="button" >Profile</button></Link>
+                  : <React.Fragment/>
+               }
+            </UserContainer>
             <SearchContainer>
                <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
                   <input
@@ -382,27 +313,6 @@ const MobileMenu = ({recentEntries, popularEntries, signOut, auth, mobileMenuSta
                <h2 className="eventsHeader">Recent Events</h2>
                {recentEvents}
             </EventsContainer>
-            <EventsContainer>
-               <h2 className="eventsHeader">Colour Codes:</h2>
-               <div className="colorCodesContainer">
-                  <p className="colorCode careers">Careers Event</p><div className=""></div>
-                  <p className="colorCode conference">Conference</p>
-                  <p className="colorCode special">Special Interest Talk</p>
-                  <p className="colorCode revision">Revision or Training</p>
-                  <p className="colorCode other">Other</p>
-               </div>
-            </EventsContainer>
-
-            <UserContainer >
-               {(auth.authenticated)
-                  ? <button className="signOutButton button" onClick={()=>handleSignOut()}>Sign Out</button>
-                  : <Link onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/signin"><button className="loginButton">Sign In</button></Link>
-               }
-               {(auth.authenticated)
-                  ? <Link  onClick={()=>toggleMobileMenu(false)} className="loginButtonContainer" to="/profile"><button className="profileButton" >Profile</button></Link>
-                  : <React.Fragment/>
-               }
-            </UserContainer>
          </Wrapper>
       </ThemeProvider>
    )

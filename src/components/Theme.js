@@ -1,4 +1,4 @@
-export const darkTheme = {
+export const theme = {
    body: '#e1e2e1',
    text: '#F5F7FA',
    contrastText: '#363537',
@@ -12,7 +12,6 @@ export const darkTheme = {
    warm:'#efc9a4',
    offwhite:'#e4e7eb',
    
-
    colorCodes: {
       careers: '#AC92EB',
       conference: '#4fc1e8',
@@ -20,9 +19,6 @@ export const darkTheme = {
       revision: '#FFCE54',
       other: '#ec837c',
    },
-
-
-
 
    primary: {
       main: '#1f2933',
@@ -43,26 +39,3 @@ export const darkTheme = {
       text: '#000000',
    }
 }
-
-// export const darkTheme = {
-//    body: '#1F2933',
-//    text: '#F5F7FA',
-//    contrastText: '#363537',
-//    toggleBorder: '#6B8096',
-//    background: '#1F2933',
-//    backgroundContrast: '#323F4B',
-//    backgroundLight:'#cbd2d9',
-//    precedingDay:'#323f4b',
-//    currentDay:'#e4e7eb',
-//    weekendDay:'#3e4c59',
-//    weekDay:'#616e7c',
-//    interactable:'#efc9a4',
-//    warm:'#efc9a4',
-//    offwhite:'#e4e7eb',
-
-//    green: '#AED581',
-//    red: '#FF8A80',
-//    blue: '#82B1FF',
-//    orange: '#FFCC80',
-//    purple: '#B388FF',
-// }

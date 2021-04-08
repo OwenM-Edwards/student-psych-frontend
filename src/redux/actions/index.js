@@ -272,8 +272,6 @@ export const getSecureEventInfo = ({eventInfo}) => async (dispatch) => {
       type: REQUEST_SECURE_ENTRY,
    })
    const APIData = await secureEventInfoAPI(day, month, year, id);
-   console.log('TESTING')
-   console.log(APIData)
    dispatch({
       type: RECEIVE_SECURE_ENTRY,
       payload:  APIData,
@@ -309,8 +307,13 @@ export const addEntry = (eventInfo) =>  async (dispatch) => {
    dispatch({
       type: RECEIVE_ADD_ENTRY
    })
+   if(!APIData){
+      return false;
+   }
+   else {
+      return true;
+   }
 }
-
 
 // Delete event.
 export const deleteEntry = (entryid, userid) =>  async (dispatch) => {
