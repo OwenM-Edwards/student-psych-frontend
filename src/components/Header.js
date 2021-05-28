@@ -2,10 +2,9 @@ import React, {useEffect} from 'react';
 import styled, { ThemeProvider } from "styled-components";
 import { selectDate,clearEntries,searchEntries,getInitialDate,toggleNavPanel } from '../redux/actions/index';
 import { connect } from 'react-redux';
-import { search, profile, leftIconDarkMode, logo } from "../assets/index.js";
-import { NavPanel, MobileMenu } from './index';
+import { profile, leftIconDarkMode, logo } from "../assets/index.js";
+import { NavPanel, MobileMenu, SearchBar } from './index';
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { useHistory } from 'react-router-dom';
 import { MobileMenuIcon} from './index';
 import { useLocation } from 'react-router-dom'
@@ -49,63 +48,6 @@ const LogoContainer = styled.div`
    }
 `
 
-
-const SearchContainer = styled.div`
-   height:100%;
-   width:40%;
-   max-width:330px ;
-   margin-left:auto;
-   display:flex;
-   overflow:hidden;
-   @media (max-width: 900px) {
-      display:none;
-   }
-   
-   & .icon {
-      display:inline;
-      width:100%;
-      max-width: 100%;
-      max-height:100%;
-      object-fit: contain;
-   }
-   & .searchForm {
-      width:100%;
-      align-self:center;
-      display:flex;
-      flex-direction:row;
-      flex-wrap:nowrap;
-      justify-content:center;
-   }
-   & .searchButton{
-      width:14%;
-      max-width:50px ;
-      height:42px;
-      color: ${({ theme }) => theme.primary.offBlack};
-      text-transform: uppercase;
-      text-decoration: none;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      padding-top:2px;
-      border-radius: 0 5px 5px 0;
-      display: inline-block;
-      border: none;
-      border-left:1px solid black;
-      transition: all 0.4s ease 0s;
-      cursor:pointer;
-      margin-right:5px;
-      align-self:center;
-   }
-   & .searchTerm {
-      width:70%;
-      max-width:300px ;
-      height:42px;
-      padding-left:15px;
-      border-radius:5px 0 0 5px;
-      outline: 0;
-      border: 0;
-      background-color:${({ theme }) => theme.primary.offWhite};
-      
-   }
-`
 
 const UserContainer = styled.div`
    height:100%;
@@ -196,13 +138,9 @@ const Header = ({
    }) => {
    const location = useLocation();
 
-   const { register, handleSubmit } = useForm();
    // Increments or deincrements month by 1, creates new date in state.
    const history = useHistory();
-   
-   const onSubmit = (data) => {
-      history.push(`/search/${data.searchTerm}`);
-   }
+
    
    useEffect(()=>{ 
    },[auth.authenticated]);
@@ -250,24 +188,10 @@ const Header = ({
             {/* If at search, dont render navigation arrows. */}
             {(window.location.pathname.includes('calendar'))
                ? <CalNavigation/>
-               
                :  <React.Fragment/> 
             }
                
-            <SearchContainer>
-               <form className="searchForm" onSubmit={handleSubmit(onSubmit)}>
-                  <input
-                     className="searchTerm"
-                     placeholder="Search events.."
-                     type="text" 
-                     name="searchTerm"
-                     ref={register({ required:true})}
-                  />
-                  <button id="searchButton" value="search" className="searchButton" type="submit"><img className="icon"src={search}/></button>
-               </form>
-            </SearchContainer>
-
-
+            <SearchBar/>
 
             <UserContainer onClick={()=>handleNavPanel()} >
                {(auth.authenticated)

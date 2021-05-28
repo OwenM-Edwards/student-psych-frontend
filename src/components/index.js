@@ -15,6 +15,7 @@ import AdminPanel from './AdminPanel';
 import MobileMenuIcon from './MobileMenuIcon';
 import MobileMenu from './MobileMenu';
 import CalNavigation from './CalNavigation';
+import SearchBar from './SearchBar';
 
 export {
    Header,
@@ -34,4 +35,5 @@ export {
    MobileMenuIcon,
    MobileMenu,
    CalNavigation,
+   SearchBar,
 }
