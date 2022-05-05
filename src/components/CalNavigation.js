@@ -113,7 +113,7 @@ const CalNavigation = ({selectedDate,clearEntries,selectDate}) => {
          year: changedDate.getFullYear(),
          totalDaysInMonth: new Date(changedDate.getFullYear(), changedDate.getMonth() + 1, 0).getDate(),
       })
-      history.push(`/calendar/${changedDate.getMonth()+1}/${changedDate.getFullYear()}`);
+      history.push(`/calendar/${changedDate.getMonth()}/${changedDate.getFullYear()}`);
    }
 
    return (

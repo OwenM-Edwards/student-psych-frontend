@@ -138,7 +138,6 @@ const Header = ({
    }) => {
    const location = useLocation();
 
-   // Increments or deincrements month by 1, creates new date in state.
    const history = useHistory();
 
    
